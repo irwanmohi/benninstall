@@ -21,7 +21,7 @@ commonname=www.sshtunneling.tk
 email=andiihzarafi@domainm.my.id
 
 # simple password minimal
-wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/marloxxx/install/master/common-password-deb9"
+wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/benkemad/install/master/common-password-deb9"
 chmod +x /etc/pam.d/common-password
 
 # go to root

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Original script by fornesia, rzengineer and fawzya 
-# Mod by Kemaddd
+# Mod by Kemadd
 # 
 # ==================================================
 

@@ -176,6 +176,10 @@ connect = 127.0.0.1:109
 accept = 990
 connect = 127.0.0.1:109
 
+[openvpn]
+accept = 2905
+connect = 127.0.0.1:1194
+
 END
 
 # make a certificate

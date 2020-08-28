@@ -405,11 +405,11 @@ iptables -A POSTROUTING -t nat -j MASQUERADE
 iptables-save > /etc/iptables-opvpn.conf
 
 # Restore iptables
-wget -O /etc/network/if-up.d/iptables "https://raw.githubusercontent.com/marloxxx/install/master/iptables-local"
+wget -O /etc/network/if-up.d/iptables "https://raw.githubusercontent.com/benkemad/benninstall/master/iptables-local"
 chmod +x /etc/network/if-up.d/iptables
 
 # Restore iptables rc.local
-wget -O /etc/rc.local "https://raw.githubusercontent.com/marloxxx/install/master/iptables-openvpn"
+wget -O /etc/rc.local "https://raw.githubusercontent.com/benkemad/benninstall/master/iptables-openvpn"
 chmod +x /etc/rc.local
 
 # restart opevpn

@@ -103,7 +103,7 @@ apt-get -y install neofetch
 cd
 echo "clear" >> .profile
 echo "neofetch" >> .profile
-echo "echo by Horasss" >> .profile
+echo "echo by Kemaddd" >> .profile
 
 # instal php5.6 ubuntu 16.04 64bit
 apt-get -y update
@@ -112,20 +112,20 @@ apt-get -y update
 cd
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/marloxxx/install/master/nginx.conf"
+wget -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/benkemad/benninstall/master/nginx.conf"
 mkdir -p /home/vps/public_html
-echo "<pre>Setup by Horasss</pre>" > /home/vps/public_html/index.html
-wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/marloxxx/install/master/vps.conf"
+echo "<pre>Setup by Kemaddd</pre>" > /home/vps/public_html/index.html
+wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/benkemad/benninstall/master/vps.conf"
 
 # install badvpn
 cd
-wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/marloxxx/install/master/badvpn-udpgw64"
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/benkemad/benninstall/master/badvpn-udpgw64"
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
 screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 10 
 
 cd
-wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/marloxxx/install/master/badvpn-udpgw64"
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/benkemad/benninstall/master/badvpn-udpgw64"
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
 screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10 
@@ -145,20 +145,11 @@ echo "/usr/sbin/nologin" >> /etc/shells
 # install squid
 cd
 apt-get -y install squid3
-wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/marloxxx/install/master/squid3.conf"
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/benkemad/benninstall/master/squid3.conf"
 sed -i $MYIP2 /etc/squid/squid.conf
 
 # setting vnstat
 apt-get -y update;apt-get -y install vnstat;vnstat -u -i eth0;service vnstat restart 
-
-# install webmin
-#cd
-#wget http://prdownloads.sourceforge.net/webadmin/webmin_1.910_all.deb
-#dpkg --install webmin_1.910_all.deb;
-#apt-get -y -f install;
-#sed -i 's/ssl=1/ssl=0/g' /etc/webmin/miniserv.conf
-#rm -f webmin_1.910_all.deb
-#/etc/init.d/webmin restart
 
 # install stunnel
 apt-get install stunnel4 -y
@@ -171,7 +162,7 @@ socket = r:TCP_NODELAY=1
 
 [dropbear]
 accept = 443
-connect = 127.0.0.1:109
+connect = 127.0.0.1:109 
 
 [dropbear]
 accept = 777
@@ -232,23 +223,23 @@ cd
 apt-get install -y libxml-parser-perl
 
 # banner /etc/issue.net
-wget -O /etc/issue.net "https://raw.githubusercontent.com/marloxxx/install/master/issue.net"
+wget -O /etc/issue.net "https://raw.githubusercontent.com/benkemad/benninstall/master/issue.net"
 sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
 # download script
 cd /usr/bin
-wget -O menu "https://raw.githubusercontent.com/marloxxx/install/master/menu.sh"
-wget -O usernew "https://raw.githubusercontent.com/marloxxx/install/master/usernew.sh"
-wget -O trial "https://raw.githubusercontent.com/marloxxx/install/master/trial.sh"
-wget -O hapus "https://raw.githubusercontent.com/marloxxx/install/master/hapus.sh"
-wget -O member "https://raw.githubusercontent.com/marloxxx/install/master/member.sh"
-wget -O delete "https://raw.githubusercontent.com/marloxxx/install/master/delete.sh"
-wget -O cek "https://raw.githubusercontent.com/marloxxx/install/master/cek.sh"
-wget -O restart "https://raw.githubusercontent.com/marloxxx/install/master/restart.sh"
-wget -O speedtest "https://raw.githubusercontent.com/marloxxx/install/master/speedtest_cli.py"
-wget -O info "https://raw.githubusercontent.com/marloxxx/install/master/info.sh"
-wget -O about "https://raw.githubusercontent.com/marloxxx/install/master/about.sh"
+wget -O menu "https://raw.githubusercontent.com/benkenad/benninstall/master/menu.sh"
+wget -O usernew "https://raw.githubusercontent.com/benkemad/benninstall/master/usernew.sh"
+wget -O trial "https://raw.githubusercontent.com/benkemad/benninstall/master/trial.sh"
+wget -O hapus "https://raw.githubusercontent.com/benkemad/benninstall/master/hapus.sh"
+wget -O member "https://raw.githubusercontent.com/benkemad/benninstall/master/member.sh"
+wget -O delete "https://raw.githubusercontent.com/benkemad/benninstall/master/delete.sh"
+wget -O cek "https://raw.githubusercontent.com/benkemad/benninstall/master/cek.sh"
+wget -O restart "https://raw.githubusercontent.com/benkemad/benninstall/master/restart.sh"
+wget -O speedtest "https://raw.githubusercontent.com/benkemad/benninstall/master/speedtest_cli.py"
+wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info.sh"
+wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 

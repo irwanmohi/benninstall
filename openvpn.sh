@@ -321,6 +321,29 @@ cd
 
 sed -i $MYIP2 /etc/openvpn/client-tcp-2200.ovpn;
 
+# OpenVPN SSL Konfigurasi by Potato
+cd /home/vps/public_html
+echo "client
+dev tun
+proto tcp
+remote xxxxxxxxx 2905
+resolv-retry infinite
+route-method exe
+nobind
+persist-key
+persist-tun
+auth-user-pass
+comp-lzo
+verb 3" > client-ssl-2905.ovpn
+
+# change ip
+sed -i $MYIP2 client-ssl-2905.ovpn
+
+# include ca
+echo '<ca>' >> client-ssl-2905.ovpn
+cat /etc/openvpn/ca.crt >> client-ssl-2905.ovpn
+echo '</ca>' >> client-ssl-2905.ovpn
+
 # pada tulisan xxx ganti dengan alamat ip address VPS anda 
 /etc/init.d/openvpn restart
 

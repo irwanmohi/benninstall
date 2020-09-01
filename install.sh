@@ -245,7 +245,7 @@ cd /usr/bin
 wget -O menu "https://raw.githubusercontent.com/benkemad/benninstall/master/menu.sh"
 wget -O usernew "https://raw.githubusercontent.com/benkemad/benninstall/master/usernew.sh"
 wget -O trial "https://raw.githubusercontent.com/benkemad/benninstall/master/trial.sh"
-wget -O hapus "https://raw.githubusercontent.com/benkemad/install/master/hapus.sh"
+wget -O hapus "https://raw.githubusercontent.com/benkemad/benninstall/master/hapus.sh"
 wget -O member "https://raw.githubusercontent.com/benkemad/benninstall/master/member.sh"
 wget -O delete "https://raw.githubusercontent.com/benkemad/benninstall/master/delete.sh"
 wget -O cek "https://raw.githubusercontent.com/benkemad/benninstall/master/cek.sh"

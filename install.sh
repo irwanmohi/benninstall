@@ -4,7 +4,7 @@
 # Mod by Kemadd
 # 
 # ==================================================
-
+NIC=$(ip -4 route ls | grep default | grep -Po '(?<=dev )(\S+)' | head -1)
 # initializing var
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
@@ -75,8 +75,8 @@ ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 
 # set repo
-sh -c 'echo "deb http://download.webmin.com/download/repository sarge contrib" > /etc/apt/sources.list.d/webmin.list'
-wget http://www.webmin.com/jcameron-key.asc | apt-key add jcameron-key.asc
+# sh -c 'echo "deb http://download.webmin.com/download/repository sarge contrib" > /etc/apt/sources.list.d/webmin.list'
+# wget http://www.webmin.com/jcameron-key.asc | apt-key add jcameron-key.asc
 
 # update
 apt-get update
@@ -149,6 +149,7 @@ wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/benkemad/bennin
 sed -i $MYIP2 /etc/squid/squid.conf
 
 # install openvpn
+mkdir -p /etc/iptables
 apt-get install -y openvpn easy-rsa iptables openssl ca-certificates gnupg
 apt-get install -y net-tools
 cp -r /usr/share/easy-rsa /etc/openvpn
@@ -175,227 +176,252 @@ cp keys/dh2048.pem /etc/openvpn
 cp keys/client.key /etc/openvpn
 cp keys/client.crt /etc/openvpn
 
-echo 'port 1194
+# Buat config server UDP 1194
+cd /etc/openvpn
+
+cat > /etc/openvpn/server-udp-25000.conf <<-END
+port 25000
+proto udp
+dev tun
+ca ca.crt
+cert server.crt
+key server.key
+dh dh2048.pem
+plugin /usr/lib/openvpn/openvpn-plugin-auth-pam.so login
+client-cert-not-required
+username-as-common-name
+server 10.5.0.0 255.255.255.0
+ifconfig-pool-persist ipp.txt
+push "redirect-gateway def1"
+push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 8.8.4.4"
+keepalive 5 30
+comp-lzo
+persist-key
+persist-tun
+status server-udp-1194.log
+verb 3
+END
+
+# Buat config server TCP 1194
+cat > /etc/openvpn/server-tcp-1194.conf <<-END
+port 1194
 proto tcp
 dev tun
 ca ca.crt
 cert server.crt
 key server.key
 dh dh2048.pem
-persist-key
-persist-tun
-keepalive 10 120
-server 10.8.0.0 255.255.255.0
-ifconfig-pool-persist ipp.txt
 plugin /usr/lib/openvpn/openvpn-plugin-auth-pam.so login
 client-cert-not-required
 username-as-common-name
-push "redirect-gateway def1 bypass-dhcp"
+server 10.6.0.0 255.255.255.0
+ifconfig-pool-persist ipp.txt
+push "redirect-gateway def1"
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
+keepalive 5 30
 comp-lzo
+persist-key
+persist-tun
 status server-tcp-1194.log
-verb 3' >/etc/openvpn/server-tcp-1194.conf
+verb 3
+END
 
-echo 'port 9994
+# Buat config server TCP 2200
+cat > /etc/openvpn/server-tcp-2200.conf <<-END
+port 2200
 proto tcp
 dev tun
 ca ca.crt
 cert server.crt
 key server.key
 dh dh2048.pem
-persist-key
-persist-tun
-keepalive 10 120
-server 10.9.0.0 255.255.255.0
-ifconfig-pool-persist ipp.txt
 plugin /usr/lib/openvpn/openvpn-plugin-auth-pam.so login
 client-cert-not-required
 username-as-common-name
-push "redirect-gateway def1 bypass-dhcp"
+server 10.7.0.0 255.255.255.0
+ifconfig-pool-persist ipp.txt
+push "redirect-gateway def1"
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
+keepalive 5 30
 comp-lzo
-status server-tcp-9994.log
-verb 3' >/etc/openvpn/server-tcp-9994.conf
+persist-key
+persist-tun
+status server-tcp-2200.log
+verb 3
+END
 
-echo 'port 25000
-proto udp
+cd
+
+# nano /etc/default/openvpn
+sed -i 's/#AUTOSTART="all"/AUTOSTART="all"/g' /etc/default/openvpn
+# Cari pada baris #AUTOSTART=”all” hilangkan tanda pagar # didepannya sehingga menjadi AUTOSTART=”all”. Save dan keluar dari editor
+
+# restart openvpn dan cek status openvpn
+/etc/init.d/openvpn restart
+/etc/init.d/openvpn status
+
+# aktifkan ip4 forwarding
+echo 1 > /proc/sys/net/ipv4/ip_forward
+sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+# edit file sysctl.conf
+# nano /etc/sysctl.conf
+# Uncomment hilangkan tanda pagar pada #net.ipv4.ip_forward=1
+
+# Buat config client UDP 1194
+cd /etc/openvpn
+
+# Buat config client TCP 1194
+cat > /etc/openvpn/client-tcp-1194.ovpn <<-END
+##### WELCOME TO VPNSTORE #####
+##### www.sshtunneling.tk #####
+##### DONT FORGET TO SUPPORT US #####
+client
 dev tun
-ca ca.crt
-cert server.crt
-key server.key
-dh dh2048.pem
+proto tcp
+remote xxxxxxxxx 1194
+resolv-retry infinite
+route-method exe
+nobind
 persist-key
 persist-tun
-keepalive 10 120
-server 20.8.0.0 255.255.255.0
-ifconfig-pool-persist ipp.txt
-plugin /usr/lib/openvpn/openvpn-plugin-auth-pam.so login
-client-cert-not-required
-username-as-common-name
-push "redirect-gateway def1 bypass-dhcp"
-push "dhcp-option DNS 8.8.8.8"
-push "dhcp-option DNS 8.8.4.4"
+auth-user-pass
 comp-lzo
-status server-udp-25000.log
-verb 3' >/etc/openvpn/server-udp-25000.conf
+verb 3
+END
 
+sed -i $MYIP2 /etc/openvpn/client-tcp-1194.ovpn;
+
+# Buat config client TCP 2200
+cat > /etc/openvpn/client-tcp-2200.ovpn <<-END
+##### WELCOME TO VPNSTORE #####
+##### www.sshtunneling.tk #####
+##### DONT FORGET TO SUPPORT US #####
+client
+dev tun
+proto tcp
+remote xxxxxxxxx 2200
+resolv-retry infinite
+route-method exe
+nobind
+persist-key
+persist-tun
+auth-user-pass
+comp-lzo
+verb 3
+END
+
+cd
+
+sed -i $MYIP2 /etc/openvpn/client-tcp-2200.ovpn;
+
+# Buat config client TCP 2200
+cat > /etc/openvpn/client-udp-25000.ovpn <<-END
+##### WELCOME TO VPNSTORE #####
+##### www.sshtunneling.tk #####
+##### DONT FORGET TO SUPPORT US #####
+client
+dev tun
+proto udp
+remote xxxxxxxxx 25000
+resolv-retry infinite
+route-method exe
+nobind
+persist-key
+persist-tun
+auth-user-pass
+comp-lzo
+verb 3
+END
+
+cd
+
+sed -i $MYIP2 /etc/openvpn/client-udp-25000.ovpn;
+
+
+# OpenVPN SSL Konfigurasi by Potato
+cd /home/vps/public_html
+echo "client
+dev tun
+proto tcp
+remote xxxxxxxxx 2905
+resolv-retry infinite
+route-method exe
+nobind
+persist-key
+persist-tun
+auth-user-pass
+comp-lzo
+verb 3" > client-ssl-2905.ovpn
+
+# change ip
+sed -i $MYIP2 client-ssl-2905.ovpn
+
+# include ca
+echo '<ca>' >> client-ssl-2905.ovpn
+cat /etc/openvpn/ca.crt >> client-ssl-2905.ovpn
+echo '</ca>' >> client-ssl-2905.ovpn
+
+
+# pada tulisan xxx ganti dengan alamat ip address VPS anda 
+/etc/init.d/openvpn restart
+
+# masukkan certificatenya ke dalam config client TCP 1194
+echo '<ca>' >> /etc/openvpn/client-tcp-1194.ovpn
+cat /etc/openvpn/ca.crt >> /etc/openvpn/client-tcp-1194.ovpn
+echo '</ca>' >> /etc/openvpn/client-tcp-1194.ovpn
+
+# masukkan certificatenya ke dalam config client UDP 1194
+echo '<ca>' >> /etc/openvpn/client-udp-25000.ovpn
+cat /etc/openvpn/ca.crt >> /etc/openvpn/client-udp-25000.ovpn
+echo '</ca>' >> /etc/openvpn/client-udp-25000.ovpn
+
+# Copy config OpenVPN client ke home directory root agar mudah didownload ( TCP 1194 )
+cp /etc/openvpn/client-tcp-1194.ovpn /home/vps/public_html/client-tcp-1194.ovpn
+
+# Copy config OpenVPN client ke home directory root agar mudah didownload ( UDP 1194 )
+cp /etc/openvpn/client-udp-25000.ovpn /home/vps/public_html/client-udp-25000.ovpn
+
+# masukkan certificatenya ke dalam config client TCP 2200
+echo '<ca>' >> /etc/openvpn/client-tcp-2200.ovpn
+cat /etc/openvpn/ca.crt >> /etc/openvpn/client-tcp-2200.ovpn
+echo '</ca>' >> /etc/openvpn/client-tcp-2200.ovpn
+
+# Copy config OpenVPN client ke home directory root agar mudah didownload ( TCP 2200 )
+cp /etc/openvpn/client-tcp-2200.ovpn /home/vps/public_html/client-tcp-2200.ovpn
+
+# iptables-persistent
+apt install iptables-persistent -y
+apt install netfilter-persistent -y
+# firewall untuk memperbolehkan akses UDP dan akses jalur TCP
+
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+
+iptables -A INPUT -i $NIC -m state --state NEW -p tcp --dport 3306 -j ACCEPT
+iptables -A INPUT -i $NIC -m state --state NEW -p tcp --dport 7300 -j ACCEPT
+iptables -A INPUT -i $NIC -m state --state NEW -p udp --dport 7300 -j ACCEPT
+
+iptables -t nat -I POSTROUTING -s 10.5.0.0/24 -o $NIC -j MASQUERADE
+iptables -t nat -I POSTROUTING -s 10.6.0.0/24 -o $NIC -j MASQUERADE
+iptables -t nat -I POSTROUTING -s 10.7.0.0/24 -o $NIC -j MASQUERADE
+
+iptables-save > /etc/iptables/rules.v4
+chmod +x /etc/iptables/rules.v4
+
+# Restart service openvpn
 systemctl enable openvpn
-service openvpn restart
-
-cd
-
-# * Membuat Config OpenVPN * #
-
-echo "client
-dev tun
-proto tcp
-remote $MYIP 1194
-resolv-retry infinite
-route-method exe
-nobind
-persist-key
-persist-tun
-auth-user-pass
-duplicate-cn
-comp-lzo
-verb 3
-
-" >/var/www/html/client-tcp-1194.ovpn
-
-echo "client
-dev tun
-proto tcp
-remote $MYIP 9994
-resolv-retry infinite
-route-method exe
-nobind
-persist-key
-persist-tun
-auth-user-pass
-duplicate-cn
-comp-lzo
-verb 3
-
-" >/var/www/html/client-tcp-9994.ovpn
-
-echo "client
-dev tun
-proto udp
-remote $MYIP 25000
-resolv-retry infinite
-route-method exe
-nobind
-persist-key
-persist-tun
-auth-user-pass
-duplicate-cn
-comp-lzo
-verb 3
-
-" >/var/www/html/client-udp-25000.ovpn
-
-echo "client
-dev tun
-proto tcp
-remote $MYIP 2905
-resolv-retry infinite
-route-method exe
-nobind
-persist-key
-persist-tun
-auth-user-pass
-duplicate-cn
-comp-lzo
-verb 3
-
-" >/var/www/html/client-ssl-2905.ovpn
-
-echo "client
-dev tun
-proto tcp
-remote $MYIP 9443
-resolv-retry infinite
-route-method exe
-nobind
-persist-key
-persist-tun
-auth-user-pass
-duplicate-cn
-comp-lzo
-verb 3
-
-" >/var/www/html//var/www/html/client-ssl-9443.ovpn
-
-echo "client
-dev tun
-proto tcp
-remote $MYIP 1194
-http-proxy $MYIP 8080
-http-proxy-option CUSTOM-HEADER CONNECT HTTP/1.1
-http-proxy-option CUSTOM-HEADER Host m.instagram.com
-http-proxy-option CUSTOM-HEADER X-Online-Host m.instagram.com
-http-proxy-option CUSTOM-HEADER X-Forward-Host m.instagram.com
-http-proxy-option CUSTOM-HEADER Connection Keep-Alive
-resolv-retry infinite
-route-method exe
-nobind
-persist-key
-persist-tun
-auth-user-pass
-duplicate-cn
-comp-lzo
-verb 3
-
-" >/var/www/html/instagram.ovpn
-
-
-cd
-
-apt-get install -y zip
-cd /var/www/html
-
-# input ca
-{
-echo "<ca>"
-cat "/etc/openvpn/ca.crt"
-echo "</ca>"
-} >>client-tcp-1194.ovpn
-
-{
-echo "<ca>"
-cat "/etc/openvpn/ca.crt"
-echo "</ca>"
-} >>client-tcp-9994.ovpn
-
-{
-echo "<ca>"
-cat "/etc/openvpn/ca.crt"
-echo "</ca>"
-} >>client-ssl-9443.ovpn
-
-{
-echo "<ca>"
-cat "/etc/openvpn/ca.crt"
-echo "</ca>"
-} >>client-ssl-2905.ovpn
-
-{
-echo "<ca>"
-cat "/etc/openvpn/ca.crt"
-echo "</ca>"
-} >>client-udp-25000.ovpn
-
-{
-echo "<ca>"
-cat "/etc/openvpn/ca.crt"
-echo "</ca>"
-} >>instagram.ovpn
-
-
-# zip config
-zip client-config.zip client-tcp-1194.ovpn client-tcp-9994.ovpn client-ssl-9443.ovpn client-ssl-2905.ovpn client-udp-25000.ovpn instagram.ovpn
+systemctl start openvpn
+/etc/init.d/openvpn restart
 
 # setting vnstat
 apt-get -y update;apt-get -y install vnstat;vnstat -u -i eth0;service vnstat restart 

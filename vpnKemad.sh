@@ -428,12 +428,11 @@ iptables -A POSTROUTING -t nat -j MASQUERADE
 iptables-save > /etc/iptables-opvpn.conf
 
 # Restore iptables
-wget -O /etc/network/if-up.d/iptables "https://raw.githubusercontent.com/benkemad/benninstall/master/iptables-local"
-chmod +x /etc/network/if-up.d/iptables
-
-# Restore iptables rc.local
-wget -O /etc/rc.local "https://raw.githubusercontent.com/benkemad/benninstall/master/iptables-openvpn"
-chmod +x /etc/rc.local
+cat > /etc/network/if-up.d/iptables <<-END
+iptables-restore < /etc/iptables/rules.v4
+iptables -t nat -A POSTROUTING -s 10.6.0.0/24 -o eth0 -j SNAT --to xxxxxxxxx
+iptables -t nat -A POSTROUTING -s 10.7.0.0/24 -o eth0 -j SNAT --to xxxxxxxxx
+END
 
 # restart opevpn
 /etc/init.d/openvpn restart

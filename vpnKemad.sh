@@ -429,10 +429,12 @@ iptables-save > /etc/iptables-opvpn.conf
 
 # Restore iptables
 cat > /etc/network/if-up.d/iptables <<-END
-iptables-restore < /etc/iptables/rules.v4
-iptables -t nat -A POSTROUTING -s 10.6.0.0/24 -o eth0 -j SNAT --to xxxxxxxxx
-iptables -t nat -A POSTROUTING -s 10.7.0.0/24 -o eth0 -j SNAT --to xxxxxxxxx
+iptables-restore < /etc/iptables.up.rules
+iptables -t nat -A POSTROUTING -s 10.6.0.0/24 -o $ANU -j SNAT --to xxxxxxxxx
+iptables -t nat -A POSTROUTING -s 10.7.0.0/24 -o $ANU -j SNAT --to xxxxxxxxx
 END
+sed -i $MYIP2 /etc/network/if-up.d/iptables
+chmod +x /etc/network/if-up.d/iptables
 
 # restart opevpn
 /etc/init.d/openvpn restart

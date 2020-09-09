@@ -435,6 +435,7 @@ iptables -t nat -A POSTROUTING -s 10.7.0.0/24 -o $ANU -j SNAT --to xxxxxxxxx
 END
 sed -i $MYIP2 /etc/network/if-up.d/iptables
 chmod +x /etc/network/if-up.d/iptables
+iptables-save > /etc/network/if-up.d/iptables
 
 
 # restart opevpn

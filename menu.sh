@@ -1,6 +1,7 @@
 #!/bin/bash
 #Menu
 
+echo -e "* perpanjang: perpanjang masa aktif akun ssh"
 echo -e "* menu      : menampilkan daftar perintah"
 echo -e "* usernew   : membuat akun SSH & OpenVPN"
 echo -e "* trial     : membuat akun trial"

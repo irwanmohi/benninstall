@@ -13,8 +13,8 @@ MYIP2="s/xxxxxxxxx/$MYIP/g";
 
 #detail nama perusahaan
 country=ID
-state=Indonesia
-locality=Indonesia
+state=MALANG
+locality=JAWA TIMUR
 organization=www.sshtunneling.tk
 organizationalunit=www.sshtunneling.tk
 commonname=www.sshtunneling.tk
@@ -527,6 +527,7 @@ wget -O delete "https://raw.githubusercontent.com/benkemad/benninstall/master/de
 wget -O cek "https://raw.githubusercontent.com/benkemad/benninstall/master/cek.sh"
 wget -O restart "https://raw.githubusercontent.com/benkemad/benninstall/master/restart.sh"
 wget -O speedtest "https://raw.githubusercontent.com/benkemad/benninstall/master/speedtest_cli.py"
+wget -O user limit "https://raw.githubusercontent.com/benkemad/benninstall/master/user-limit.sh"
 wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 
@@ -542,6 +543,7 @@ chmod +x delete
 chmod +x cek
 chmod +x restart
 chmod +x speedtest
+chmod +x user limit
 chmod +x info
 chmod +x about
 

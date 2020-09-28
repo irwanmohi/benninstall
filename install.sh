@@ -517,6 +517,7 @@ sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dr
 
 # download script
 cd /usr/bin
+wget -O perpanjang "https://raw.githubusercontent.com/benkemad/benninstall/master/perpanjang.sh"
 wget -O menu "https://raw.githubusercontent.com/benkemad/benninstall/master/menu.sh"
 wget -O usernew "https://raw.githubusercontent.com/benkemad/benninstall/master/usernew.sh"
 wget -O trial "https://raw.githubusercontent.com/benkemad/benninstall/master/trial.sh"
@@ -531,6 +532,7 @@ wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/abo
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 
+chmod +x perpanjang
 chmod +x menu
 chmod +x usernew
 chmod +x trial

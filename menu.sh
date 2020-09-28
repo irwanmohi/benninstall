@@ -1,6 +1,10 @@
 #!/bin/bash
 #Menu
-
+echo -e ""
+echo -e "   ======================="
+echo -e "   |   Script By KEMAD   |"
+echo -e "   -----------------------"
+echo -e ""
 echo -e "* perpanjang: perpanjang masa aktif akun ssh"
 echo -e "* menu      : menampilkan daftar perintah"
 echo -e "* usernew   : membuat akun SSH & OpenVPN"

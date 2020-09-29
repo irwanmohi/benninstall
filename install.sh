@@ -528,7 +528,9 @@ wget -O cek "https://raw.githubusercontent.com/benkemad/benninstall/master/cek.s
 wget -O restart "https://raw.githubusercontent.com/benkemad/benninstall/master/restart.sh"
 wget -O speedtest "https://raw.githubusercontent.com/benkemad/benninstall/master/speedtest_cli.py"
 wget -O user limit "https://raw.githubusercontent.com/benkemad/benninstall/master/user-limit.sh"
+wget -O portstat "https://raw.githubusercontent.com/benkemad/benninstall/master/portstat.sh"
 wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info.sh"
+wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
@@ -544,7 +546,9 @@ chmod +x cek
 chmod +x restart
 chmod +x speedtest
 chmod +x user limit
+chmod +x portstat
 chmod +x info
+chmod +x contact
 chmod +x about
 
 # finishing

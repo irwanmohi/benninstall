@@ -6,7 +6,7 @@ echo "Semua user dropbear yang login lebih dari $1 akan di kill"
 echo -n > /tmp/pid2
 ps ax|grep dropbear > /tmp/pid
 cat /tmp/pid | grep -i 'dropbear -p' > /tmp/pids
-cat /var/log/secure |  grep -i "Password auth succeeded" > /tmp/sks
+cat /var/log/auth |  grep -i "Password auth succeeded" > /tmp/sks
 perl -pi -e 's/Password auth succeeded for//g' /tmp/sks
 perl -pi -e 's/dropbear//g' /tmp/sks
 

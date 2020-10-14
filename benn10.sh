@@ -810,13 +810,6 @@ wget -O /etc/issue.net "https://raw.githubusercontent.com/benkemad/benninstall/m
 sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
-# auto kill multi login
-#echo "while :" >> /usr/bin/autokill
-#echo "  do" >> /usr/bin/autokill
-#echo "  userlimit $llimit" >> /usr/bin/autokill
-#echo "  sleep 20" >> /usr/bin/autokill
-#echo "  done" >> /usr/bin/autokill
-
 # download script
 cd /usr/bin
 wget -O perpanjang "https://raw.githubusercontent.com/benkemad/benninstall/master/perpanjang.sh"
@@ -829,8 +822,7 @@ wget -O delete "https://raw.githubusercontent.com/benkemad/benninstall/master/de
 wget -O cek "https://raw.githubusercontent.com/benkemad/benninstall/master/cek.sh"
 wget -O restart "https://raw.githubusercontent.com/benkemad/benninstall/master/restart.sh"
 wget -O speedtest "https://raw.githubusercontent.com/benkemad/benninstall/master/speedtest_cli.py"
-wget -O user-limit "https://raw.githubusercontent.com/benkemad/benninstall/master/user-limit.sh"
-#wget -O cron-autokill "https://raw.githubusercontent.com/benkemad/benninstall/master/cron-autokill.sh"
+wget -O bench "https://raw.githubusercontent.com/benkemad/benninstall/master/bench-network.py"
 wget -O portstat "https://raw.githubusercontent.com/benkemad/benninstall/master/portstat.sh"
 wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info.sh"
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
@@ -848,9 +840,8 @@ chmod +x delete
 chmod +x cek
 chmod +x restart
 chmod +x speedtest
+chmod +x bench
 chmod +x user-limit
-#chmod +x autokill
-#chmod +x cron-autokill
 chmod +x portstat
 chmod +x info
 chmod +x contact

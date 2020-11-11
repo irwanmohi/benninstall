@@ -822,7 +822,7 @@ wget -O delete "https://raw.githubusercontent.com/benkemad/benninstall/master/de
 wget -O cek "https://raw.githubusercontent.com/benkemad/benninstall/master/cek.sh"
 wget -O restart "https://raw.githubusercontent.com/benkemad/benninstall/master/restart.sh"
 wget -O speedtest "https://raw.githubusercontent.com/benkemad/benninstall/master/speedtest_cli.py"
-wget -O bench "https://raw.githubusercontent.com/benkemad/benninstall/master/bench-network.py"
+wget -O limit "https://raw.githubusercontent.com/benkemad/benninstall/master/limit.sh"
 wget -O portstat "https://raw.githubusercontent.com/benkemad/benninstall/master/portstat.sh"
 wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info.sh"
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
@@ -840,8 +840,7 @@ chmod +x delete
 chmod +x cek
 chmod +x restart
 chmod +x speedtest
-chmod +x bench
-chmod +x user-limit
+chmod +x limit
 chmod +x portstat
 chmod +x info
 chmod +x contact

@@ -823,6 +823,7 @@ wget -O cek "https://raw.githubusercontent.com/benkemad/benninstall/master/cek.s
 wget -O restart "https://raw.githubusercontent.com/benkemad/benninstall/master/restart.sh"
 wget -O speedtest "https://raw.githubusercontent.com/benkemad/benninstall/master/speedtest_cli.py"
 wget -O limit "https://raw.githubusercontent.com/benkemad/benninstall/master/limit.sh"
+wget -O userlimit "https://raw.githubusercontent.com/benkemad/benninstall/master/userlimit.sh"
 wget -O portstat "https://raw.githubusercontent.com/benkemad/benninstall/master/portstat.sh"
 wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info.sh"
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
@@ -841,6 +842,7 @@ chmod +x cek
 chmod +x restart
 chmod +x speedtest
 chmod +x limit
+chmod +x userlimit
 chmod +x portstat
 chmod +x info
 chmod +x contact

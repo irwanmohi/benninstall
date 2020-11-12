@@ -1,10 +1,15 @@
 #!/bin/bash
 #Menu
 echo -e ""
-echo "--------------------------- Configuration Setup Server -------------------------"
-echo "                            Debian Premium Script                               "
-echo "                                 -BY KEMADDD-                                   "
-echo "--------------------------------------------------------------------------------"
+echo -e "\e[31;5m+ -- --=[  Script By Kemadddd  ]=-- -- +"
+
+echo -e ""
+echo -e ""
+echo -e "\e[32;5m               Menu"
+echo -e "==================================="
+echo -e ""
+echo -e "  \e[34;5mPerintah            \e[34;5mKeterangan"
+echo -e "------------          ---------------"
 echo -e ""
 echo -e "➢ perpanjang: perpanjang masa aktif akun ssh"
 echo -e "➢ menu      : menampilkan daftar perintah"
@@ -32,7 +37,6 @@ echo -e "➢ limit 2     : membatasi jumlah user MAX 2 login"
 echo -e "➢ limit stop  : menonaktifkan fitur userlimit"
 echo -e "➢ limit cek   : cek log user yang berhasil di kill"
 echo -e "➢ limit reset : reset log user yang berhasil di kill"
-echo "----------------------------------------------------------------------"
 
 echo "--------------------------- Menu ShadowsocksR -------------------------"
 echo -e "➢ ssr         : menampilkan menu ssr"

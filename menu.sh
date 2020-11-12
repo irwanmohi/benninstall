@@ -35,7 +35,7 @@ echo -e "➢ limit reset : reset log user yang berhasil di kill"
 echo "----------------------------------------------------------------------"
 
 echo "--------------------------- Menu ShadowsocksR -------------------------"
-echo -e "➢ ssr         : menampilkan menu ssr
+echo -e "➢ ssr         : menampilkan menu ssr"
 echo "-----------------------------------------------------------------------"
 
 

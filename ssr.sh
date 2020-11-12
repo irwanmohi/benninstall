@@ -348,7 +348,7 @@ View_User_info(){
 # 设置 配置信息
 Set_config_user(){
 	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
-	read -e -p "(Default: doubi):" ssr_user
+	read -e -p "( masukkan username )" ssr_user
 	[[ -z "${ssr_user}" ]] && ssr_user="doubi"
 	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
@@ -356,7 +356,7 @@ Set_config_port(){
 	while true
 	do
 	echo -e "Please enter the user port to be set"
-	read -e -p "(Default: 2333):" ssr_port
+	read -e -p "( tambah port (bebas) ):" ssr_port
 	[[ -z "$ssr_port" ]] && ssr_port="2333"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -373,8 +373,8 @@ Set_config_port(){
 }
 Set_config_password(){
 	echo "Please enter the user password you want to set"
-	read -e -p "(Default: doub.io):" ssr_password
-	[[ -z "${ssr_password}" ]] && ssr_password="doub.io"
+	read -e -p "" ssr_password
+	[[ -z "${ssr_password}" ]] && ssr_password=""
 	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_method(){
@@ -403,8 +403,8 @@ Set_config_method(){
  ${Red_font_prefix}17.${Font_color_suffix} xsalsa20
  ${Red_font_prefix}18.${Font_color_suffix} xchacha20
  ${Tip} For salsa20/chacha20-*, please install libsodium" && echo
-	read -e -p "(Default: 5. aes-128-ctr):" ssr_method
-	[[ -z "${ssr_method}" ]] && ssr_method="5"
+	read -e -p "(LANGSUNG ENTER SAJA):" ssr_method
+	[[ -z "${ssr_method}" ]] && ssr_method="16"
 	if [[ ${ssr_method} == "1" ]]; then
 		ssr_method="none"
 	elif [[ ${ssr_method} == "2" ]]; then
@@ -442,7 +442,7 @@ Set_config_method(){
 	elif [[ ${ssr_method} == "18" ]]; then
 		ssr_method="xchacha20"
 	else
-		ssr_method="aes-128-ctr"
+		ssr_method="chacha20-ietf"
 	fi
 	echo && echo ${Separator_1} && echo -e "	Encryption: ${Green_font_prefix}${ssr_method}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
@@ -460,8 +460,8 @@ Set_config_protocol(){
  ${Red_font_prefix}9.${Font_color_suffix} auth_chain_e
  ${Red_font_prefix}10.${Font_color_suffix} auth_chain_f
  ${Tip} If you select auth_chain_* series protocol, it is recommended to set encryption method to none" && echo
-	read -e -p "(Default: 5. auth_chain_a):" ssr_protocol
-	[[ -z "${ssr_protocol}" ]] && ssr_protocol="5"
+	read -e -p "(LANGSUNG ENTER SAJA):" ssr_protocol
+	[[ -z "${ssr_protocol}" ]] && ssr_protocol="1"
 	if [[ ${ssr_protocol} == "1" ]]; then
 		ssr_protocol="origin"
 	elif [[ ${ssr_protocol} == "2" ]]; then
@@ -483,7 +483,7 @@ Set_config_protocol(){
 	elif [[ ${ssr_protocol} == "10" ]]; then
 		ssr_protocol="auth_chain_f"
 	else
-		ssr_protocol="auth_chain_a"
+		ssr_protocol="origin"
 	fi
 	echo && echo ${Separator_1} && echo -e "	Protocol : ${Green_font_prefix}${ssr_protocol}${Font_color_suffix}" && echo ${Separator_1} && echo
 	if [[ ${ssr_protocol} != "origin" ]]; then
@@ -503,7 +503,7 @@ Set_config_obfs(){
  ${Green_font_prefix}4.${Font_color_suffix} random_head
  ${Green_font_prefix}5.${Font_color_suffix} tls1.2_ticket_auth
   If you choose tls1.2_ticket_auth，then the client can choose tls1.2_ticket_fastauth !" && echo
-	read -e -p "(Default: 5. tls1.2_ticket_auth):" ssr_obfs
+	read -e -p "(LANGSUNG ENTER SAJA):" ssr_obfs
 	[[ -z "${ssr_obfs}" ]] && ssr_obfs="5"
 	if [[ ${ssr_obfs} == "1" ]]; then
 		ssr_obfs="plain"
@@ -550,7 +550,7 @@ Set_config_speed_limit_per_con(){
 	while true
 	do
 	echo -e "Please enter the user's single-thread limit to be set(in KB/S)"
-	read -e -p "(Default: unlimited):" ssr_speed_limit_per_con
+	read -e -p "(LANGSUNG ENTER SAJA):" ssr_speed_limit_per_con
 	[[ -z "$ssr_speed_limit_per_con" ]] && ssr_speed_limit_per_con=0 && echo && break
 	expr ${ssr_speed_limit_per_con} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -571,7 +571,7 @@ Set_config_speed_limit_per_user(){
 	echo
 	echo -e "Please enter the maximum user speed limit you want to set(in KB/S)"
 	echo -e "${Tip} Total port speed limit: the overall speed limit of a single port."
-	read -e -p "(Default: unlimited):" ssr_speed_limit_per_user
+	read -e -p "(LANGSUNG ENTER SAJA):" ssr_speed_limit_per_user
 	[[ -z "$ssr_speed_limit_per_user" ]] && ssr_speed_limit_per_user=0 && echo && break
 	expr ${ssr_speed_limit_per_user} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -591,7 +591,7 @@ Set_config_transfer(){
 	do
 	echo
 	echo -e "Please enter the total amount of traffic available for the user to set(in GB, 1-838868 GB)"
-	read -e -p "(Default: unlimited):" ssr_transfer
+	read -e -p "(LANGSUNG ENTER SAJA):" ssr_transfer
 	[[ -z "$ssr_transfer" ]] && ssr_transfer="838868" && echo && break
 	expr ${ssr_transfer} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -609,7 +609,7 @@ Set_config_transfer(){
 Set_config_forbid(){
 	echo "Forbidden port"
 	echo -e "${Tip} Forbidden Ports: For example, if you do not allow access to port 25, users will not be able to access mail port 25 via the SSR proxy. If 80,443 is disabled then users will not be able to access http / https sites normally."
-	read -e -p "(Default: allow all):" ssr_forbid
+	read -e -p "(LANGSUNG ENTER SAJA):" ssr_forbid
 	[[ -z "${ssr_forbid}" ]] && ssr_forbid=""
 	echo && echo ${Separator_1} && echo -e "	Forbidden Port : ${Green_font_prefix}${ssr_forbid}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
@@ -651,7 +651,7 @@ Set_config_enable(){
 			echo "取消..." && exit 0
 		fi
 	else
-		echo -e "${Error} 当前Port的禁用状态异常[${enable}] !" && exit 1
+		echo -e "${Error} Status nonaktif port saat ini tidak normal[${enable}] !" && exit 1
 	fi
 }
 Set_user_api_server_pub_addr(){
@@ -659,13 +659,13 @@ Set_user_api_server_pub_addr(){
 	if [[ "${addr}" == "Modify" ]]; then
 		server_pub_addr=$(cat ${config_user_api_file}|grep "SERVER_PUB_ADDR = "|awk -F "[']" '{print $2}')
 		if [[ -z ${server_pub_addr} ]]; then
-			echo -e "${Error} 获取当前配置的 服务器IP或域名失败！" && exit 1
+			echo -e "${Error} Gagal mendapatkan IP server atau nama domain yang saat ini dikonfigurasi！" && exit 1
 		else
-			echo -e "${Info} 当前配置的服务器IP或域名为： ${Green_font_prefix}${server_pub_addr}${Font_color_suffix}"
+			echo -e "${Info} IP server atau nama domain yang saat ini dikonfigurasi： ${Green_font_prefix}${server_pub_addr}${Font_color_suffix}"
 		fi
 	fi
 	echo "Please enter the server IP or domain name to be displayed in the user's configuration (when the server has multiple IPs, you can specify the IP or domain name displayed in the user's configuration)"
-	read -e -p "(Default: Automatic detection of external network IP):" ssr_server_pub_addr
+	read -e -p "(LANGSUNG ENTER SAJA):" ssr_server_pub_addr
 	if [[ -z "${ssr_server_pub_addr}" ]]; then
 		Get_IP
 		if [[ ${ip} == "VPS_IP" ]]; then
@@ -710,7 +710,7 @@ Set_config_all(){
 		Set_config_forbid
 	fi
 }
-# 修改 配置信息
+# Ubah informasi konfigurasi
 Modify_config_password(){
 	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -k "${ssr_password}"|grep -w "edit user ")
 	if [[ -z "${match_edit}" ]]; then
@@ -1130,22 +1130,13 @@ Modify_port(){
 }
 Modify_Config(){
 	SSR_installation_status
-	echo && echo -e "what do you want to do?
- ${Green_font_prefix}1.${Font_color_suffix}  Add User Configuration
- ${Green_font_prefix}2.${Font_color_suffix}  Delete User Configuration
-————— Modify user configuration —————
- ${Green_font_prefix}3.${Font_color_suffix}  Modify user password
- ${Green_font_prefix}4.${Font_color_suffix}  Modify the encryption method
- ${Green_font_prefix}5.${Font_color_suffix}  Modify the protocol
- ${Green_font_prefix}6.${Font_color_suffix}  Modify obfuscation
- ${Green_font_prefix}7.${Font_color_suffix}  Modify the device limit
- ${Green_font_prefix}8.${Font_color_suffix}  Modify the single-thread speed limit
- ${Green_font_prefix}9.${Font_color_suffix}  Modify user's total speed limit
- ${Green_font_prefix}10.${Font_color_suffix} Modify user's total traffic
- ${Green_font_prefix}11.${Font_color_suffix} Modify user's forbidden ports
- ${Green_font_prefix}12.${Font_color_suffix} Modify the entire configuration
+	echo && echo -e "apa yang ingin anda lakukan?
+ ${Green_font_prefix}1.${Font_color_suffix}  Tambah user
+ ${Green_font_prefix}2.${Font_color_suffix}  Hapus user
 ————— Other —————
- ${Green_font_prefix}13.${Font_color_suffix} Modify the IP or domain name displayed in the user's profile
+ ${Green_font_prefix}13.${Font_color_suffix} Ubah IP atau nama domain yang ditampilkan di profil pengguna
+ 
+ ${Green_font_prefix}.${Font_color_suffix} --Benn-Kemadd--
  
  ${Tip} User's user name and port can not be modified, if you need to modify, please use the script to manually modify the function !" && echo
 	read -e -p "(Default: cancel):" ssr_modify
@@ -1154,7 +1145,7 @@ Modify_Config(){
 		Add_port_user
 	elif [[ ${ssr_modify} == "2" ]]; then
 		Del_port_user
-	elif [[ ${ssr_modify} == "3" ]]; then
+	elif [[ ${ssr_modify} == "13" ]]; then
 		Modify_port
 		Set_config_password
 		Modify_config_password
@@ -1194,11 +1185,11 @@ Modify_Config(){
 		Modify_port
 		Set_config_all "Modify"
 		Modify_config_all
-	elif [[ ${ssr_modify} == "13" ]]; then
+	elif [[ ${ssr_modify} == "3" ]]; then
 		Set_user_api_server_pub_addr "Modify"
 		Modify_user_api_server_pub_addr
 	else
-		echo -e "${Error} Please enter the correct number(1-13)" && exit 1
+		echo -e "${Error} Please enter the correct number(1-3)" && exit 1
 	fi
 }
 List_port_user(){
@@ -1244,7 +1235,7 @@ Add_port_user(){
 					View_User_info
 					break
 				else
-					echo -e "${Info} 继续 添加用户配置..."
+					echo -e "${Info} Terus tambahkan konfigurasi pengguna..."
 				fi
 			fi
 		done
@@ -1786,22 +1777,21 @@ else
   ${Green_font_prefix}2.${Font_color_suffix} Update ShadowsocksR
   ${Green_font_prefix}3.${Font_color_suffix} Uninstall ShadowsocksR
 ————————————
-  ${Green_font_prefix}5.${Font_color_suffix} cek informasi akun
-  ${Green_font_prefix}6.${Font_color_suffix} tampilkan informasi koneksi
-  ${Green_font_prefix}7.${Font_color_suffix} tambah dan hapus user 
+  ${Green_font_prefix}4.${Font_color_suffix} cek informasi akun
+  ${Green_font_prefix}5.${Font_color_suffix} tampilkan informasi koneksi
+  ${Green_font_prefix}6.${Font_color_suffix} tambah dan hapus user 
 ————————————
- ${Green_font_prefix}10.${Font_color_suffix} Start ShadowsocksR
- ${Green_font_prefix}11.${Font_color_suffix} Stop ShadowsocksR
- ${Green_font_prefix}12.${Font_color_suffix} Restart ShadowsocksR
- ${Green_font_prefix}13.${Font_color_suffix} Check ShadowsocksR log
+ ${Green_font_prefix}7.${Font_color_suffix} Start ShadowsocksR
+ ${Green_font_prefix}8.${Font_color_suffix} Stop ShadowsocksR
+ ${Green_font_prefix}9.${Font_color_suffix} Restart ShadowsocksR
+ ${Green_font_prefix}10.${Font_color_suffix} Check ShadowsocksR log
 ————————————
- ${Green_font_prefix}14.${Font_color_suffix} Other functions
- ${Green_font_prefix}15.${Font_color_suffix} Upgrade script 
+ ${Green_font_prefix}11.${Font_color_suffix} Upgrade script 
  
- ${Green_font_prefix}10.${Font_color_suffix} --bennKemad--
+ ${Green_font_prefix}.${Font_color_suffix} --bennKemad--
  "
 	menu_status
-	echo && read -e -p "Please enter the number [1-15]：" num
+	echo && read -e -p "Please enter the number [1-11]：" num
 case "$num" in
 	1)
 	Install_SSR
@@ -1812,44 +1802,44 @@ case "$num" in
 	3)
 	Uninstall_SSR
 	;;
-	4)
+	70)
 	Install_Libsodium
 	;;
-	5)
+	4)
 	View_User
 	;;
-	6)
+	5)
 	View_user_connection_info
 	;;
-	7)
+	6)
 	Modify_Config
 	;;
-	8)
+	99)
 	Manually_Modify_Config
 	;;
-	9)
+	900)
 	Clear_transfer
 	;;
-	10)
+	7)
 	Start_SSR
 	;;
-	11)
+	8)
 	Stop_SSR
 	;;
-	12)
+	9)
 	Restart_SSR
 	;;
-	13)
+	10)
 	View_Log
 	;;
-	14)
+	222)
 	Other_functions
 	;;
-	15)
+	11)
 	Update_Shell
 	;;
 	*)
-	echo -e "${Error} Please enter the correct number [1-15]"
+	echo -e "${Error} Please enter the correct number [1-11]"
 	;;
 esac
 fi

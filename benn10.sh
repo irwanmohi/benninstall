@@ -829,6 +829,8 @@ wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 wget -O ssr "https://raw.githubusercontent.com/benkemad/benninstall/master/ssr.sh"
+wget -O onstat "https://raw.githubusercontent.com/benkemad/benninstall/master/onstat.sh"
+wget -O offstat "https://raw.githubusercontent.com/benkemad/benninstall/master/offstat.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 
@@ -849,6 +851,8 @@ chmod +x info
 chmod +x contact
 chmod +x about
 chmod +x ssr
+chmod +x onstat
+chmod +x offstat
 
 # finishing
 cd

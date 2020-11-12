@@ -530,6 +530,7 @@ wget -O speedtest "https://raw.githubusercontent.com/benkemad/benninstall/master
 wget -O user limit "https://raw.githubusercontent.com/benkemad/benninstall/master/user-limit.sh"
 wget -O portstat "https://raw.githubusercontent.com/benkemad/benninstall/master/portstat.sh"
 wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info.sh"
+wget -O ssr "https://raw.githubusercontent.com/benkemad/benninstall/master/ssr.sh"
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 
@@ -548,6 +549,7 @@ chmod +x speedtest
 chmod +x user limit
 chmod +x portstat
 chmod +x info
+chmod +x ssr
 chmod +x contact
 chmod +x about
 

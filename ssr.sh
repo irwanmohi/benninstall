@@ -1229,7 +1229,7 @@ Add_port_user(){
 				Save_iptables
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
 				
-}
+
 Del_port_user(){
 	List_port_user
 	while true

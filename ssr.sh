@@ -1229,19 +1229,6 @@ Add_port_user(){
 				Save_iptables
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
 				
-				echo 
-                                read -e -p "Continue to add user configuration?[Y/n]:" addyn
-				[[ -z ${addyn} ]] && addyn="y"
-				if [[ ${addyn} == [Nn] ]]; then
-					Get_User_info "${ssr_port}"
-					View_User_info
-			                break
-		        else
-					echo -e "${Info} Terus tambahkan konfigurasi pengguna..."
-				fi
-			fi
-		done
-	fi
 }
 Del_port_user(){
 	List_port_user

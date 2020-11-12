@@ -323,7 +323,7 @@ View_User_info(){
 	ip=$(cat ${config_user_api_file}|grep "SERVER_PUB_ADDR = "|awk -F "[']" '{print $2}')
 	[[ -z "${ip}" ]] && Get_IP
 	ss_ssr_determine
-	clear && echo "===================================================" && echo
+	clear && echo "===========================================================" && echo
 	echo -e " User [${user_name}] configuration info：" && echo
 	echo -e " IP : ${Green_font_prefix}${ip}${Font_color_suffix}"
 	echo -e " Port : ${Green_font_prefix}${port}${Font_color_suffix}"
@@ -343,12 +343,12 @@ View_User_info(){
 	echo -e "${ssr_link}"
 	echo -e " ${Green_font_prefix} Note: ${Font_color_suffix}
  In the browser, open the QR code link, you can see the QR code image."
- 	echo && echo "==================================================="
+ 	echo && echo "=========================By Kemaddd=========================="
 }
 # 设置 配置信息
 Set_config_user(){
 	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
-	read -e -p "( masukkan username )" ssr_user
+	read -e -p "(masukkan username):" ssr_user
 	[[ -z "${ssr_user}" ]] && ssr_user="doubi"
 	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
@@ -356,7 +356,7 @@ Set_config_port(){
 	while true
 	do
 	echo -e "Please enter the user port to be set"
-	read -e -p "( tambah port (bebas) ):" ssr_port
+	read -e -p "(tambah port (bebas):" ssr_port
 	[[ -z "$ssr_port" ]] && ssr_port="2333"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -529,9 +529,10 @@ Set_config_obfs(){
 Set_config_protocol_param(){
 	while true
 	do
-	echo -e "Please enter the number of devices you want to set to limit (${Green_font_prefix} auth_* 系列协议 不兼容原版才有效 ${Font_color_suffix})"
+	echo -e "Please enter the number of devices you want to set to limit (${Green_font_prefix} auth_* 
+	${Font_color_suffix})"
 	echo -e "${Tip} Number of devices limit: the number of clients that can be linked at the same time per port (multi-port mode, each port is calculated independently), the minimum recommended 2."
-	read -e -p "(Default: unlimited):" ssr_protocol_param
+	read -e -p "(TEKAN ANGKA 1):" ssr_protocol_param
 	[[ -z "$ssr_protocol_param" ]] && ssr_protocol_param="" && echo && break
 	expr ${ssr_protocol_param} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -1227,10 +1228,7 @@ Add_port_user(){
 				Add_iptables
 				Save_iptables
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
-				echo
-				read -e -p "Continue to add user configuration?[Y/n]:" addyn
-				[[ -z ${addyn} ]] && addyn="y"
-				if [[ ${addyn} == [Nn] ]]; then
+				then
 					Get_User_info "${ssr_port}"
 					View_User_info
 					break
@@ -1245,23 +1243,23 @@ Del_port_user(){
 	List_port_user
 	while true
 	do
-		echo -e "请输入要删除的用户 Port"
-		read -e -p "(Default: 取消):" del_user_port
-		[[ -z "${del_user_port}" ]] && echo -e "已取消..." && exit 1
+		echo -e "Silakan masukkan port pengguna yang akan dihapus"
+		read -e -p "(Default: Cancel):" del_user_port
+		[[ -z "${del_user_port}" ]] && echo -e "Dibatalkan..." && exit 1
 		del_user=$(cat "${config_user_mudb_file}"|grep '"port": '"${del_user_port}"',')
 		if [[ ! -z ${del_user} ]]; then
 			port=${del_user_port}
 			match_del=$(python mujson_mgr.py -d -p "${del_user_port}"|grep -w "delete user ")
 			if [[ -z "${match_del}" ]]; then
-				echo -e "${Error} 用户删除失败 ${Green_font_prefix}[Port: ${del_user_port}]${Font_color_suffix} "
+				echo -e "${Error} Penghapusan pengguna gagal ${Green_font_prefix}[Port: ${del_user_port}]${Font_color_suffix} "
 			else
 				Del_iptables
 				Save_iptables
-				echo -e "${Info} 用户删除成功 ${Green_font_prefix}[Port: ${del_user_port}]${Font_color_suffix} "
+				echo -e "${Info} Pengguna berhasil dihapus ${Green_font_prefix}[Port: ${del_user_port}]${Font_color_suffix} "
 			fi
 			break
 		else
-			echo -e "${Error} 请输入正确的Port !"
+			echo -e "${Error} Harap masukkan Port yang benar !"
 		fi
 	done
 }

@@ -1790,14 +1790,14 @@ elif [[ "${action}" == "monitor" ]]; then
 	crontab_monitor_ssr
 else
 	echo -e "  ShadowsocksR MuJSON一managment script ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  ---- Toyo | doub.io/ss-jc60 ----
+  ---- Benn  |  Kemadddd  ----
   ${Green_font_prefix}1.${Font_color_suffix} Install ShadowsocksR 
   ${Green_font_prefix}2.${Font_color_suffix} Update ShadowsocksR
   ${Green_font_prefix}3.${Font_color_suffix} Uninstall ShadowsocksR
   ${Green_font_prefix}4.${Font_color_suffix} Install libsodium(chacha20)
 ————————————
-  ${Green_font_prefix}5.${Font_color_suffix} Check the account information
-  ${Green_font_prefix}6.${Font_color_suffix} Display the connection information 
+  ${Green_font_prefix}5.${Font_color_suffix} cek informasi akun
+  ${Green_font_prefix}6.${Font_color_suffix} tampilkan informasi koneksi
   ${Green_font_prefix}7.${Font_color_suffix} Add/Modify/Delete user configuration  
   ${Green_font_prefix}8.${Font_color_suffix} Manually modify user configuration
   ${Green_font_prefix}9.${Font_color_suffix} Clear the used traffic  
@@ -1809,6 +1809,8 @@ else
 ————————————
  ${Green_font_prefix}14.${Font_color_suffix} Other functions
  ${Green_font_prefix}15.${Font_color_suffix} Upgrade script 
+ 
+ ${Green_font_prefix}10.${Font_color_suffix} --bennKemad--
  "
 	menu_status
 	echo && read -e -p "Please enter the number [1-15]：" num

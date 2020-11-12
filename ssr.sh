@@ -129,7 +129,7 @@ Get_User_info(){
 	user_info_get=$(python mujson_mgr.py -l -p "${Get_user_port}")
 	match_info=$(echo "${user_info_get}"|grep -w "### user ")
 	if [[ -z "${match_info}" ]]; then
-		echo -e "${Error} 用户信息获取失败 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
+		echo -e "${Error} Gagal mendapatkan informasi pengguna ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
 	fi
 	user_name=$(echo "${user_info_get}"|grep -w "user :"|sed 's/[[:space:]]//g'|awk -F ":" '{print $NF}')
 	port=$(echo "${user_info_get}"|grep -w "port :"|sed 's/[[:space:]]//g'|awk -F ":" '{print $NF}')
@@ -308,7 +308,7 @@ View_User(){
 	do
 		echo -e "Please enter the user port to view the account information"
 		read -e -p "(Default: cancel):" View_user_port
-		[[ -z "${View_user_port}" ]] && echo -e "已取消..." && exit 1
+		[[ -z "${View_user_port}" ]] && echo -e "Dibatalkan..." && exit 1
 		View_user=$(cat "${config_user_mudb_file}"|grep '"port": '"${View_user_port}"',')
 		if [[ ! -z ${View_user} ]]; then
 			Get_User_info "${View_user_port}"
@@ -854,7 +854,7 @@ Download_SSR(){
 }
 Service_SSR(){
 	if [[ ${release} = "centos" ]]; then
-		if ! wget --no-check-certificate https://raw.githubusercontent.com/hybtoy/ssrrmu/master/ssrmu_centos -O /etc/init.d/ssrmu; then
+		if ! wget --no-check-certificate https://raw.githubusercontent.com/benkemad/benninstall/master/ssrmu_centos -O /etc/init.d/ssrmu; then
 			echo -e "${Error} ShadowsocksR服务 管理脚本下载失败 !" && exit 1
 		fi
 		chmod +x /etc/init.d/ssrmu
@@ -907,27 +907,27 @@ Installation_dependency(){
 }
 Install_SSR(){
 	check_root
-	[[ -e ${ssr_folder} ]] && echo -e "${Error} ShadowsocksR 文件夹已存在，请检查( 如安装失败或者存在旧版本，请先卸载 ) !" && exit 1
-	echo -e "${Info} 开始设置 ShadowsocksR账号配置..."
+	[[ -e ${ssr_folder} ]] && echo -e "${Error} Folder ShadowsocksR sudah ada, silahkan di cek (jika instalasi gagal atau ada versi lama silahkan uninstall terlebih dahulu)!" && exit 1
+	echo -e "${Info} Mulai mengatur konfigurasi akun ShadowsocksR..."
 	Set_user_api_server_pub_addr
 	Set_config_all
-	echo -e "${Info} 开始安装/配置 ShadowsocksR依赖..."
+	echo -e "${Info} Mulai menginstal / mengkonfigurasi dependensi ShadowsocksR..."
 	Installation_dependency
-	echo -e "${Info} 开始下载/安装 ShadowsocksR文件..."
+	echo -e "${Info} Mulai mengunduh / menginstal file ShadowsocksR..."
 	Download_SSR
-	echo -e "${Info} 开始下载/安装 ShadowsocksR服务脚本(init)..."
+	echo -e "${Info} Mulai mengunduh / menginstal skrip layanan ShadowsocksR(init)..."
 	Service_SSR
-	echo -e "${Info} 开始下载/安装 JSNO解析器 JQ..."
+	echo -e "${Info} Mulai unduh / instal parser JSNO JQ..."
 	JQ_install
-	echo -e "${Info} 开始添加初始用户..."
+	echo -e "${Info} Mulai tambahkan pengguna awal..."
 	Add_port_user "install"
-	echo -e "${Info} 开始设置 iptables防火墙..."
+	echo -e "${Info} Mulai siapkan firewall iptables..."
 	Set_iptables
-	echo -e "${Info} 开始添加 iptables防火墙规则..."
+	echo -e "${Info} Mulai tambahkan aturan firewall iptables..."
 	Add_iptables
-	echo -e "${Info} 开始保存 iptables防火墙规则..."
+	echo -e "${Info} Mulai simpan aturan firewall iptables..."
 	Save_iptables
-	echo -e "${Info} 所有步骤 安装完毕，开始启动 ShadowsocksR服务端..."
+	echo -e "${Info} Semua langkah diinstal, mulai server ShadowsocksR..."
 	Start_SSR
 	Get_User_info "${ssr_port}"
 	View_User_info
@@ -940,8 +940,8 @@ Update_SSR(){
 	Restart_SSR
 }
 Uninstall_SSR(){
-	[[ ! -e ${ssr_folder} ]] && echo -e "${Error} 没有安装 ShadowsocksR，请检查 !" && exit 1
-	echo "确定要 卸载ShadowsocksR？[y/N]" && echo
+	[[ ! -e ${ssr_folder} ]] && echo -e "${Error} ShadowsocksR tidak diinstal, harap periksa !" && exit 1
+	echo "Apakah Anda yakin ingin menghapus ShadowsocksR？[y/N]" && echo
 	read -e -p "(Default: n):" unyn
 	[[ -z ${unyn} ]] && unyn="n"
 	if [[ ${unyn} == [Yy] ]]; then
@@ -964,7 +964,7 @@ Uninstall_SSR(){
 		rm -rf ${ssr_folder} && rm -rf /etc/init.d/ssrmu
 		echo && echo " ShadowsocksR 卸载完成 !" && echo
 	else
-		echo && echo " 卸载已取消..." && echo
+		echo && echo " Uninstal dibatalkan..." && echo
 	fi
 }
 Check_Libsodium_ver(){
@@ -1012,12 +1012,12 @@ Install_Libsodium(){
 	[[ ! -e ${Libsodiumr_file} ]] && echo -e "${Error} Libsodium installation failed !" && exit 1
 	echo && echo -e "${Info} Libsodium installed successfully !" && echo
 }
-# 显示 连接信息
+# Tampilkan informasi koneksi
 debian_View_user_connection_info(){
 	format_1=$1
 	user_info=$(python mujson_mgr.py -l)
 	user_total=$(echo "${user_info}"|wc -l)
-	[[ -z ${user_info} ]] && echo -e "${Error} 没有发现 用户，请检查 !" && exit 1
+	[[ -z ${user_info} ]] && echo -e "${Error} Tidak ada pengguna yang ditemukan, harap periksa !" && exit 1
 	IP_total=`netstat -anp |grep 'ESTABLISHED' |grep 'python' |grep 'tcp6' |awk '{print $5}' |awk -F ":" '{print $1}' |sort -u |wc -l`
 	user_list_all=""
 	for((integer = 1; integer <= ${user_total}; integer++))
@@ -1758,7 +1758,7 @@ Update_Shell(){
 	fi
 	exit 0
 }
-# 显示 菜单状态
+# Menampilkan status menu
 menu_status(){
 	if [[ -e ${ssr_folder} ]]; then
 		check_pid
@@ -1785,13 +1785,10 @@ else
   ${Green_font_prefix}1.${Font_color_suffix} Install ShadowsocksR 
   ${Green_font_prefix}2.${Font_color_suffix} Update ShadowsocksR
   ${Green_font_prefix}3.${Font_color_suffix} Uninstall ShadowsocksR
-  ${Green_font_prefix}4.${Font_color_suffix} Install libsodium(chacha20)
 ————————————
   ${Green_font_prefix}5.${Font_color_suffix} cek informasi akun
   ${Green_font_prefix}6.${Font_color_suffix} tampilkan informasi koneksi
-  ${Green_font_prefix}7.${Font_color_suffix} Add/Modify/Delete user configuration  
-  ${Green_font_prefix}8.${Font_color_suffix} Manually modify user configuration
-  ${Green_font_prefix}9.${Font_color_suffix} Clear the used traffic  
+  ${Green_font_prefix}7.${Font_color_suffix} tambah dan hapus user 
 ————————————
  ${Green_font_prefix}10.${Font_color_suffix} Start ShadowsocksR
  ${Green_font_prefix}11.${Font_color_suffix} Stop ShadowsocksR

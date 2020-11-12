@@ -828,6 +828,7 @@ wget -O portstat "https://raw.githubusercontent.com/benkemad/benninstall/master/
 wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info.sh"
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
+wget -O ssr "https://raw.githubusercontent.com/benkemad/benninstall/master/ssr.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 
@@ -847,6 +848,7 @@ chmod +x portstat
 chmod +x info
 chmod +x contact
 chmod +x about
+chmod +x ssr
 
 # finishing
 cd

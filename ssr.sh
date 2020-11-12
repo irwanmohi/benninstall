@@ -1228,7 +1228,6 @@ Add_port_user(){
 				Add_iptables
 				Save_iptables
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
-				then
 					Get_User_info "${ssr_port}"
 					View_User_info
 					break

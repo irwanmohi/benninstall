@@ -4,7 +4,7 @@ IP=`curl icanhazip.com`
 
 Login=trial`</dev/urandom tr -dc X-Z0-9 | head -c4`
 hari="1"
-Pass=`</dev/urandom tr -dc a-f0-9 | head -c9`
+Pass=`</dev/urandom tr -dc 1 | head -c9`
 
 
 echo Script AutoCreate Akun SSH dan OpenVPN by kemaddd

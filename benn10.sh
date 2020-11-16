@@ -854,6 +854,7 @@ wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/c
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 wget -O ssr "https://raw.githubusercontent.com/benkemad/benninstall/master/ssr.sh"
 wget -O wgmenu "https://raw.githubusercontent.com/benkemad/benninstall/master/wginstall.sh"
+wget -O ban "https://raw.githubusercontent.com/benkemad/benninstall/master/ban.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 
@@ -875,6 +876,7 @@ chmod +x contact
 chmod +x about
 chmod +x ssr
 chmod +x wgmenu
+chmod +x ban
 
 # finishing
 cd

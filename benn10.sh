@@ -831,6 +831,9 @@ wget -O /etc/issue.net "https://raw.githubusercontent.com/benkemad/benninstall/m
 sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
+# install WireGuard
+wget https://git.io/wireguard -O wireguard-install.sh && bash wireguard-install.sh
+
 # download script
 cd /usr/bin
 wget -O perpanjang "https://raw.githubusercontent.com/benkemad/benninstall/master/perpanjang.sh"
@@ -850,7 +853,6 @@ wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 wget -O ssr "https://raw.githubusercontent.com/benkemad/benninstall/master/ssr.sh"
-wget -O wginstall "https://raw.githubusercontent.com/benkemad/benninstall/master/wginstall.sh"
 wget -O wgmenu "https://raw.githubusercontent.com/benkemad/benninstall/master/wginstall.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
@@ -872,7 +874,6 @@ chmod +x info
 chmod +x contact
 chmod +x about
 chmod +x ssr
-chmod +x wginstall
 chmod +x wgmenu
 
 # finishing

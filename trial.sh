@@ -7,13 +7,16 @@ hari="1"
 Pass=`</dev/urandom tr -dc a-f0-9 | head -c9`
 
 
-echo Script AutoCreate Akun SSH dan OpenVPN by kemaddd
-sleep 1
-echo Ping Host
-echo Cek Hak Akses...
+echo ""
+echo "----------------------------- Buat AKUN SSH Trial ------------------------------"
 sleep 0.5
-echo Permission Accepted
-clear
+echo "                            ALL SUPPORTED BY KEMAD "
+sleep 0.5
+echo "                                mohon menunggu "
+sleep 0.5
+echo "                            Akun telah berhasil dibuat "
+sleep 0.5
+echo -e "                  Script Installer by \e[1;21;40mKEMADDDD\e[0m  " 
 sleep 0.5
 echo Membuat Akun: $Login
 sleep 0.5
@@ -52,4 +55,4 @@ echo -e "-)If Not follow the Rule your account"
 echo -e "  Will be banned"
 echo -e "--------------------------------------"
 echo -e ""
-echo -e "mod by kemaddd"
+echo -e "mod by \e[1;21;40mkemaddd\e[0m"

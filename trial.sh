@@ -7,17 +7,38 @@ hari="1"
 Pass=`</dev/urandom tr -dc a-f0-9 | head -c9`
 
 
+# Modifikasi Terminal
+
+blue='\e[1;34m'
+green='\e[0;23m'
+purple='\e[1;35m'
+cyan='\e[1;36m'
+red='\e[1;32m'
+
 echo ""
-echo "----------------------------- Buat AKUN SSH Trial ------------------------------"
+echo -e $purple"      =====================================================" 
 sleep 1
-echo "                            ALL SUPPORTED BY KEMAD "
+echo -e $green "      #                                                   #" 
 sleep 1
-echo "                                mohon menunggu "
+echo -e $purple "      #                 [MEMBUAT AKUN TRIAL]              #" 
 sleep 1
-echo "                            Akun telah berhasil dibuat "
+echo -e $blue "      #                                                   #" 
 sleep 1
-echo -e "                           Script Installer by \e[1;21;40mKEMADDDD\e[0m  " 
+echo -e $green "      #                   Mohon menunggu                  #" 
 sleep 1
+echo -e $red "      #                                                   #" 
+sleep 1
+echo -e $blue "      #              Akun Telah Berhasil Dibuat           #" 
+sleep 1
+echo -e $red "      #                                                  #" 
+sleep 1
+echo -e $purple "      #                  Terima Kasih                   #" 
+sleep 1
+echo -e $green "      #                                                   #" 
+sleep 1
+echo -e $cyan "      #     Copyright © AndiMuhammadIhzarafi™ Premium 2017     #" 
+sleep 1
+echo -e $purple "      =====================================================" 
 clear
 useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login
 exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"

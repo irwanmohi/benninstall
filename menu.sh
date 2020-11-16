@@ -41,14 +41,8 @@ echo -e " ➢ ssr         :     menampilkan menu ssr"
 echo -e ""
 echo "---------------------------------------------------------------"
 echo -e ""
-echo "--------------------- Menu Wireguard --------------------------"
-echo -e ""
-echo -e " ➢ wgmenu       :    \e[37mmenampilkan menu wireguard"
-echo -e ""
-echo "---------------------------------------------------------------"
-echo -e ""
 
 
 
-echo -e "By \e[1;21;40mMAD TEAM\e[0m"
+echo -e "By \e[35;1mMAD TEAM\e[0m"
 echo -e ""

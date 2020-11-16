@@ -129,6 +129,18 @@ wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/benkemad/b
 # install badvpn
 cd
 wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/benkemad/benninstall/master/badvpn-udpgw64"
+sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7000 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
+chmod +x /usr/bin/badvpn-udpgw
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7000 --max-clients 1000 --max-connections-for-client 10
+
+cd
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/benkemad/benninstall/master/badvpn-udpgw64"
+sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
+chmod +x /usr/bin/badvpn-udpgw
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000 --max-connections-for-client 10
+
+cd
+wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/benkemad/benninstall/master/badvpn-udpgw64"
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
 screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 10 
@@ -838,8 +850,8 @@ wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 wget -O ssr "https://raw.githubusercontent.com/benkemad/benninstall/master/ssr.sh"
-wget -O onstat "https://raw.githubusercontent.com/benkemad/benninstall/master/onstat.sh"
-wget -O offstat "https://raw.githubusercontent.com/benkemad/benninstall/master/offstat.sh"
+wget -O wginstall "https://raw.githubusercontent.com/benkemad/benninstall/master/wginstall.sh"
+wget -O wgmenu "https://raw.githubusercontent.com/benkemad/benninstall/master/wginstall.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 
@@ -860,8 +872,8 @@ chmod +x info
 chmod +x contact
 chmod +x about
 chmod +x ssr
-chmod +x onstat
-chmod +x offstat
+chmod +x wginstall
+chmod +x wgmenu
 
 # finishing
 cd
@@ -875,6 +887,8 @@ chown -R www-data:www-data /home/vps/public_html
 /etc/init.d/webmin restart
 /etc/init.d/stunnel4 restart
 /etc/init.d/squid3 start
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7000 --max-clients 1000 --max-connections-for-client 10
+screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000 --max-connections-for-client 10
 screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 10 
 screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10 
 rm -rf ~/.bash_history && history -c
@@ -929,9 +943,9 @@ echo -e " ➢ contact   :       menampilkan kontak penulis script"
 echo -e " ➢ about     :       info script auto install"
 echo -e " ➢ exit      :       keluar"
 echo -e ""
-echo -e " ➢ limit 1     :     \e[37mmembatasi jumlah user MAX 1 login"
-echo -e " ➢ limit 2     :     \e[37mmembatasi jumlah user MAX 2 login"
-echo -e " ➢ limit stop  :     \e[37mmenonaktifkan fitur userlimit"
+echo -e " ➢ limit 1     :     membatasi jumlah user MAX 1 login"
+echo -e " ➢ limit 2     :     membatasi jumlah user MAX 2 login"
+echo -e " ➢ limit stop  :     menonaktifkan fitur userlimit"
 echo -e " ➢ limit cek   :     cek log user yang berhasil di kill"
 echo -e " ➢ limit reset :     reset log user yang berhasil di kill"
 echo -e ""

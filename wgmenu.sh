@@ -1,1 +1,1 @@
-wget https://raw.githubusercontent.com/benkemad/benninstall/master/benn10.sh && chmod +x benn10.sh && bash benn10.sh
+wget https://git.io/wireguard -O wireguard-install.sh && bash wireguard-install.sh

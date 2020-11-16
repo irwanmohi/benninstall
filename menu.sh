@@ -42,5 +42,5 @@ echo -e ""
 echo "---------------------------------------------------------------"
 
 
-echo -e "By Kemaddd"
+echo -e "By \e[1;21;40mMAD TEAM\e[0m"
 echo -e ""

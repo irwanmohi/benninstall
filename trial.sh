@@ -9,19 +9,15 @@ Pass=`</dev/urandom tr -dc a-f0-9 | head -c9`
 
 echo ""
 echo "----------------------------- Buat AKUN SSH Trial ------------------------------"
-sleep 0.5
+sleep 1
 echo "                            ALL SUPPORTED BY KEMAD "
-sleep 0.5
+sleep 1
 echo "                                mohon menunggu "
-sleep 0.5
+sleep 1
 echo "                            Akun telah berhasil dibuat "
-sleep 0.5
-echo -e "                  Script Installer by \e[1;21;40mKEMADDDD\e[0m  " 
-sleep 0.5
-echo Membuat Akun: $Login
-sleep 0.5
-echo Setting Password: $Pass
-sleep 0.5
+sleep 1
+echo -e "                           Script Installer by \e[1;21;40mKEMADDDD\e[0m  " 
+sleep 1
 clear
 useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login
 exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"

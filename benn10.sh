@@ -11,10 +11,19 @@ OS=`uname -m`;
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 
+# ubah hostname
+echo "Hostname Anda saat ini $HOSTNAME"
+read -p "Masukkan hostname atau nama untuk server ini: " hnbaru
+echo "HOSTNAME=$hnbaru" >> /etc/sysconfig/network
+hostname "$hnbaru"
+echo "Hostname telah diganti menjadi $hnbaru"
+read -p "Maks login user (contoh 1 atau 2): " llimit
+echo "Proses instalasi script dimulai....."
+
 #detail nama perusahaan
 country=ID
 state=MALANG
-locality=JAWA TIMUR
+locality=JAWATIMUR
 organization=www.sshtunneling.tk
 organizationalunit=www.sshtunneling.tk
 commonname=www.sshtunneling.tk

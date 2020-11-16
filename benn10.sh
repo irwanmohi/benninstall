@@ -885,45 +885,63 @@ apt -y autoclean
 apt -y clean
 
 # info
+# info
+clear
 echo "Autoscript Include:" | tee log-install.txt
 echo "===========================================" | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Service"  | tee -a log-install.txt
 echo "-------"  | tee -a log-install.txt
-echo "OpenSSH  : 22"  | tee -a log-install.txt
-echo "Dropbear : 143, 110,109,456"  | tee -a log-install.txt
-echo "SSL      : 222,443,777,990"  | tee -a log-install.txt
-echo "Squid3   : 80, 3128, 8080 (limit to IP SSH)"  | tee -a log-install.txt
-echo "OpenVPN  : TCP 1194 (client config : http://$MYIP:81/client-tcp-1194.ovpn)"  | tee -a log-install.txt
-echo "OpenVPN  : TCP 2200 (client config : http://$MYIP:81/client-tcp-2200.ovpn)"  | tee -a log-install.txt
-echo "OpenVPN  : UDP 1194 (client config : http://$MYIP:81/client-udp-1194.ovpn)"  | tee -a log-install.txt
-echo "OpenVPN  : UDP 2200 (client config : http://$MYIP:81/client-udp-2200.ovpn)"  | tee -a log-install.txt
-echo "badvpn   : 7200/7300"  | tee -a log-install.txt
+echo "OpenSSH  : 22, 143"  | tee -a log-install.txt
+echo "Dropbear : 443, 110, 109"  | tee -a log-install.txt
+echo "Squid3   : 80, 8080"  | tee -a log-install.txt
+#echo "OpenVPN  : TCP 1194 (client config : http://$MYIP:81/client.ovpn)"  | tee -a log-install.txt
+#echo "OpenVPN  : UDP 1194 (client config : http://$MYIP:81/client.ovpn)"  | tee -a log-install.txt
+#echo "OpenVPN  : SSL 1194 (client config : http://$MYIP:81/client.ovpn)"  | tee -a log-install.txt
+echo "badvpn   : badvpn-udpgw port 7300"  | tee -a log-install.txt
 echo "nginx    : 81"  | tee -a log-install.txt
-echo ""  | tee -a log-install.txt
 echo "Script"  | tee -a log-install.txt
 echo "------"  | tee -a log-install.txt
-echo "menu (Displays a list of available commands)"  | tee -a log-install.txt
-echo "usernew (Creating an SSH Account)"  | tee -a log-install.txt
-echo "trial (Create a Trial Account)"  | tee -a log-install.txt
-echo "hapus (Clearing SSH Account)"  | tee -a log-install.txt
-echo "cek (Check User Login)"  | tee -a log-install.txt
-echo "member (Check Member SSH)"  | tee -a log-install.txt
-echo "restart (Restart Service dropbear, webmin, squid3, openvpn and ssh)"  | tee -a log-install.txt
-echo "reboot (Reboot VPS)"  | tee -a log-install.txt
-echo "speedtest (Speedtest VPS)"  | tee -a log-install.txt
-echo "info (System Information)"  | tee -a log-install.txt
-echo "about (Information about auto install script)"  | tee -a log-install.txt
+echo "1. screenfetch"  | tee -a log-install.txt
+echo -e " ➢ perpanjang:       perpanjang masa aktif akun ssh"
+echo -e " ➢ menu      :       menampilkan daftar perintah"
+echo -e " ➢ usernew   :       membuat akun SSH & OpenVPN"
+echo -e " ➢ trial     :       membuat akun trial"
+echo -e " ➢ hapus     :       menghapus akun SSH & OpenVPN"
+echo -e " ➢ cek       :       cek user login"
+echo -e " ➢ member    :       daftar member SSH & OpenVPN"
+echo -e " ➢ delete    :       Delete user expired"
+echo -e " ➢ restart   :       Restart SSH, OpenVPN, Squid, Dropbear"
+echo -e " ➢ reboot    :       reboot VPS"
+echo -e " ➢ speedtest :       speedtest VPS"
+echo -e " ➢ portstat  :       cek status port"
+echo -e " ➢ info      :       menampilkan informasi sistem"
+echo -e " ➢ contact   :       menampilkan kontak penulis script"
+echo -e " ➢ about     :       info script auto install"
+echo -e " ➢ exit      :       keluar"
+echo -e ""
+echo -e " ➢ limit 1     :     \e[37mmembatasi jumlah user MAX 1 login"
+echo -e " ➢ limit 2     :     \e[37mmembatasi jumlah user MAX 2 login"
+echo -e " ➢ limit stop  :     \e[37mmenonaktifkan fitur userlimit"
+echo -e " ➢ limit cek   :     cek log user yang berhasil di kill"
+echo -e " ➢ limit reset :     reset log user yang berhasil di kill"
+echo -e ""
+echo -e " ➢ ssr         :     menampilkan menu ssr"
 echo ""  | tee -a log-install.txt
-echo "Other features"  | tee -a log-install.txt
+echo "Fitur lain"  | tee -a log-install.txt
 echo "----------"  | tee -a log-install.txt
 echo "Webmin   : http://$MYIP:10000/"  | tee -a log-install.txt
+echo "vnstat   : http://$MYIP:81/vnstat/ (Cek Bandwith)"  | tee -a log-install.txt
 echo "Timezone : Asia/Jakarta (GMT +7)"  | tee -a log-install.txt
+echo "Fail2Ban : [on]"  | tee -a log-install.txt
 echo "IPv6     : [off]"  | tee -a log-install.txt
+#echo "Autolimit 2 bitvise per IP to all port (port 22, 143, 109, 110, 443, 1194, 7300 TCP/UDP)"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
-echo "Original Script by Horas"  | tee -a log-install.txt
+echo "Script Modified by Benn Kemaddd"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
-echo "Installation Log --> /root/log-install.txt"  | tee -a log-install.txt
+echo "Log Instalasi --> /root/log-install.txt"  | tee -a log-install.txt
+echo ""  | tee -a log-install.txt
+echo "SILAHKAN REBOOT VPS ANDA !"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "==========================================="  | tee -a log-install.txt
 cd

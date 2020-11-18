@@ -2,15 +2,6 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-#=================================================
-#	System Required: CentOS 6+/Debian 6+/Ubuntu 14.04+
-#	Description: Install the ShadowsocksR mudbjson server
-#	Version: 1.0.25
-#	Author: Toyo
-#       Translator: hybtoy 
-#	Blog: https://doub.io/ss-jc60/
-#=================================================
-
 sh_ver="1.0.26"
 filepath=$(cd "$(dirname "$0")"; pwd)
 file=$(echo -e "${filepath}"|awk -F "$0" '{print $1}')
@@ -355,12 +346,19 @@ View_User_info(){
  	echo && echo "=====================By kemadddd=============================="
 }
 # 设置 配置信息
+}
+Set_config_password(){
+	echo "Please enter the user password you want to set"
+	read -e -p "(enter your password):" ssr_password
+	[[ -z "${ssr_password}" ]] && ssr_password=""
+	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
+}
 Set_config_port(){
 	while true
 	do
 	echo -e "Please enter the user port to be set"
-	echo -e -p "(Default: 2333):" ssr_port
-	[[ -z "$ssr_port" ]] && ssr_port="1-65535"
+	read -e -p "(Default: 2333):" ssr_port
+	[[ -z "$ssr_port" ]] && ssr_port="1"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
 		if [[ ${ssr_port} -ge 1 ]] && [[ ${ssr_port} -le 65535 ]]; then
@@ -373,13 +371,6 @@ Set_config_port(){
 		echo -e "${Error} Please enter the correct number(1-65535)"
 	fi
 	done
-}
-Set_config_password(){
-	echo "Please enter the user password you want to set"
-	echo -e -p "(Default: doub.io):" ssr_password
-	[[ -z "${ssr_password}" ]] && ssr_password="doub.io"
-	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
-}
 Set_config_method(){
 	echo -e "Please select the user encryption method you want to set
  ${Green_font_prefix} 1.${Font_color_suffix} none

@@ -346,7 +346,6 @@ View_User_info(){
  	echo && echo "=====================By kemadddd=============================="
 }
 # 设置 配置信息
-}
 Set_config_password(){
 	echo "Please enter the user password you want to set"
 	read -e -p "(enter your password):" ssr_password

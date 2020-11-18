@@ -354,6 +354,12 @@ View_User_info(){
  	echo && echo "===================By Kemaddd================================"
 }
 # 设置 配置信息
+Set_config_user(){
+	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
+	read -e -p "(Default: doubi):" ssr_user
+	[[ -z "${ssr_user}" ]] && ssr_user="doubi"
+	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
+}
 Set_config_password(){
 	echo "Please enter the user password you want to set"
 	read -e -p "(Default: doub.io):" ssr_password
@@ -909,27 +915,27 @@ Installation_dependency(){
 }
 Install_SSR(){
 	check_root
-	[[ -e ${ssr_folder} ]] && echo -e "${Error} ShadowsocksR 文件夹已存在，请检查( 如安装失败或者存在旧版本，请先卸载 ) !" && exit 1
-	echo -e "${Info} 开始设置 ShadowsocksR账号配置..."
+	[[ -e ${ssr_folder} ]] && echo -e "${Error} Folder ShadowsocksR sudah ada, harap periksa (jika penginstalan gagal atau ada versi lama, hapus instalan terlebih dahulu ) !" && exit 1
+	echo -e "${Info} Mulai mengatur konfigurasi akun ShadowsocksR..."
 	Set_user_api_server_pub_addr
 	Set_config_all
-	echo -e "${Info} 开始安装/配置 ShadowsocksR依赖..."
+	echo -e "${Info} Mulai menginstal / mengkonfigurasi dependensi ShadowsocksR..."
 	Installation_dependency
-	echo -e "${Info} 开始下载/安装 ShadowsocksR文件..."
+	echo -e "${Info} Mulai mengunduh / menginstal file ShadowsocksR..."
 	Download_SSR
-	echo -e "${Info} 开始下载/安装 ShadowsocksR服务脚本(init)..."
+	echo -e "${Info} Mulai mengunduh / menginstal skrip layanan ShadowsocksR(init)..."
 	Service_SSR
-	echo -e "${Info} 开始下载/安装 JSNO解析器 JQ..."
+	echo -e "${Info} Mulai unduh / instal parser JSNO JQ..."
 	JQ_install
-	echo -e "${Info} 开始添加初始用户..."
+	echo -e "${Info} Mulai tambahkan pengguna awal..."
 	Add_port_user "install"
-	echo -e "${Info} 开始设置 iptables防火墙..."
+	echo -e "${Info} Mulai atur firewall iptables..."
 	Set_iptables
-	echo -e "${Info} 开始添加 iptables防火墙规则..."
+	echo -e "${Info} Mulai tambahkan aturan firewall iptables..."
 	Add_iptables
-	echo -e "${Info} 开始保存 iptables防火墙规则..."
+	echo -e "${Info} Mulai simpan aturan firewall iptables..."
 	Save_iptables
-	echo -e "${Info} 所有步骤 安装完毕，开始启动 ShadowsocksR服务端..."
+	echo -e "${Info} Semua langkah diinstal, mulai server ShadowsocksR..."
 	Start_SSR
 	Get_User_info "${ssr_port}"
 	View_User_info
@@ -942,8 +948,8 @@ Update_SSR(){
 	Restart_SSR
 }
 Uninstall_SSR(){
-	[[ ! -e ${ssr_folder} ]] && echo -e "${Error} 没有安装 ShadowsocksR，请检查 !" && exit 1
-	echo "确定要 卸载ShadowsocksR？[y/N]" && echo
+	[[ ! -e ${ssr_folder} ]] && echo -e "${Error} ShadowsocksR tidak diinstal, harap periksa !" && exit 1
+	echo "Apakah Anda yakin ingin menghapus ShadowsocksR？[y/N]" && echo
 	read -e -p "(Default: n):" unyn
 	[[ -z ${unyn} ]] && unyn="n"
 	if [[ ${unyn} == [Yy] ]]; then
@@ -964,9 +970,9 @@ Uninstall_SSR(){
 			update-rc.d -f ssrmu remove
 		fi
 		rm -rf ${ssr_folder} && rm -rf /etc/init.d/ssrmu
-		echo && echo " ShadowsocksR 卸载完成 !" && echo
+		echo && echo " Penginstalan ShadowsocksR selesai !" && echo
 	else
-		echo && echo " 卸载已取消..." && echo
+		echo && echo " Uninstal dibatalkan..." && echo
 	fi
 }
 Check_Libsodium_ver(){
@@ -1019,7 +1025,7 @@ debian_View_user_connection_info(){
 	format_1=$1
 	user_info=$(python mujson_mgr.py -l)
 	user_total=$(echo "${user_info}"|wc -l)
-	[[ -z ${user_info} ]] && echo -e "${Error} 没有发现 用户，请检查 !" && exit 1
+	[[ -z ${user_info} ]] && echo -e "${Error} Tidak ada pengguna yang ditemukan, harap periksa !" && exit 1
 	IP_total=`netstat -anp |grep 'ESTABLISHED' |grep 'python' |grep 'tcp6' |awk '{print $5}' |awk -F ":" '{print $1}' |sort -u |wc -l`
 	user_list_all=""
 	for((integer = 1; integer <= ${user_total}; integer++))
@@ -1132,9 +1138,9 @@ Modify_port(){
 }
 Modify_Config(){
 	SSR_installation_status
-	echo && echo -e "what do you want to do?
- ${Green_font_prefix}1.${Font_color_suffix}  Add User Configuration
- ${Green_font_prefix}2.${Font_color_suffix}  Delete User Configuration
+	echo && echo -e "apa yang ingin anda lakukan?
+ ${Green_font_prefix}1.${Font_color_suffix}  Tambahkan pengguna 
+ ${Green_font_prefix}2.${Font_color_suffix}  Hapus pengguna
 
  ${Tip} User's user name and port can not be modified, if you need to modify, please use the script to manually modify the function !" && echo
 	read -e -p "(Default: cancel):" ssr_modify

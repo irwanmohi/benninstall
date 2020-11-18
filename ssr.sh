@@ -811,7 +811,7 @@ Install_SSR(){
 }
 Update_SSR(){
 	SSR_installation_status
-	# echo -e "因破娃暂停更新ShadowsocksR服务端，所以此功能临时禁用。"
+	# echo -e "因破娃暂停更新ShadowsocksR服务端，所以此功能临时禁用"
 	cd ${ssr_folder}
 	git pull
 	Restart_SSR
@@ -839,9 +839,9 @@ Uninstall_SSR(){
 			update-rc.d -f ssrmu remove
 		fi
 		rm -rf ${ssr_folder} && rm -rf /etc/init.d/ssrmu
-		echo && echo " Penginstalan ShadowsocksR selesai !" && echo
+		echo && echo "Penginstalan ShadowsocksR selesai !" && echo
 	else
-		echo && echo " Uninstal dibatalkan..." && echo
+		echo && echo "Uninstal dibatalkan..." && echo
 	fi
 }
 Check_Libsodium_ver(){
@@ -1007,7 +1007,7 @@ Modify_port(){
 }
 Modify_Config(){
 	SSR_installation_status
-	echo && echo -e "apa yang ingin anda lakukan?
+	echo && echo -e "apa yang ingin anda lakukan?"
  ${Green_font_prefix}1.${Font_color_suffix}  Tambahkan pengguna 
  ${Green_font_prefix}2.${Font_color_suffix}  Hapus pengguna
 

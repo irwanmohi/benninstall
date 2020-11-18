@@ -2,6 +2,15 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
+#=================================================
+#	System Required: CentOS 6+/Debian 6+/Ubuntu 14.04+
+#	Description: Install the ShadowsocksR mudbjson server
+#	Version: 1.0.25
+#	Author: Toyo
+#       Translator: hybtoy 
+#	Blog: https://doub.io/ss-jc60/
+#=================================================
+
 sh_ver="1.0.26"
 filepath=$(cd "$(dirname "$0")"; pwd)
 file=$(echo -e "${filepath}"|awk -F "$0" '{print $1}')
@@ -343,14 +352,14 @@ View_User_info(){
 	echo -e "${ssr_link}"
 	echo -e " ${Green_font_prefix} Note: ${Font_color_suffix}
  In the browser, open the QR code link, you can see the QR code image."
- 	echo && echo "=====================By kemadddd=============================="
+ 	echo && echo "==================================================="
 }
 # 设置 配置信息
-Set_config_password(){
-	echo "Please enter the user password you want to set"
-	read -e -p "(enter your password):" ssr_password
-	[[ -z "${ssr_password}" ]] && ssr_password=""
-	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
+Set_config_user(){
+	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
+	read -e -p "(Default: doubi):" ssr_user
+	[[ -z "${ssr_user}" ]] && ssr_user="doubi"
+	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_port(){
 	while true
@@ -370,6 +379,13 @@ Set_config_port(){
 		echo -e "${Error} Please enter the correct number(1-65535)"
 	fi
 	done
+}
+Set_config_password(){
+	echo "Please enter the user password you want to set"
+	read -e -p "(Default: doub.io):" ssr_password
+	[[ -z "${ssr_password}" ]] && ssr_password="doub.io"
+	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
+}
 Set_config_method(){
 	echo -e "Please select the user encryption method you want to set
  ${Green_font_prefix} 1.${Font_color_suffix} none
@@ -396,8 +412,8 @@ Set_config_method(){
  ${Red_font_prefix}17.${Font_color_suffix} xsalsa20
  ${Red_font_prefix}18.${Font_color_suffix} xchacha20
  ${Tip} For salsa20/chacha20-*, please install libsodium" && echo
-	echo -e -p "(Default: 5. aes-128-ctr):" ssr_method
-	[[ -z "${ssr_method}" ]] && ssr_method="16"
+	read -e -p "(Default: 5. aes-128-ctr):" ssr_method
+	[[ -z "${ssr_method}" ]] && ssr_method="5"
 	if [[ ${ssr_method} == "1" ]]; then
 		ssr_method="none"
 	elif [[ ${ssr_method} == "2" ]]; then
@@ -453,8 +469,8 @@ Set_config_protocol(){
  ${Red_font_prefix}9.${Font_color_suffix} auth_chain_e
  ${Red_font_prefix}10.${Font_color_suffix} auth_chain_f
  ${Tip} If you select auth_chain_* series protocol, it is recommended to set encryption method to none" && echo
-	echo -e -p "(Default: 5. auth_chain_a):" ssr_protocol
-	[[ -z "${ssr_protocol}" ]] && ssr_protocol="1"
+	read -e -p "(Default: 5. auth_chain_a):" ssr_protocol
+	[[ -z "${ssr_protocol}" ]] && ssr_protocol="5"
 	if [[ ${ssr_protocol} == "1" ]]; then
 		ssr_protocol="origin"
 	elif [[ ${ssr_protocol} == "2" ]]; then
@@ -496,7 +512,7 @@ Set_config_obfs(){
  ${Green_font_prefix}4.${Font_color_suffix} random_head
  ${Green_font_prefix}5.${Font_color_suffix} tls1.2_ticket_auth
   If you choose tls1.2_ticket_auth，then the client can choose tls1.2_ticket_fastauth !" && echo
-	echo -e -p "(Default: 5. tls1.2_ticket_auth):" ssr_obfs
+	read -e -p "(Default: 5. tls1.2_ticket_auth):" ssr_obfs
 	[[ -z "${ssr_obfs}" ]] && ssr_obfs="5"
 	if [[ ${ssr_obfs} == "1" ]]; then
 		ssr_obfs="plain"
@@ -524,8 +540,8 @@ Set_config_protocol_param(){
 	do
 	echo -e "Please enter the number of devices you want to set to limit (${Green_font_prefix} auth_* 系列协议 不兼容原版才有效 ${Font_color_suffix})"
 	echo -e "${Tip} Number of devices limit: the number of clients that can be linked at the same time per port (multi-port mode, each port is calculated independently), the minimum recommended 2."
-	echo -e -p "(Default: unlimited):" ssr_protocol_param
-	[[ -z "$ssr_protocol_param" ]] && ssr_protocol_param="2" && echo && break
+	read -e -p "(Default: unlimited):" ssr_protocol_param
+	[[ -z "$ssr_protocol_param" ]] && ssr_protocol_param="" && echo && break
 	expr ${ssr_protocol_param} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
 		if [[ ${ssr_protocol_param} -ge 1 ]] && [[ ${ssr_protocol_param} -le 9999 ]]; then
@@ -584,7 +600,7 @@ Set_config_transfer(){
 	do
 	echo
 	echo -e "Please enter the total amount of traffic available for the user to set(in GB, 1-838868 GB)"
-	echo -e -p "(Default: unlimited):" ssr_transfer
+	read -e -p "(Default: unlimited):" ssr_transfer
 	[[ -z "$ssr_transfer" ]] && ssr_transfer="838868" && echo && break
 	expr ${ssr_transfer} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -602,7 +618,7 @@ Set_config_transfer(){
 Set_config_forbid(){
 	echo "Forbidden port"
 	echo -e "${Tip} Forbidden Ports: For example, if you do not allow access to port 25, users will not be able to access mail port 25 via the SSR proxy. If 80,443 is disabled then users will not be able to access http / https sites normally."
-	echo -e -p "(Default: allow all):" ssr_forbid
+	read -e -p "(Default: allow all):" ssr_forbid
 	[[ -z "${ssr_forbid}" ]] && ssr_forbid=""
 	echo && echo ${Separator_1} && echo -e "	Forbidden Port : ${Green_font_prefix}${ssr_forbid}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
@@ -627,7 +643,7 @@ Set_config_enable(){
 	done
 	if [[ "${enable}" == "1" ]]; then
 		echo -e "Port [${ssr_port}] The account status is：${Green_font_prefix}Enabled ${Font_color_suffix} , switch to ${Red_font_prefix}Disabled${Font_color_suffix} ?[Y/n]"
-		echo -e -p "(Default: Y):" ssr_enable_yn
+		read -e -p "(Default: Y):" ssr_enable_yn
 		[[ -z "${ssr_enable_yn}" ]] && ssr_enable_yn="y"
 		if [[ "${ssr_enable_yn}" == [Yy] ]]; then
 			ssr_enable="0"
@@ -636,7 +652,7 @@ Set_config_enable(){
 		fi
 	elif [[ "${enable}" == "0" ]]; then
 		echo -e "Port [${ssr_port}] The account status is：${Green_font_prefix}Disabled ${Font_color_suffix} , switch to ${Red_font_prefix}Disabled${Font_color_suffix} ?[Y/n]"
-		echo -e -p "(Default: Y):" ssr_enable_yn
+		read -e -p "(Default: Y):" ssr_enable_yn
 		[[ -z "${ssr_enable_yn}" ]] && ssr_enable_yn = "y"
 		if [[ "${ssr_enable_yn}" == [Yy] ]]; then
 			ssr_enable="1"
@@ -658,7 +674,7 @@ Set_user_api_server_pub_addr(){
 		fi
 	fi
 	echo "Please enter the server IP or domain name to be displayed in the user's configuration (when the server has multiple IPs, you can specify the IP or domain name displayed in the user's configuration)"
-	echo -e -p "(Default: Automatic detection of external network IP):" ssr_server_pub_addr
+	read -e -p "(Default: Automatic detection of external network IP):" ssr_server_pub_addr
 	if [[ -z "${ssr_server_pub_addr}" ]]; then
 		Get_IP
 		if [[ ${ip} == "VPS_IP" ]]; then
@@ -1123,19 +1139,75 @@ Modify_port(){
 }
 Modify_Config(){
 	SSR_installation_status
-	echo && echo -e "apa yang ingin anda lakukan?
+	echo && echo -e "what do you want to do?
  ${Green_font_prefix}1.${Font_color_suffix}  Add User Configuration
  ${Green_font_prefix}2.${Font_color_suffix}  Delete User Configuration
+————— Modify user configuration —————
+ ${Green_font_prefix}3.${Font_color_suffix}  Modify user password
+ ${Green_font_prefix}4.${Font_color_suffix}  Modify the encryption method
+ ${Green_font_prefix}5.${Font_color_suffix}  Modify the protocol
+ ${Green_font_prefix}6.${Font_color_suffix}  Modify obfuscation
+ ${Green_font_prefix}7.${Font_color_suffix}  Modify the device limit
+ ${Green_font_prefix}8.${Font_color_suffix}  Modify the single-thread speed limit
+ ${Green_font_prefix}9.${Font_color_suffix}  Modify user's total speed limit
+ ${Green_font_prefix}10.${Font_color_suffix} Modify user's total traffic
+ ${Green_font_prefix}11.${Font_color_suffix} Modify user's forbidden ports
+ ${Green_font_prefix}12.${Font_color_suffix} Modify the entire configuration
+————— Other —————
+ ${Green_font_prefix}13.${Font_color_suffix} Modify the IP or domain name displayed in the user's profile
  
  ${Tip} User's user name and port can not be modified, if you need to modify, please use the script to manually modify the function !" && echo
-	read -e -p "(1-2):" ssr_modify
-	[[ -z "${ssr_modify}" ]] && echo "Dibatalkan..." && exit 1
+	read -e -p "(Default: cancel):" ssr_modify
+	[[ -z "${ssr_modify}" ]] && echo "已取消..." && exit 1
 	if [[ ${ssr_modify} == "1" ]]; then
 		Add_port_user
 	elif [[ ${ssr_modify} == "2" ]]; then
 		Del_port_user
+	elif [[ ${ssr_modify} == "3" ]]; then
+		Modify_port
+		Set_config_password
+		Modify_config_password
+	elif [[ ${ssr_modify} == "4" ]]; then
+		Modify_port
+		Set_config_method
+		Modify_config_method
+	elif [[ ${ssr_modify} == "5" ]]; then
+		Modify_port
+		Set_config_protocol
+		Modify_config_protocol
+	elif [[ ${ssr_modify} == "6" ]]; then
+		Modify_port
+		Set_config_obfs
+		Modify_config_obfs
+	elif [[ ${ssr_modify} == "7" ]]; then
+		Modify_port
+		Set_config_protocol_param
+		Modify_config_protocol_param
+	elif [[ ${ssr_modify} == "8" ]]; then
+		Modify_port
+		Set_config_speed_limit_per_con
+		Modify_config_speed_limit_per_con
+	elif [[ ${ssr_modify} == "9" ]]; then
+		Modify_port
+		Set_config_speed_limit_per_user
+		Modify_config_speed_limit_per_user
+	elif [[ ${ssr_modify} == "10" ]]; then
+		Modify_port
+		Set_config_transfer
+		Modify_config_transfer
+	elif [[ ${ssr_modify} == "11" ]]; then
+		Modify_port
+		Set_config_forbid
+		Modify_config_forbid
+	elif [[ ${ssr_modify} == "12" ]]; then
+		Modify_port
+		Set_config_all "Modify"
+		Modify_config_all
+	elif [[ ${ssr_modify} == "13" ]]; then
+		Set_user_api_server_pub_addr "Modify"
+		Modify_user_api_server_pub_addr
 	else
-		echo -e "${Error} Please enter the correct number(1-2)" && exit 1
+		echo -e "${Error} Please enter the correct number(1-13)" && exit 1
 	fi
 }
 List_port_user(){
@@ -1174,14 +1246,14 @@ Add_port_user(){
 				Save_iptables
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
 				echo
-				echo -e -p "Continue to add user configuration?[Y/n]:" addyn
+				read -e -p "Continue to add user configuration?[Y/n]:" addyn
 				[[ -z ${addyn} ]] && addyn="y"
 				if [[ ${addyn} == [Nn] ]]; then
 					Get_User_info "${ssr_port}"
 					View_User_info
 					break
 				else
-					echo -e "${Info} berhasil tambahkan konfigurasi pengguna..."
+					echo -e "${Info} 继续 添加用户配置..."
 				fi
 			fi
 		done
@@ -1191,30 +1263,30 @@ Del_port_user(){
 	List_port_user
 	while true
 	do
-		echo -e "Silakan masukkan port pengguna yang akan dihapus"
-		read -e -p "(Default: cancel):" del_user_port
-		[[ -z "${del_user_port}" ]] && echo -e "Dibatalkan..." && exit 1
+		echo -e "请输入要删除的用户 Port"
+		read -e -p "(Default: 取消):" del_user_port
+		[[ -z "${del_user_port}" ]] && echo -e "已取消..." && exit 1
 		del_user=$(cat "${config_user_mudb_file}"|grep '"port": '"${del_user_port}"',')
 		if [[ ! -z ${del_user} ]]; then
 			port=${del_user_port}
 			match_del=$(python mujson_mgr.py -d -p "${del_user_port}"|grep -w "delete user ")
 			if [[ -z "${match_del}" ]]; then
-				echo -e "${Error} Penghapusan pengguna gagal ${Green_font_prefix}[Port: ${del_user_port}]${Font_color_suffix} "
+				echo -e "${Error} 用户删除失败 ${Green_font_prefix}[Port: ${del_user_port}]${Font_color_suffix} "
 			else
 				Del_iptables
 				Save_iptables
-				echo -e "${Info} Pengguna berhasil dihapus ${Green_font_prefix}[Port: ${del_user_port}]${Font_color_suffix} "
+				echo -e "${Info} 用户删除成功 ${Green_font_prefix}[Port: ${del_user_port}]${Font_color_suffix} "
 			fi
 			break
 		else
-			echo -e "${Error} Harap masukkan Port yang benar !"
+			echo -e "${Error} 请输入正确的Port !"
 		fi
 	done
 }
 Manually_Modify_Config(){
 	SSR_installation_status
 	nano ${config_user_mudb_file}
-	echo "Apakah akan memulai ulang ShadowsocksR sekarang？[Y/n]" && echo
+	echo "是否现在重启ShadowsocksR？[Y/n]" && echo
 	read -e -p "(Default: y):" yn
 	[[ -z ${yn} ]] && yn="y"
 	if [[ ${yn} == [Yy] ]]; then
@@ -1718,25 +1790,29 @@ elif [[ "${action}" == "monitor" ]]; then
 	crontab_monitor_ssr
 else
 	echo -e "  ShadowsocksR MuJSON一managment script ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  ---- Benn | Kemaddd ----
+  ---- Toyo | doub.io/ss-jc60 ----
 
   ${Green_font_prefix}1.${Font_color_suffix} Install ShadowsocksR 
   ${Green_font_prefix}2.${Font_color_suffix} Update ShadowsocksR
   ${Green_font_prefix}3.${Font_color_suffix} Uninstall ShadowsocksR
+  ${Green_font_prefix}4.${Font_color_suffix} Install libsodium(chacha20)
 ————————————
-  ${Green_font_prefix}4.${Font_color_suffix} cek informasi akun
-  ${Green_font_prefix}5.${Font_color_suffix} tampilkan informasi koneksi
-  ${Green_font_prefix}6.${Font_color_suffix} Tambah dan hapus user  
+  ${Green_font_prefix}5.${Font_color_suffix} Check the account information
+  ${Green_font_prefix}6.${Font_color_suffix} Display the connection information 
+  ${Green_font_prefix}7.${Font_color_suffix} Add/Modify/Delete user configuration  
+  ${Green_font_prefix}8.${Font_color_suffix} Manually modify user configuration
+  ${Green_font_prefix}9.${Font_color_suffix} Clear the used traffic  
 ————————————
- ${Green_font_prefix}7.${Font_color_suffix} Start ShadowsocksR
- ${Green_font_prefix}8.${Font_color_suffix} Stop ShadowsocksR
- ${Green_font_prefix}8.${Font_color_suffix} Restart ShadowsocksR
- ${Green_font_prefix}9.${Font_color_suffix} Check ShadowsocksR log
+ ${Green_font_prefix}10.${Font_color_suffix} Start ShadowsocksR
+ ${Green_font_prefix}11.${Font_color_suffix} Stop ShadowsocksR
+ ${Green_font_prefix}12.${Font_color_suffix} Restart ShadowsocksR
+ ${Green_font_prefix}13.${Font_color_suffix} Check ShadowsocksR log
 ————————————
- ${Green_font_prefix}10.${Font_color_suffix} Upgrade script 
+ ${Green_font_prefix}14.${Font_color_suffix} Other functions
+ ${Green_font_prefix}15.${Font_color_suffix} Upgrade script 
  "
 	menu_status
-	echo && read -e -p "Please enter the number [1-11]：" num
+	echo && read -e -p "Please enter the number [1-15]：" num
 case "$num" in
 	1)
 	Install_SSR
@@ -1748,30 +1824,39 @@ case "$num" in
 	Uninstall_SSR
 	;;
 	4)
-	View_User
+	Install_Libsodium
 	;;
 	5)
-	View_user_connection_info
+	View_User
 	;;
 	6)
-	Modify_Config
+	View_user_connection_info
 	;;
 	7)
-	Start_SSR
+	Modify_Config
 	;;
 	8)
-	Stop_SSR
+	Manually_Modify_Config
 	;;
 	9)
-	Restart_SSR
+	Clear_transfer
 	;;
 	10)
+	Start_SSR
+	;;
+	11)
+	Stop_SSR
+	;;
+	12)
+	Restart_SSR
+	;;
+	13)
 	View_Log
 	;;
 	14)
 	Other_functions
 	;;
-	11)
+	15)
 	Update_Shell
 	;;
 	*)

@@ -1354,7 +1354,7 @@ Add_acc(){
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
 				echo
 				echo -e -p "Continue to add user configuration?[Y/n]:" addyn
-				[[ -z ${addyn} ]] && addyn="y"
+				[[ -z ${addyn} ]] && addyn="n"
 				if [[ ${addyn} == [Nn] ]]; then
 					Get_User_info "${ssr_port}"
 					View_User_info

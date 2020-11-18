@@ -2,6 +2,15 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
+#=================================================
+#	System Required: CentOS 6+/Debian 6+/Ubuntu 14.04+
+#	Description: Install the ShadowsocksR mudbjson server
+#	Version: 1.0.25
+#	Author: Toyo
+#       Translator: hybtoy 
+#	Blog: https://doub.io/ss-jc60/
+#=================================================
+
 sh_ver="1.0.26"
 filepath=$(cd "$(dirname "$0")"; pwd)
 file=$(echo -e "${filepath}"|awk -F "$0" '{print $1}')
@@ -129,7 +138,7 @@ Get_User_info(){
 	user_info_get=$(python mujson_mgr.py -l -p "${Get_user_port}")
 	match_info=$(echo "${user_info_get}"|grep -w "### user ")
 	if [[ -z "${match_info}" ]]; then
-		echo -e "${Error} Gagal mendapatkan informasi pengguna ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
+		echo -e "${Error} 用户信息获取失败 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
 	fi
 	user_name=$(echo "${user_info_get}"|grep -w "user :"|sed 's/[[:space:]]//g'|awk -F ":" '{print $NF}')
 	port=$(echo "${user_info_get}"|grep -w "port :"|sed 's/[[:space:]]//g'|awk -F ":" '{print $NF}')
@@ -308,7 +317,7 @@ View_User(){
 	do
 		echo -e "Please enter the user port to view the account information"
 		read -e -p "(Default: cancel):" View_user_port
-		[[ -z "${View_user_port}" ]] && echo -e "Dibatalkan..." && exit 1
+		[[ -z "${View_user_port}" ]] && echo -e "已取消..." && exit 1
 		View_user=$(cat "${config_user_mudb_file}"|grep '"port": '"${View_user_port}"',')
 		if [[ ! -z ${View_user} ]]; then
 			Get_User_info "${View_user_port}"
@@ -323,7 +332,7 @@ View_User_info(){
 	ip=$(cat ${config_user_api_file}|grep "SERVER_PUB_ADDR = "|awk -F "[']" '{print $2}')
 	[[ -z "${ip}" ]] && Get_IP
 	ss_ssr_determine
-	clear && echo "===========================================================" && echo
+	clear && echo "===================================================" && echo
 	echo -e " User [${user_name}] configuration info：" && echo
 	echo -e " IP : ${Green_font_prefix}${ip}${Font_color_suffix}"
 	echo -e " Port : ${Green_font_prefix}${port}${Font_color_suffix}"
@@ -343,20 +352,14 @@ View_User_info(){
 	echo -e "${ssr_link}"
 	echo -e " ${Green_font_prefix} Note: ${Font_color_suffix}
  In the browser, open the QR code link, you can see the QR code image."
- 	echo && echo "=========================By Kemaddd=========================="
+ 	echo && echo "=====================By kemadddd=============================="
 }
 # 设置 配置信息
-Set_config_password(){
-	echo "Please enter the user password you want to set"
-	read -e -p "" ssr_password
-	[[ -z "${ssr_password}" ]] && ssr_password=""
-	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
-}
 Set_config_port(){
 	while true
 	do
 	echo -e "Please enter the user port to be set"
-	echo -e -p "(tambah port (bebas):" ssr_port
+	echo -e -p "(Default: 2333):" ssr_port
 	[[ -z "$ssr_port" ]] && ssr_port="1-65535"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -370,6 +373,13 @@ Set_config_port(){
 		echo -e "${Error} Please enter the correct number(1-65535)"
 	fi
 	done
+}
+Set_config_password(){
+	echo "Please enter the user password you want to set"
+	echo -e -p "(Default: doub.io):" ssr_password
+	[[ -z "${ssr_password}" ]] && ssr_password="doub.io"
+	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
+}
 Set_config_method(){
 	echo -e "Please select the user encryption method you want to set
  ${Green_font_prefix} 1.${Font_color_suffix} none
@@ -396,7 +406,7 @@ Set_config_method(){
  ${Red_font_prefix}17.${Font_color_suffix} xsalsa20
  ${Red_font_prefix}18.${Font_color_suffix} xchacha20
  ${Tip} For salsa20/chacha20-*, please install libsodium" && echo
-	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_method
+	echo -e -p "(Default: 5. aes-128-ctr):" ssr_method
 	[[ -z "${ssr_method}" ]] && ssr_method="16"
 	if [[ ${ssr_method} == "1" ]]; then
 		ssr_method="none"
@@ -435,7 +445,7 @@ Set_config_method(){
 	elif [[ ${ssr_method} == "18" ]]; then
 		ssr_method="xchacha20"
 	else
-		ssr_method="chacha20-ietf"
+		ssr_method="aes-128-ctr"
 	fi
 	echo && echo ${Separator_1} && echo -e "	Encryption: ${Green_font_prefix}${ssr_method}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
@@ -453,7 +463,7 @@ Set_config_protocol(){
  ${Red_font_prefix}9.${Font_color_suffix} auth_chain_e
  ${Red_font_prefix}10.${Font_color_suffix} auth_chain_f
  ${Tip} If you select auth_chain_* series protocol, it is recommended to set encryption method to none" && echo
-	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_protocol
+	echo -e -p "(Default: 5. auth_chain_a):" ssr_protocol
 	[[ -z "${ssr_protocol}" ]] && ssr_protocol="1"
 	if [[ ${ssr_protocol} == "1" ]]; then
 		ssr_protocol="origin"
@@ -476,7 +486,7 @@ Set_config_protocol(){
 	elif [[ ${ssr_protocol} == "10" ]]; then
 		ssr_protocol="auth_chain_f"
 	else
-		ssr_protocol="origin"
+		ssr_protocol="auth_chain_a"
 	fi
 	echo && echo ${Separator_1} && echo -e "	Protocol : ${Green_font_prefix}${ssr_protocol}${Font_color_suffix}" && echo ${Separator_1} && echo
 	if [[ ${ssr_protocol} != "origin" ]]; then
@@ -496,7 +506,7 @@ Set_config_obfs(){
  ${Green_font_prefix}4.${Font_color_suffix} random_head
  ${Green_font_prefix}5.${Font_color_suffix} tls1.2_ticket_auth
   If you choose tls1.2_ticket_auth，then the client can choose tls1.2_ticket_fastauth !" && echo
-	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_obfs
+	echo -e -p "(Default: 5. tls1.2_ticket_auth):" ssr_obfs
 	[[ -z "${ssr_obfs}" ]] && ssr_obfs="5"
 	if [[ ${ssr_obfs} == "1" ]]; then
 		ssr_obfs="plain"
@@ -522,10 +532,9 @@ Set_config_obfs(){
 Set_config_protocol_param(){
 	while true
 	do
-	echo -e "Please enter the number of devices you want to set to limit (${Green_font_prefix} auth_* 
-	${Font_color_suffix})"
+	echo -e "Please enter the number of devices you want to set to limit (${Green_font_prefix} auth_* 系列协议 不兼容原版才有效 ${Font_color_suffix})"
 	echo -e "${Tip} Number of devices limit: the number of clients that can be linked at the same time per port (multi-port mode, each port is calculated independently), the minimum recommended 2."
-	echo -e -p "(TEKAN ANGKA 1):" ssr_protocol_param
+	echo -e -p "(Default: unlimited):" ssr_protocol_param
 	[[ -z "$ssr_protocol_param" ]] && ssr_protocol_param="2" && echo && break
 	expr ${ssr_protocol_param} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -544,7 +553,7 @@ Set_config_speed_limit_per_con(){
 	while true
 	do
 	echo -e "Please enter the user's single-thread limit to be set(in KB/S)"
-	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_speed_limit_per_con
+	read -e -p "(Default: unlimited):" ssr_speed_limit_per_con
 	[[ -z "$ssr_speed_limit_per_con" ]] && ssr_speed_limit_per_con=0 && echo && break
 	expr ${ssr_speed_limit_per_con} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -565,7 +574,7 @@ Set_config_speed_limit_per_user(){
 	echo
 	echo -e "Please enter the maximum user speed limit you want to set(in KB/S)"
 	echo -e "${Tip} Total port speed limit: the overall speed limit of a single port."
-	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_speed_limit_per_user
+	read -e -p "(Default: unlimited):" ssr_speed_limit_per_user
 	[[ -z "$ssr_speed_limit_per_user" ]] && ssr_speed_limit_per_user=0 && echo && break
 	expr ${ssr_speed_limit_per_user} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -585,7 +594,7 @@ Set_config_transfer(){
 	do
 	echo
 	echo -e "Please enter the total amount of traffic available for the user to set(in GB, 1-838868 GB)"
-	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_transfer
+	echo -e -p "(Default: unlimited):" ssr_transfer
 	[[ -z "$ssr_transfer" ]] && ssr_transfer="838868" && echo && break
 	expr ${ssr_transfer} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -603,7 +612,7 @@ Set_config_transfer(){
 Set_config_forbid(){
 	echo "Forbidden port"
 	echo -e "${Tip} Forbidden Ports: For example, if you do not allow access to port 25, users will not be able to access mail port 25 via the SSR proxy. If 80,443 is disabled then users will not be able to access http / https sites normally."
-	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_forbid
+	echo -e -p "(Default: allow all):" ssr_forbid
 	[[ -z "${ssr_forbid}" ]] && ssr_forbid=""
 	echo && echo ${Separator_1} && echo -e "	Forbidden Port : ${Green_font_prefix}${ssr_forbid}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
@@ -645,7 +654,7 @@ Set_config_enable(){
 			echo "取消..." && exit 0
 		fi
 	else
-		echo -e "${Error} Status nonaktif port saat ini tidak normal[${enable}] !" && exit 1
+		echo -e "${Error} 当前Port的禁用状态异常[${enable}] !" && exit 1
 	fi
 }
 Set_user_api_server_pub_addr(){
@@ -653,13 +662,13 @@ Set_user_api_server_pub_addr(){
 	if [[ "${addr}" == "Modify" ]]; then
 		server_pub_addr=$(cat ${config_user_api_file}|grep "SERVER_PUB_ADDR = "|awk -F "[']" '{print $2}')
 		if [[ -z ${server_pub_addr} ]]; then
-			echo -e "${Error} Gagal mendapatkan IP server atau nama domain yang saat ini dikonfigurasi！" && exit 1
+			echo -e "${Error} 获取当前配置的 服务器IP或域名失败！" && exit 1
 		else
-			echo -e "${Info} IP server atau nama domain yang saat ini dikonfigurasi： ${Green_font_prefix}${server_pub_addr}${Font_color_suffix}"
+			echo -e "${Info} 当前配置的服务器IP或域名为： ${Green_font_prefix}${server_pub_addr}${Font_color_suffix}"
 		fi
 	fi
 	echo "Please enter the server IP or domain name to be displayed in the user's configuration (when the server has multiple IPs, you can specify the IP or domain name displayed in the user's configuration)"
-	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_server_pub_addr
+	echo -e -p "(Default: Automatic detection of external network IP):" ssr_server_pub_addr
 	if [[ -z "${ssr_server_pub_addr}" ]]; then
 		Get_IP
 		if [[ ${ip} == "VPS_IP" ]]; then
@@ -704,7 +713,7 @@ Set_config_all(){
 		Set_config_forbid
 	fi
 }
-# Ubah informasi konfigurasi
+# 修改 配置信息
 Modify_config_password(){
 	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -k "${ssr_password}"|grep -w "edit user ")
 	if [[ -z "${match_edit}" ]]; then
@@ -848,7 +857,7 @@ Download_SSR(){
 }
 Service_SSR(){
 	if [[ ${release} = "centos" ]]; then
-		if ! wget --no-check-certificate https://raw.githubusercontent.com/benkemad/benninstall/master/ssrmu_centos -O /etc/init.d/ssrmu; then
+		if ! wget --no-check-certificate https://raw.githubusercontent.com/hybtoy/ssrrmu/master/ssrmu_centos -O /etc/init.d/ssrmu; then
 			echo -e "${Error} ShadowsocksR服务 管理脚本下载失败 !" && exit 1
 		fi
 		chmod +x /etc/init.d/ssrmu
@@ -901,27 +910,27 @@ Installation_dependency(){
 }
 Install_SSR(){
 	check_root
-	[[ -e ${ssr_folder} ]] && echo -e "${Error} Folder ShadowsocksR sudah ada, silahkan di cek (jika instalasi gagal atau ada versi lama silahkan uninstall terlebih dahulu)!" && exit 1
-	echo -e "${Info} Mulai mengatur konfigurasi akun ShadowsocksR..."
+	[[ -e ${ssr_folder} ]] && echo -e "${Error} ShadowsocksR 文件夹已存在，请检查( 如安装失败或者存在旧版本，请先卸载 ) !" && exit 1
+	echo -e "${Info} 开始设置 ShadowsocksR账号配置..."
 	Set_user_api_server_pub_addr
 	Set_config_all
-	echo -e "${Info} Mulai menginstal / mengkonfigurasi dependensi ShadowsocksR..."
+	echo -e "${Info} 开始安装/配置 ShadowsocksR依赖..."
 	Installation_dependency
-	echo -e "${Info} Mulai mengunduh / menginstal file ShadowsocksR..."
+	echo -e "${Info} 开始下载/安装 ShadowsocksR文件..."
 	Download_SSR
-	echo -e "${Info} Mulai mengunduh / menginstal skrip layanan ShadowsocksR(init)..."
+	echo -e "${Info} 开始下载/安装 ShadowsocksR服务脚本(init)..."
 	Service_SSR
-	echo -e "${Info} Mulai unduh / instal parser JSNO JQ..."
+	echo -e "${Info} 开始下载/安装 JSNO解析器 JQ..."
 	JQ_install
-	echo -e "${Info} Mulai tambahkan pengguna awal..."
+	echo -e "${Info} 开始添加初始用户..."
 	Add_port_user "install"
-	echo -e "${Info} Mulai siapkan firewall iptables..."
+	echo -e "${Info} 开始设置 iptables防火墙..."
 	Set_iptables
-	echo -e "${Info} Mulai tambahkan aturan firewall iptables..."
+	echo -e "${Info} 开始添加 iptables防火墙规则..."
 	Add_iptables
-	echo -e "${Info} Mulai simpan aturan firewall iptables..."
+	echo -e "${Info} 开始保存 iptables防火墙规则..."
 	Save_iptables
-	echo -e "${Info} Semua langkah diinstal, mulai server ShadowsocksR..."
+	echo -e "${Info} 所有步骤 安装完毕，开始启动 ShadowsocksR服务端..."
 	Start_SSR
 	Get_User_info "${ssr_port}"
 	View_User_info
@@ -934,8 +943,8 @@ Update_SSR(){
 	Restart_SSR
 }
 Uninstall_SSR(){
-	[[ ! -e ${ssr_folder} ]] && echo -e "${Error} ShadowsocksR tidak diinstal, harap periksa !" && exit 1
-	echo "Apakah Anda yakin ingin menghapus ShadowsocksR？[y/N]" && echo
+	[[ ! -e ${ssr_folder} ]] && echo -e "${Error} 没有安装 ShadowsocksR，请检查 !" && exit 1
+	echo "确定要 卸载ShadowsocksR？[y/N]" && echo
 	read -e -p "(Default: n):" unyn
 	[[ -z ${unyn} ]] && unyn="n"
 	if [[ ${unyn} == [Yy] ]]; then
@@ -958,7 +967,7 @@ Uninstall_SSR(){
 		rm -rf ${ssr_folder} && rm -rf /etc/init.d/ssrmu
 		echo && echo " ShadowsocksR 卸载完成 !" && echo
 	else
-		echo && echo " Uninstal dibatalkan..." && echo
+		echo && echo " 卸载已取消..." && echo
 	fi
 }
 Check_Libsodium_ver(){
@@ -1006,12 +1015,12 @@ Install_Libsodium(){
 	[[ ! -e ${Libsodiumr_file} ]] && echo -e "${Error} Libsodium installation failed !" && exit 1
 	echo && echo -e "${Info} Libsodium installed successfully !" && echo
 }
-# Tampilkan informasi koneksi
+# 显示 连接信息
 debian_View_user_connection_info(){
 	format_1=$1
 	user_info=$(python mujson_mgr.py -l)
 	user_total=$(echo "${user_info}"|wc -l)
-	[[ -z ${user_info} ]] && echo -e "${Error} Tidak ada pengguna yang ditemukan, harap periksa !" && exit 1
+	[[ -z ${user_info} ]] && echo -e "${Error} 没有发现 用户，请检查 !" && exit 1
 	IP_total=`netstat -anp |grep 'ESTABLISHED' |grep 'python' |grep 'tcp6' |awk '{print $5}' |awk -F ":" '{print $1}' |sort -u |wc -l`
 	user_list_all=""
 	for((integer = 1; integer <= ${user_total}; integer++))
@@ -1125,65 +1134,18 @@ Modify_port(){
 Modify_Config(){
 	SSR_installation_status
 	echo && echo -e "apa yang ingin anda lakukan?
- ${Green_font_prefix}1.${Font_color_suffix}  Tambah user
- ${Green_font_prefix}2.${Font_color_suffix}  Hapus user
-————— Other —————
- ${Green_font_prefix}13.${Font_color_suffix} Ubah IP atau nama domain yang ditampilkan di profil pengguna
- 
- ${Green_font_prefix}.${Font_color_suffix} --Benn-Kemadd--
+ ${Green_font_prefix}1.${Font_color_suffix}  Add User Configuration
+ ${Green_font_prefix}2.${Font_color_suffix}  Delete User Configuration
  
  ${Tip} User's user name and port can not be modified, if you need to modify, please use the script to manually modify the function !" && echo
-	read -e -p "(Default: cancel):" ssr_modify
-	[[ -z "${ssr_modify}" ]] && echo "已取消..." && exit 1
+	read -e -p "(1-2):" ssr_modify
+	[[ -z "${ssr_modify}" ]] && echo "Dibatalkan..." && exit 1
 	if [[ ${ssr_modify} == "1" ]]; then
 		Add_port_user
 	elif [[ ${ssr_modify} == "2" ]]; then
 		Del_port_user
-	elif [[ ${ssr_modify} == "13" ]]; then
-		Modify_port
-		Set_config_password
-		Modify_config_password
-	elif [[ ${ssr_modify} == "4" ]]; then
-		Modify_port
-		Set_config_method
-		Modify_config_method
-	elif [[ ${ssr_modify} == "5" ]]; then
-		Modify_port
-		Set_config_protocol
-		Modify_config_protocol
-	elif [[ ${ssr_modify} == "6" ]]; then
-		Modify_port
-		Set_config_obfs
-		Modify_config_obfs
-	elif [[ ${ssr_modify} == "7" ]]; then
-		Modify_port
-		Set_config_protocol_param
-		Modify_config_protocol_param
-	elif [[ ${ssr_modify} == "8" ]]; then
-		Modify_port
-		Set_config_speed_limit_per_con
-		Modify_config_speed_limit_per_con
-	elif [[ ${ssr_modify} == "9" ]]; then
-		Modify_port
-		Set_config_speed_limit_per_user
-		Modify_config_speed_limit_per_user
-	elif [[ ${ssr_modify} == "10" ]]; then
-		Modify_port
-		Set_config_transfer
-		Modify_config_transfer
-	elif [[ ${ssr_modify} == "11" ]]; then
-		Modify_port
-		Set_config_forbid
-		Modify_config_forbid
-	elif [[ ${ssr_modify} == "12" ]]; then
-		Modify_port
-		Set_config_all "Modify"
-		Modify_config_all
-	elif [[ ${ssr_modify} == "3" ]]; then
-		Set_user_api_server_pub_addr "Modify"
-		Modify_user_api_server_pub_addr
 	else
-		echo -e "${Error} Please enter the correct number(1-3)" && exit 1
+		echo -e "${Error} Please enter the correct number(1-2)" && exit 1
 	fi
 }
 List_port_user(){
@@ -1222,26 +1184,25 @@ Add_port_user(){
 				Save_iptables
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
 				echo
-				echo -e -p "KLIK ENTER[n]:" addyn
-				[[ -z ${addyn} ]] && addyn="n"
+				echo -e -p "Continue to add user configuration?[Y/n]:" addyn
+				[[ -z ${addyn} ]] && addyn="y"
 				if [[ ${addyn} == [Nn] ]]; then
 					Get_User_info "${ssr_port}"
 					View_User_info
 					break
 				else
-					echo -e "${Info} tambahkan konfigurasi pengguna..."
+					echo -e "${Info} berhasil tambahkan konfigurasi pengguna..."
 				fi
 			fi
 		done
 	fi
 }
-
 Del_port_user(){
 	List_port_user
 	while true
 	do
 		echo -e "Silakan masukkan port pengguna yang akan dihapus"
-		read -e -p "(Default: Cancel):" del_user_port
+		read -e -p "(Default: cancel):" del_user_port
 		[[ -z "${del_user_port}" ]] && echo -e "Dibatalkan..." && exit 1
 		del_user=$(cat "${config_user_mudb_file}"|grep '"port": '"${del_user_port}"',')
 		if [[ ! -z ${del_user} ]]; then
@@ -1263,7 +1224,7 @@ Del_port_user(){
 Manually_Modify_Config(){
 	SSR_installation_status
 	nano ${config_user_mudb_file}
-	echo "是否现在重启ShadowsocksR？[Y/n]" && echo
+	echo "Apakah akan memulai ulang ShadowsocksR sekarang？[Y/n]" && echo
 	read -e -p "(Default: y):" yn
 	[[ -z ${yn} ]] && yn="y"
 	if [[ ${yn} == [Yy] ]]; then
@@ -1716,15 +1677,15 @@ crontab_monitor_ssr_cron_stop(){
 	rm -r "$file/crontab.bak"
 	cron_config=$(crontab -l | grep "ssrmu.sh monitor")
 	if [[ ! -z ${cron_config} ]]; then
-		echo -e "${Error} Server ShadowsocksR yang menjalankan fungsi pemantauan status gagal !" && exit 1
+		echo -e "${Error} ShadowsocksR服务端运行状态监控功能 停止失败 !" && exit 1
 	else
-		echo -e "${Info} Server ShadowsocksR yang menjalankan fungsi pemantauan status berhasil dihentikan !"
+		echo -e "${Info} ShadowsocksR服务端运行状态监控功能 停止成功 !"
 	fi
 }
 Update_Shell(){
 	echo -e "当前版本为 [ ${sh_ver} ]，开始检测最新版本..."
-	sh_new_ver=$(wget --no-check-certificate -qO- "https://raw.githubusercontent.com/benkemad/benninstall/master/ssr.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1) && sh_new_type="github"
-	[[ -z ${sh_new_ver} ]] && sh_new_ver=$(wget --no-check-certificate -qO- "https://raw.githubusercontent.com/benkemad/benninstall/master/ssr.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1) && sh_new_type="github"
+	sh_new_ver=$(wget --no-check-certificate -qO- "https://raw.githubusercontent.com/hybtoy/ssrrmu/master/ssrrmu.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1) && sh_new_type="github"
+	[[ -z ${sh_new_ver} ]] && sh_new_ver=$(wget --no-check-certificate -qO- "https://raw.githubusercontent.com/hybtoy/ssrrmu/master/ssrrmu.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1) && sh_new_type="github"
 	[[ -z ${sh_new_ver} ]] && echo -e "${Error} 检测最新版本失败 !" && exit 0
 	if [[ ${sh_new_ver} != ${sh_ver} ]]; then
 		echo -e "发现新版本[ ${sh_new_ver} ]，是否更新？[Y/n]"
@@ -1733,7 +1694,7 @@ Update_Shell(){
 		if [[ ${yn} == [Yy] ]]; then
 			cd "${file}"
 			if [[ $sh_new_type == "github" ]]; then
-				wget -N --no-check-certificate https://raw.githubusercontent.com/benkemad/benninstall/master/ssr.sh && chmod +x ssr.sh
+				wget -N --no-check-certificate https://raw.githubusercontent.com/hybtoy/ssrrmu/master/ssrrmu.sh && chmod +x ssrrmu.sh
 			fi
 			echo -e "脚本已更新为最新版本[ ${sh_new_ver} ] !"
 		else
@@ -1744,7 +1705,7 @@ Update_Shell(){
 	fi
 	exit 0
 }
-# Menampilkan status menu
+# 显示 菜单状态
 menu_status(){
 	if [[ -e ${ssr_folder} ]]; then
 		check_pid
@@ -1766,24 +1727,23 @@ if [[ "${action}" == "clearall" ]]; then
 elif [[ "${action}" == "monitor" ]]; then
 	crontab_monitor_ssr
 else
-	echo -e "  ShadowsocksR script ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  ---- Benn  |  Kemadddd  ----
+	echo -e "  ShadowsocksR MuJSON一managment script ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
+  ---- Benn | Kemaddd ----
+
   ${Green_font_prefix}1.${Font_color_suffix} Install ShadowsocksR 
   ${Green_font_prefix}2.${Font_color_suffix} Update ShadowsocksR
   ${Green_font_prefix}3.${Font_color_suffix} Uninstall ShadowsocksR
 ————————————
   ${Green_font_prefix}4.${Font_color_suffix} cek informasi akun
   ${Green_font_prefix}5.${Font_color_suffix} tampilkan informasi koneksi
-  ${Green_font_prefix}6.${Font_color_suffix} tambah dan hapus user 
+  ${Green_font_prefix}6.${Font_color_suffix} Tambah dan hapus user  
 ————————————
  ${Green_font_prefix}7.${Font_color_suffix} Start ShadowsocksR
  ${Green_font_prefix}8.${Font_color_suffix} Stop ShadowsocksR
- ${Green_font_prefix}9.${Font_color_suffix} Restart ShadowsocksR
- ${Green_font_prefix}10.${Font_color_suffix} Check ShadowsocksR log
+ ${Green_font_prefix}8.${Font_color_suffix} Restart ShadowsocksR
+ ${Green_font_prefix}9.${Font_color_suffix} Check ShadowsocksR log
 ————————————
- ${Green_font_prefix}11.${Font_color_suffix} Upgrade script 
- 
- ${Green_font_prefix}.${Font_color_suffix} --bennKemad--
+ ${Green_font_prefix}10.${Font_color_suffix} Upgrade script 
  "
 	menu_status
 	echo && read -e -p "Please enter the number [1-11]：" num
@@ -1797,9 +1757,6 @@ case "$num" in
 	3)
 	Uninstall_SSR
 	;;
-	70)
-	Install_Libsodium
-	;;
 	4)
 	View_User
 	;;
@@ -1808,12 +1765,6 @@ case "$num" in
 	;;
 	6)
 	Modify_Config
-	;;
-	99)
-	Manually_Modify_Config
-	;;
-	900)
-	Clear_transfer
 	;;
 	7)
 	Start_SSR
@@ -1827,14 +1778,14 @@ case "$num" in
 	10)
 	View_Log
 	;;
-	222)
+	14)
 	Other_functions
 	;;
 	11)
 	Update_Shell
 	;;
 	*)
-	echo -e "${Error} Please enter the correct number [1-11]"
+	echo -e "${Error} Please enter the correct number [1-15]"
 	;;
 esac
 fi

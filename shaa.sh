@@ -1160,7 +1160,7 @@ Modify_Config(){
 	read -e -p "(Default: cancel):" ssr_modify
 	[[ -z "${ssr_modify}" ]] && echo "已取消..." && exit 1
 	if [[ ${ssr_modify} == "1" ]]; then
-		Add_port_user
+		Add_user_ssr
 	elif [[ ${ssr_modify} == "2" ]]; then
 		Del_port_user
 	elif [[ ${ssr_modify} == "3" ]]; then
@@ -1208,6 +1208,112 @@ Modify_Config(){
 		Modify_user_api_server_pub_addr
 	else
 		echo -e "${Error} Please enter the correct number(1-13)" && exit 1
+	fi
+}
+Add_user_ssr(){
+	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
+	read -e -p "(Username):" ssr_user
+	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
+}
+Set_config_port(){
+lastport=$(cat /usr/local/shadowsocksr/mudb.json | grep '"port": ' | tail -n1 | awk '{print $2}' | cut -d "," -f 1 | cut -d ":" -f 1 )
+ssr_port=$((lastport+1))
+}
+Set_config_password(){
+ssr_password="$ssr_user"
+}
+Set_config_method(){
+ssr_method="chacha20-ietf"
+}
+Set_config_protocol(){
+ssr_protocol="origin"
+}
+Set_config_obfs(){
+ssr_obfs="tls1.2_ticket_auth_compatible"
+}
+Set_config_protocol_param(){
+ssr_protocol_param="2"
+}
+Set_config_speed_limit_per_con(){
+ssr_speed_limit_per_con="0"
+}
+Set_config_speed_limit_per_user(){
+ssr_speed_limit_per_user="0"
+}
+Set_config_transfer(){
+ssr_transfer="838868"
+}
+Set_config_forbid(){
+ssr_forbid=""
+}
+Set_config_enable(){
+	user_total=$(expr ${user_total} - 1)
+	for((integer = 0; integer <= ${user_total}; integer++))
+	do
+		echo -e "integer=${integer}"
+		port_jq=$(${jq_file} ".[${integer}].port" "${config_user_mudb_file}")
+		echo -e "port_jq=${port_jq}"
+		if [[ "${ssr_port}" == "${port_jq}" ]]; then
+			enable=$(${jq_file} ".[${integer}].enable" "${config_user_mudb_file}")
+			echo -e "enable=${enable}"
+			[[ "${enable}" == "null" ]] && echo -e "${Error} Get the current port[${ssr_port}]的禁用状态失败 !" && exit 1
+			ssr_port_num=$(cat "${config_user_mudb_file}"|grep -n '"port": '${ssr_port}','|awk -F ":" '{print $1}')
+			echo -e "ssr_port_num=${ssr_port_num}"
+			[[ "${ssr_port_num}" == "null" ]] && echo -e "${Error} 获取当前Port[${ssr_port}]的行数失败 !" && exit 1
+			ssr_enable_num=$(expr ${ssr_port_num} - 5)
+			echo -e "ssr_enable_num=${ssr_enable_num}"
+			break
+		fi
+	done
+	if [[ "${enable}" == "1" ]]; then
+		echo -e "Port [${ssr_port}] The account status is：${Green_font_prefix}Enabled ${Font_color_suffix} , switch to ${Red_font_prefix}Disabled${Font_color_suffix} ?[Y/n]"
+		echo -e -p "(Default: Y):" ssr_enable_yn
+		[[ -z "${ssr_enable_yn}" ]] && ssr_enable_yn="y"
+		if [[ "${ssr_enable_yn}" == [Yy] ]]; then
+			ssr_enable="0"
+		else
+			echo "Cancel..." && exit 0
+		fi
+	elif [[ "${enable}" == "0" ]]; then
+		echo -e "Port [${ssr_port}] The account status is：${Green_font_prefix}Disabled ${Font_color_suffix} , switch to ${Red_font_prefix}Disabled${Font_color_suffix} ?[Y/n]"
+		read -e -p "(Default: Y):" ssr_enable_yn
+		[[ -z "${ssr_enable_yn}" ]] && ssr_enable_yn = "y"
+		if [[ "${ssr_enable_yn}" == [Yy] ]]; then
+			ssr_enable="1"
+		else
+			echo "取消..." && exit 0
+		fi
+	else
+		echo -e "${Error} 当前Port的禁用状态异常[${enable}] !" && exit 1
+	fi
+}
+Set_user_api_server_pub_addr(){
+ssr_server_pub_addr="${ip}"
+}
+Set_config_all(){
+	lal=$1
+	if [[ "${lal}" == "Modify" ]]; then
+		Set_config_password
+		Set_config_method
+		Set_config_protocol
+		Set_config_obfs
+		Set_config_protocol_param
+		Set_config_speed_limit_per_con
+		Set_config_speed_limit_per_user
+		Set_config_transfer
+		Set_config_forbid
+	else
+		Set_config_user
+		Set_config_port
+		Set_config_password
+		Set_config_method
+		Set_config_protocol
+		Set_config_obfs
+		Set_config_protocol_param
+		Set_config_speed_limit_per_con
+		Set_config_speed_limit_per_user
+		Set_config_transfer
+		Set_config_forbid
 	fi
 }
 List_port_user(){

@@ -377,7 +377,7 @@ Set_config_port(){
 	done
 }
 Set_config_method(){
-	echo -e "Please select the user encryption method you want to set"
+	echo -e "Please select the user encryption method you want to set
 	
  ${Green_font_prefix}16.${Font_color_suffix} chacha20-ietf
  
@@ -426,9 +426,8 @@ Set_config_method(){
 	echo && echo ${Separator_1} && echo -e "	Encryption: ${Green_font_prefix}${ssr_method}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_protocol(){
-	echo -e "Please, select the protocol"
+	echo -e "Please, select the protocol
  ${Green_font_prefix}1.${Font_color_suffix} origin
-
  ${Tip} If you select auth_chain_* series protocol, it is recommended to set encryption method to none" && echo
 	echo -e -p "(Default: 5. auth_chain_a):" ssr_protocol
 	[[ -z "${ssr_protocol}" ]] && ssr_protocol="1"

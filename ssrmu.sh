@@ -356,7 +356,7 @@ View_User_info(){
 }
 # 设置 配置信息
 Set_config_user(){
-lalal=$1
+        lalal=$1
 	if [[ "$lalal" == "install" ]]; then
 		match_add=$(python mujson_mgr.py -a -u "${ssr_user}" -p "${ssr_port}" -k "${ssr_password}" -m "${ssr_method}" -O "${ssr_protocol}" -G "${ssr_protocol_param}" -o "${ssr_obfs}" -s "${ssr_speed_limit_per_con}" -S "${ssr_speed_limit_per_user}" -t "${ssr_transfer}" -f "${ssr_forbid}"|grep -w "add user info")
 	else

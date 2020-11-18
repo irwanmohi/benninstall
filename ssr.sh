@@ -333,7 +333,6 @@ View_User_info(){
 	[[ -z "${ip}" ]] && Get_IP
 	ss_ssr_determine
 	clear && echo "===================================================" && echo
-	echo -e " User [${user_name}] configuration info：" && echo
 	echo -e " IP : ${Green_font_prefix}${ip}${Font_color_suffix}"
 	echo -e " Port : ${Green_font_prefix}${port}${Font_color_suffix}"
 	echo -e " Password : ${Green_font_prefix}${password}${Font_color_suffix}"
@@ -523,7 +522,7 @@ Set_config_obfs(){
 	fi
 	echo && echo ${Separator_1} && echo -e "	obfs : ${Green_font_prefix}${ssr_obfs}${Font_color_suffix}" && echo ${Separator_1} && echo
 	if [[ ${ssr_obfs} != "plain" ]]; then
-			read -e -p "Set protocol plug-in to compatible mode(_compatible)?[Y/n]" ssr_obfs_yn
+			echo -e -p "Set protocol plug-in to compatible mode(_compatible)?[Y/n]" ssr_obfs_yn
 			[[ -z "${ssr_obfs_yn}" ]] && ssr_obfs_yn="y"
 			[[ $ssr_obfs_yn == [Yy] ]] && ssr_obfs=${ssr_obfs}"_compatible"
 			echo
@@ -668,7 +667,7 @@ Set_user_api_server_pub_addr(){
 		fi
 	fi
 	echo "Please enter the server IP or domain name to be displayed in the user's configuration (when the server has multiple IPs, you can specify the IP or domain name displayed in the user's configuration)"
-	read -e -p "(Default: Automatic detection of external network IP):" ssr_server_pub_addr
+	echo -e -p "(Default: Automatic detection of external network IP):" ssr_server_pub_addr
 	if [[ -z "${ssr_server_pub_addr}" ]]; then
 		Get_IP
 		if [[ ${ip} == "VPS_IP" ]]; then
@@ -676,7 +675,7 @@ Set_user_api_server_pub_addr(){
 			do
 			read -e -p "${Error} Automatic detection of external network IP failed, please manually enter the server IP or domain name" ssr_server_pub_addr
 			if [[ -z "$ssr_server_pub_addr" ]]; then
-				echo -e "${Error} 不能为空！"
+				echo -e "${Error} Tidak boleh kosong！"
 			else
 				break
 			fi
@@ -1245,7 +1244,7 @@ Del_port_user(){
 	while true
 	do
 		echo -e "Silakan masukkan port pengguna yang akan dihapus"
-		read -e -p "(Default: 取消):" del_user_port
+		read -e -p "(Default: cancel):" del_user_port
 		[[ -z "${del_user_port}" ]] && echo -e "Dibatalkan..." && exit 1
 		del_user=$(cat "${config_user_mudb_file}"|grep '"port": '"${del_user_port}"',')
 		if [[ ! -z ${del_user} ]]; then
@@ -1777,9 +1776,9 @@ else
   ${Green_font_prefix}2.${Font_color_suffix} Update ShadowsocksR
   ${Green_font_prefix}3.${Font_color_suffix} Uninstall ShadowsocksR
 ————————————
-  ${Green_font_prefix}4.${Font_color_suffix} Check the account information
-  ${Green_font_prefix}5.${Font_color_suffix} Display the connection information 
-  ${Green_font_prefix}6.${Font_color_suffix} Add/Modify/Delete user configuration  
+  ${Green_font_prefix}4.${Font_color_suffix} cek informasi akun
+  ${Green_font_prefix}5.${Font_color_suffix} tampilkan informasi koneksi 
+  ${Green_font_prefix}6.${Font_color_suffix} menambah dan menghapus user  
 ————————————
  ${Green_font_prefix}7.${Font_color_suffix} Start ShadowsocksR
  ${Green_font_prefix}8.${Font_color_suffix} Stop ShadowsocksR

@@ -348,7 +348,7 @@ View_User_info(){
 # 设置 配置信息
 Set_config_user(){
 	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
-	read -e -p "(masukkan username):" ssr_user
+	echo -e -p "(masukkan username):" ssr_user
 	[[ -z "${ssr_user}" ]] && ssr_user="doubi"
 	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
@@ -356,7 +356,7 @@ Set_config_port(){
 	while true
 	do
 	echo -e "Please enter the user port to be set"
-	read -e -p "(tambah port (bebas):" ssr_port
+	echo -e -p "(tambah port (bebas):" ssr_port
 	[[ -z "$ssr_port" ]] && ssr_port="2333"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then

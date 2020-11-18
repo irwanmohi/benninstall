@@ -831,9 +831,6 @@ wget -O /etc/issue.net "https://raw.githubusercontent.com/benkemad/benninstall/m
 sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
-# install WireGuard
-wget https://git.io/wireguard -O wireguard-install.sh && bash wireguard-install.sh
-
 # download script
 cd /usr/bin
 wget -O perpanjang "https://raw.githubusercontent.com/benkemad/benninstall/master/perpanjang.sh"

@@ -357,7 +357,7 @@ Set_config_port(){
 	do
 	echo -e "Please enter the user port to be set"
 	echo -e -p "(tambah port (bebas):" ssr_port
-	[[ -z "$ssr_port" ]] && ssr_port="1-65535"
+	[[ -z "$ssr_port" ]] && ssr_port="1"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
 		if [[ ${ssr_port} -ge 1 ]] && [[ ${ssr_port} -le 65535 ]]; then

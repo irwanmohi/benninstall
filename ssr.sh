@@ -1027,10 +1027,9 @@ Modify_Config(){
 		Add_user
 	elif [[ ${ssr_modify} == "2" ]]; then
 		Del_port_user
-}
 Add_user(){
 	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
-	read -e -p "(Default: doubi):" ssr_user
+	read -e -p "(Username):" ssr_user
 	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_port(){

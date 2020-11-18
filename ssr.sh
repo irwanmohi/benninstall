@@ -1838,4 +1838,3 @@ case "$num" in
 	;;
 esac
 fi
-done

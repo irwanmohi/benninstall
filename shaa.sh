@@ -1160,7 +1160,7 @@ Modify_Config(){
 	read -e -p "(Default: cancel):" ssr_modify
 	[[ -z "${ssr_modify}" ]] && echo "已取消..." && exit 1
 	if [[ ${ssr_modify} == "1" ]]; then
-		Add_user_ssr
+		Add_acc
 	elif [[ ${ssr_modify} == "2" ]]; then
 		Del_port_user
 	elif [[ ${ssr_modify} == "3" ]]; then
@@ -1210,7 +1210,7 @@ Modify_Config(){
 		echo -e "${Error} Please enter the correct number(1-13)" && exit 1
 	fi
 }
-Add_user_ssr(){
+Add_acc(){
 	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
 	read -e -p "(Username):" ssr_user
 	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
@@ -1332,10 +1332,7 @@ List_port_user(){
 	echo -e ${user_list_all}
 }
 Add_port_user(){
-	lalal=$1
-	if [[ "$lalal" == "install" ]]; then
-		match_add=$(python mujson_mgr.py -a -u "${ssr_user}" -p "${ssr_port}" -k "${ssr_password}" -m "${ssr_method}" -O "${ssr_protocol}" -G "${ssr_protocol_param}" -o "${ssr_obfs}" -s "${ssr_speed_limit_per_con}" -S "${ssr_speed_limit_per_user}" -t "${ssr_transfer}" -f "${ssr_forbid}"|grep -w "add user info")
-	else
+
 		while true
 		do
 			Set_config_all

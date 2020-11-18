@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IP=`curl icanhazip.com`
+IP=$(wget -qO- ipv4.icanhazip.com);
 
 Login=trial`</dev/urandom tr -dc X-Z0-9 | head -c4`
 hari="1"

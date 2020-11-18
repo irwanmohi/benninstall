@@ -17,27 +17,27 @@ red='\e[1;32m'
 
 echo ""
 echo -e $white"      =====================================================" 
-sleep 1
+sleep 0.5
 echo -e $purple "      #                                                   #" 
-sleep 1
+sleep 0.5
 echo -e $green "      #                 [MEMBUAT AKUN TRIAL]              #" 
-sleep 1
+sleep 0.5
 echo -e $blue "      #                                                   #" 
-sleep 1
+sleep 0.5
 echo -e $green "      #                   Mohon menunggu                  #" 
-sleep 1
+sleep 0.5
 echo -e $red "      #                                                   #" 
-sleep 1
+sleep 0.5
 echo -e $blue "      #              Akun Telah Berhasil Dibuat           #" 
-sleep 1
+sleep 0.5
 echo -e $red "      #                                                  #" 
-sleep 1
+sleep 0.5
 echo -e $purple "      #                  Terima Kasih                   #" 
-sleep 1
+sleep 0.5
 echo -e $green "      #                                                   #" 
-sleep 1
-echo -e $blue "      #     Copyright © AndiMuhammadIhzarafi™ Premium 2017     #" 
-sleep 1
+sleep 0.5
+echo -e $blue "      #     Copyright © AndiMuhammadIhzarafi™ Premium 2020     #" 
+sleep 0.5
 echo -e $white "      =====================================================" 
 clear
 useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login

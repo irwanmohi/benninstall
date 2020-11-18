@@ -356,21 +356,21 @@ View_User_info(){
 # 设置 配置信息
 Set_config_user(){
 	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
-	read -e -p "(Default: doubi):" ssr_user
-	[[ -z "${ssr_user}" ]] && ssr_user="doubi"
+	echo -e -p "(Username):" ssr_user
+	[[ -z "${ssr_user}" ]] && ssr_user="mad"
 	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_password(){
 	echo "Please enter the user password you want to set"
-	read -e -p "(Default: doub.io):" ssr_password
-	[[ -z "${ssr_password}" ]] && ssr_password="doub.io"
+	echo -e -p "(Password):" ssr_password
+	[[ -z "${ssr_password}" ]] && ssr_password="mad"
 	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_port(){
 	while true
 	do
 	echo -e "Please enter the user port to be set"
-	read -e -p "(Default: 2333):" ssr_port
+	echo -e -p "(Port (Bebas)):" ssr_port
 	[[ -z "$ssr_port" ]] && ssr_port="2333"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -387,29 +387,9 @@ Set_config_port(){
 }
 Set_config_method(){
 	echo -e "Please select the user encryption method you want to set
- ${Green_font_prefix} 1.${Font_color_suffix} none
- ${Green_font_prefix} 2.${Font_color_suffix} rc4
- ${Green_font_prefix} 3.${Font_color_suffix} rc4-md5
- ${Green_font_prefix} 4.${Font_color_suffix} rc4-md5-6
- 
- ${Green_font_prefix} 5.${Font_color_suffix} aes-128-ctr
- ${Green_font_prefix} 6.${Font_color_suffix} aes-192-ctr
- ${Green_font_prefix} 7.${Font_color_suffix} aes-256-ctr
- 
- ${Green_font_prefix} 8.${Font_color_suffix} aes-128-cfb
- ${Green_font_prefix} 9.${Font_color_suffix} aes-192-cfb
- ${Green_font_prefix}10.${Font_color_suffix} aes-256-cfb
- 
- ${Green_font_prefix}11.${Font_color_suffix} aes-128-cfb8
- ${Green_font_prefix}12.${Font_color_suffix} aes-192-cfb8
- ${Green_font_prefix}13.${Font_color_suffix} aes-256-cfb8
- 
- ${Green_font_prefix}14.${Font_color_suffix} salsa20
- ${Green_font_prefix}15.${Font_color_suffix} chacha20
+	
  ${Green_font_prefix}16.${Font_color_suffix} chacha20-ietf
  
- ${Red_font_prefix}17.${Font_color_suffix} xsalsa20
- ${Red_font_prefix}18.${Font_color_suffix} xchacha20
  ${Tip} For salsa20/chacha20-*, please install libsodium" && echo
 	echo -e -p "(Default: 5. aes-128-ctr):" ssr_method
 	[[ -z "${ssr_method}" ]] && ssr_method="16"
@@ -457,16 +437,7 @@ Set_config_method(){
 Set_config_protocol(){
 	echo -e "Please, select the protocol
  ${Green_font_prefix}1.${Font_color_suffix} origin
- ${Green_font_prefix}2.${Font_color_suffix} auth_sha1_v4
- ${Green_font_prefix}3.${Font_color_suffix} auth_aes128_md5
- ${Green_font_prefix}4.${Font_color_suffix} auth_aes128_sha1
- ${Green_font_prefix}5.${Font_color_suffix} auth_chain_a
- ${Green_font_prefix}6.${Font_color_suffix} auth_chain_b
- 
- ${Red_font_prefix}7.${Font_color_suffix} auth_chain_c
- ${Red_font_prefix}8.${Font_color_suffix} auth_chain_d
- ${Red_font_prefix}9.${Font_color_suffix} auth_chain_e
- ${Red_font_prefix}10.${Font_color_suffix} auth_chain_f
+
  ${Tip} If you select auth_chain_* series protocol, it is recommended to set encryption method to none" && echo
 	echo -e -p "(Default: 5. auth_chain_a):" ssr_protocol
 	[[ -z "${ssr_protocol}" ]] && ssr_protocol="1"
@@ -717,99 +688,6 @@ Set_config_all(){
 		Set_config_transfer
 		Set_config_forbid
 	fi
-}
-# 修改 配置信息
-Modify_config_password(){
-	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -k "${ssr_password}"|grep -w "edit user ")
-	if [[ -z "${match_edit}" ]]; then
-		echo -e "${Error} User password modification failed ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
-	else
-		echo -e "${Info} User password modified successfully ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} (It may take about 10 seconds to apply the latest configuration)"
-	fi
-}
-Modify_config_method(){
-	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -m "${ssr_method}"|grep -w "edit user ")
-	if [[ -z "${match_edit}" ]]; then
-		echo -e "${Error} 用户加密方式修改失败 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
-	else
-		echo -e "${Info} 用户加密方式修改成功 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} (Note: It may take about 10 seconds to apply the latest configuration)"
-	fi
-}
-Modify_config_protocol(){
-	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -O "${ssr_protocol}"|grep -w "edit user ")
-	if [[ -z "${match_edit}" ]]; then
-		echo -e "${Error} 用户协议修改失败 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
-	else
-		echo -e "${Info} 用户协议修改成功 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} (Note: It may take about 10 seconds to apply the latest configuration)"
-	fi
-}
-Modify_config_obfs(){
-	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -o "${ssr_obfs}"|grep -w "edit user ")
-	if [[ -z "${match_edit}" ]]; then
-		echo -e "${Error} 用户混淆修改失败 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
-	else
-		echo -e "${Info} 用户混淆修改成功 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} (Note: It may take about 10 seconds to apply the latest configuration)"
-	fi
-}
-Modify_config_protocol_param(){
-	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -G "${ssr_protocol_param}"|grep -w "edit user ")
-	if [[ -z "${match_edit}" ]]; then
-		echo -e "${Error} 用户协议参数(设备数限制)修改失败 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
-	else
-		echo -e "${Info} 用户议参数(设备数限制)修改成功 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} (Note: It may take about 10 seconds to apply the latest configuration)"
-	fi
-}
-Modify_config_speed_limit_per_con(){
-	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -s "${ssr_speed_limit_per_con}"|grep -w "edit user ")
-	if [[ -z "${match_edit}" ]]; then
-		echo -e "${Error} Single-thread speed modification failed ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
-	else
-		echo -e "${Info} Single-thread speed modification successful ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} (Note: It may take about 10 seconds to apply the latest configuration)"
-	fi
-}
-Modify_config_speed_limit_per_user(){
-	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -S "${ssr_speed_limit_per_user}"|grep -w "edit user ")
-	if [[ -z "${match_edit}" ]]; then
-		echo -e "${Error} 用户Port总限速修改失败 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
-	else
-		echo -e "${Info} 用户Port总限速修改成功 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} (Note: It may take about 10 seconds to apply the latest configuration)"
-	fi
-}
-Modify_config_connect_verbose_info(){
-	sed -i 's/"connect_verbose_info": '"$(echo ${connect_verbose_info})"',/"connect_verbose_info": '"$(echo ${ssr_connect_verbose_info})"',/g' ${config_user_file}
-}
-Modify_config_transfer(){
-	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -t "${ssr_transfer}"|grep -w "edit user ")
-	if [[ -z "${match_edit}" ]]; then
-		echo -e "${Error} 用户总流量修改失败 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
-	else
-		echo -e "${Info} 用户总流量修改成功 ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} (Note: It may take about 10 seconds to apply the latest configuration)"
-	fi
-}
-Modify_config_forbid(){
-	match_edit=$(python mujson_mgr.py -e -p "${ssr_port}" -f "${ssr_forbid}"|grep -w "edit user ")
-	if [[ -z "${match_edit}" ]]; then
-		echo -e "${Error} User forbidden port modification failed ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} " && exit 1
-	else
-		echo -e "${Info} User forbidden ports modified successfully ${Green_font_prefix}[Port: ${ssr_port}]${Font_color_suffix} (Note: It may take about 10 seconds to apply the latest configuration)"
-	fi
-}
-Modify_config_enable(){
-	sed -i "${ssr_enable_num}"'s/"enable": '"$(echo ${enable})"',/"enable": '"$(echo ${ssr_enable})"',/' ${config_user_mudb_file}
-}
-Modify_user_api_server_pub_addr(){
-	sed -i "s/SERVER_PUB_ADDR = '${server_pub_addr}'/SERVER_PUB_ADDR = '${ssr_server_pub_addr}'/" ${config_user_api_file}
-}
-Modify_config_all(){
-	Modify_config_password
-	Modify_config_method
-	Modify_config_protocol
-	Modify_config_obfs
-	Modify_config_protocol_param
-	Modify_config_speed_limit_per_con
-	Modify_config_speed_limit_per_user
-	Modify_config_transfer
-	Modify_config_forbid
 }
 Check_python(){
 	python_ver=`python -h`
@@ -1146,54 +1024,114 @@ Modify_Config(){
 	read -e -p "(Default: cancel):" ssr_modify
 	[[ -z "${ssr_modify}" ]] && echo "已取消..." && exit 1
 	if [[ ${ssr_modify} == "1" ]]; then
-		Add_port_user
+		Add_user
 	elif [[ ${ssr_modify} == "2" ]]; then
 		Del_port_user
-	elif [[ ${ssr_modify} == "3" ]]; then
-		Modify_port
-		Set_config_password
-		Modify_config_password
-	elif [[ ${ssr_modify} == "4" ]]; then
-		Modify_port
-		Set_config_method
-		Modify_config_method
-	elif [[ ${ssr_modify} == "5" ]]; then
-		Modify_port
-		Set_config_protocol
-		Modify_config_protocol
-	elif [[ ${ssr_modify} == "6" ]]; then
-		Modify_port
-		Set_config_obfs
-		Modify_config_obfs
-	elif [[ ${ssr_modify} == "7" ]]; then
-		Modify_port
-		Set_config_protocol_param
-		Modify_config_protocol_param
-	elif [[ ${ssr_modify} == "8" ]]; then
-		Modify_port
-		Set_config_speed_limit_per_con
-		Modify_config_speed_limit_per_con
-	elif [[ ${ssr_modify} == "9" ]]; then
-		Modify_port
-		Set_config_speed_limit_per_user
-		Modify_config_speed_limit_per_user
-	elif [[ ${ssr_modify} == "10" ]]; then
-		Modify_port
-		Set_config_transfer
-		Modify_config_transfer
-	elif [[ ${ssr_modify} == "11" ]]; then
-		Modify_port
-		Set_config_forbid
-		Modify_config_forbid
-	elif [[ ${ssr_modify} == "12" ]]; then
-		Modify_port
-		Set_config_all "Modify"
-		Modify_config_all
-	elif [[ ${ssr_modify} == "13" ]]; then
-		Set_user_api_server_pub_addr "Modify"
-		Modify_user_api_server_pub_addr
+}
+Add_user(){
+	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
+	read -e -p "(Default: doubi):" ssr_user
+	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
+}
+Set_config_port(){
+lastport=$(cat /usr/local/shadowsocksr/mudb.json | grep '"port": ' | tail -n1 | awk '{print $2}' | cut -d "," -f 1 | cut -d ":" -f 1 )
+ssr_port=$((lastport+1))
+}
+Set_config_password(){
+ssr_password="$ssr_user"
+}
+Set_config_method(){
+ssr_method="chacha20-ietf"
+}
+Set_config_protocol(){
+ssr_protocol="origin"
+}
+Set_config_obfs(){
+ssr_obfs="tls1.2_ticket_auth_compatible"
+}
+Set_config_protocol_param(){
+ssr_protocol_param="2"
+}
+Set_config_speed_limit_per_con(){
+ssr_speed_limit_per_con="0"
+}
+Set_config_speed_limit_per_user(){
+ssr_speed_limit_per_user="0"
+}
+Set_config_transfer(){
+ssr_transfer="838868"
+}
+Set_config_forbid(){
+ssr_forbid=""
+}
+Set_config_enable(){
+	user_total=$(expr ${user_total} - 1)
+	for((integer = 0; integer <= ${user_total}; integer++))
+	do
+		echo -e "integer=${integer}"
+		port_jq=$(${jq_file} ".[${integer}].port" "${config_user_mudb_file}")
+		echo -e "port_jq=${port_jq}"
+		if [[ "${ssr_port}" == "${port_jq}" ]]; then
+			enable=$(${jq_file} ".[${integer}].enable" "${config_user_mudb_file}")
+			echo -e "enable=${enable}"
+			[[ "${enable}" == "null" ]] && echo -e "${Error} Get the current port[${ssr_port}]的禁用状态失败 !" && exit 1
+			ssr_port_num=$(cat "${config_user_mudb_file}"|grep -n '"port": '${ssr_port}','|awk -F ":" '{print $1}')
+			echo -e "ssr_port_num=${ssr_port_num}"
+			[[ "${ssr_port_num}" == "null" ]] && echo -e "${Error} 获取当前Port[${ssr_port}]的行数失败 !" && exit 1
+			ssr_enable_num=$(expr ${ssr_port_num} - 5)
+			echo -e "ssr_enable_num=${ssr_enable_num}"
+			break
+		fi
+	done
+	if [[ "${enable}" == "1" ]]; then
+		echo -e "Port [${ssr_port}] The account status is：${Green_font_prefix}Enabled ${Font_color_suffix} , switch to ${Red_font_prefix}Disabled${Font_color_suffix} ?[Y/n]"
+		echo -e -p "(Default: Y):" ssr_enable_yn
+		[[ -z "${ssr_enable_yn}" ]] && ssr_enable_yn="y"
+		if [[ "${ssr_enable_yn}" == [Yy] ]]; then
+			ssr_enable="0"
+		else
+			echo "Cancel..." && exit 0
+		fi
+	elif [[ "${enable}" == "0" ]]; then
+		echo -e "Port [${ssr_port}] The account status is：${Green_font_prefix}Disabled ${Font_color_suffix} , switch to ${Red_font_prefix}Disabled${Font_color_suffix} ?[Y/n]"
+		read -e -p "(Default: Y):" ssr_enable_yn
+		[[ -z "${ssr_enable_yn}" ]] && ssr_enable_yn = "y"
+		if [[ "${ssr_enable_yn}" == [Yy] ]]; then
+			ssr_enable="1"
+		else
+			echo "取消..." && exit 0
+		fi
 	else
-		echo -e "${Error} Please enter the correct number(1-2)" && exit 1
+		echo -e "${Error} 当前Port的禁用状态异常[${enable}] !" && exit 1
+	fi
+}
+Set_user_api_server_pub_addr(){
+ssr_server_pub_addr="${ip}"
+}
+Set_config_all(){
+	lal=$1
+	if [[ "${lal}" == "Modify" ]]; then
+		Set_config_password
+		Set_config_method
+		Set_config_protocol
+		Set_config_obfs
+		Set_config_protocol_param
+		Set_config_speed_limit_per_con
+		Set_config_speed_limit_per_user
+		Set_config_transfer
+		Set_config_forbid
+	else
+		Set_config_user
+		Set_config_port
+		Set_config_password
+		Set_config_method
+		Set_config_protocol
+		Set_config_obfs
+		Set_config_protocol_param
+		Set_config_speed_limit_per_con
+		Set_config_speed_limit_per_user
+		Set_config_transfer
+		Set_config_forbid
 	fi
 }
 List_port_user(){
@@ -1233,7 +1171,7 @@ Add_port_user(){
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
 				echo
 				echo -e -p "Continue to add user configuration?[Y/n]:" addyn
-				[[ -z ${addyn} ]] && addyn="y"
+				[[ -z ${addyn} ]] && addyn="n"
 				if [[ ${addyn} == [Nn] ]]; then
 					Get_User_info "${ssr_port}"
 					View_User_info

@@ -356,12 +356,8 @@ View_User_info(){
 }
 # 设置 配置信息
 Set_config_user(){
-        lalal=$1
-	if [[ "$lalal" == "install" ]]; then
-		match_add=$(python mujson_mgr.py -a -u "${ssr_user}" -p "${ssr_port}" -k "${ssr_password}" -m "${ssr_method}" -O "${ssr_protocol}" -G "${ssr_protocol_param}" -o "${ssr_obfs}" -s "${ssr_speed_limit_per_con}" -S "${ssr_speed_limit_per_user}" -t "${ssr_transfer}" -f "${ssr_forbid}"|grep -w "add user info")
-	else
 	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
-	echo -e -p "(Username):" ssr_user
+	read -e -p "(Username):" ssr_user
 	[[ -z "${ssr_user}" ]] && ssr_user="doubi"
 	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
 }

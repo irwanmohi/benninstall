@@ -1353,7 +1353,7 @@ Add_acc(){
 				Save_iptables
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
 				echo
-				read -e -p "Continue to add user configuration?[Y/n]:" addyn
+				echo -e -p "Continue to add user configuration?[Y/n]:" addyn
 				[[ -z ${addyn} ]] && addyn="y"
 				if [[ ${addyn} == [Nn] ]]; then
 					Get_User_info "${ssr_port}"

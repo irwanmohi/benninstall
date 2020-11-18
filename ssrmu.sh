@@ -1321,7 +1321,7 @@ List_port_user(){
 }
 Add_acc(){
         lalal=$1
-	if [[ "$lalal" == "install" ]]; then
+	if [[ "$lalal" == "insll" ]]; then
 		match_add=$(python mujson_mgr.py -a -u "${ssr_user}" -p "${ssr_port}" -k "${ssr_password}" -m "${ssr_method}" -O "${ssr_protocol}" -G "${ssr_protocol_param}" -o "${ssr_obfs}" -s "${ssr_speed_limit_per_con}" -S "${ssr_speed_limit_per_user}" -t "${ssr_transfer}" -f "${ssr_forbid}"|grep -w "add user info")
 	else
 		while true

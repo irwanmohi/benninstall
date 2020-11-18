@@ -346,18 +346,19 @@ View_User_info(){
  	echo && echo "=========================By Kemaddd=========================="
 }
 # 设置 配置信息
-Set_config_user(){
-	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
-	echo -e -p "(masukkan username):" ssr_user
-	[[ -z "${ssr_user}" ]] && ssr_user="doubi"
-	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
+}
+Set_config_password(){
+	echo "Please enter the user password you want to set"
+	read -e -p "" ssr_password
+	[[ -z "${ssr_password}" ]] && ssr_password=""
+	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_port(){
 	while true
 	do
 	echo -e "Please enter the user port to be set"
 	echo -e -p "(tambah port (bebas):" ssr_port
-	[[ -z "$ssr_port" ]] && ssr_port="2333"
+	[[ -z "$ssr_port" ]] && ssr_port="1-65535"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
 		if [[ ${ssr_port} -ge 1 ]] && [[ ${ssr_port} -le 65535 ]]; then
@@ -370,13 +371,6 @@ Set_config_port(){
 		echo -e "${Error} Please enter the correct number(1-65535)"
 	fi
 	done
-}
-Set_config_password(){
-	echo "Please enter the user password you want to set"
-	read -e -p "" ssr_password
-	[[ -z "${ssr_password}" ]] && ssr_password=""
-	echo && echo ${Separator_1} && echo -e "	Password : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
-}
 Set_config_method(){
 	echo -e "Please select the user encryption method you want to set
  ${Green_font_prefix} 1.${Font_color_suffix} none
@@ -403,7 +397,7 @@ Set_config_method(){
  ${Red_font_prefix}17.${Font_color_suffix} xsalsa20
  ${Red_font_prefix}18.${Font_color_suffix} xchacha20
  ${Tip} For salsa20/chacha20-*, please install libsodium" && echo
-	read -e -p "(LANGSUNG ENTER SAJA):" ssr_method
+	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_method
 	[[ -z "${ssr_method}" ]] && ssr_method="16"
 	if [[ ${ssr_method} == "1" ]]; then
 		ssr_method="none"
@@ -460,7 +454,7 @@ Set_config_protocol(){
  ${Red_font_prefix}9.${Font_color_suffix} auth_chain_e
  ${Red_font_prefix}10.${Font_color_suffix} auth_chain_f
  ${Tip} If you select auth_chain_* series protocol, it is recommended to set encryption method to none" && echo
-	read -e -p "(LANGSUNG ENTER SAJA):" ssr_protocol
+	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_protocol
 	[[ -z "${ssr_protocol}" ]] && ssr_protocol="1"
 	if [[ ${ssr_protocol} == "1" ]]; then
 		ssr_protocol="origin"
@@ -503,7 +497,7 @@ Set_config_obfs(){
  ${Green_font_prefix}4.${Font_color_suffix} random_head
  ${Green_font_prefix}5.${Font_color_suffix} tls1.2_ticket_auth
   If you choose tls1.2_ticket_auth，then the client can choose tls1.2_ticket_fastauth !" && echo
-	read -e -p "(LANGSUNG ENTER SAJA):" ssr_obfs
+	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_obfs
 	[[ -z "${ssr_obfs}" ]] && ssr_obfs="5"
 	if [[ ${ssr_obfs} == "1" ]]; then
 		ssr_obfs="plain"
@@ -532,8 +526,8 @@ Set_config_protocol_param(){
 	echo -e "Please enter the number of devices you want to set to limit (${Green_font_prefix} auth_* 
 	${Font_color_suffix})"
 	echo -e "${Tip} Number of devices limit: the number of clients that can be linked at the same time per port (multi-port mode, each port is calculated independently), the minimum recommended 2."
-	read -e -p "(TEKAN ANGKA 1):" ssr_protocol_param
-	[[ -z "$ssr_protocol_param" ]] && ssr_protocol_param="" && echo && break
+	echo -e -p "(TEKAN ANGKA 1):" ssr_protocol_param
+	[[ -z "$ssr_protocol_param" ]] && ssr_protocol_param="2" && echo && break
 	expr ${ssr_protocol_param} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
 		if [[ ${ssr_protocol_param} -ge 1 ]] && [[ ${ssr_protocol_param} -le 9999 ]]; then
@@ -551,7 +545,7 @@ Set_config_speed_limit_per_con(){
 	while true
 	do
 	echo -e "Please enter the user's single-thread limit to be set(in KB/S)"
-	read -e -p "(LANGSUNG ENTER SAJA):" ssr_speed_limit_per_con
+	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_speed_limit_per_con
 	[[ -z "$ssr_speed_limit_per_con" ]] && ssr_speed_limit_per_con=0 && echo && break
 	expr ${ssr_speed_limit_per_con} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -572,7 +566,7 @@ Set_config_speed_limit_per_user(){
 	echo
 	echo -e "Please enter the maximum user speed limit you want to set(in KB/S)"
 	echo -e "${Tip} Total port speed limit: the overall speed limit of a single port."
-	read -e -p "(LANGSUNG ENTER SAJA):" ssr_speed_limit_per_user
+	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_speed_limit_per_user
 	[[ -z "$ssr_speed_limit_per_user" ]] && ssr_speed_limit_per_user=0 && echo && break
 	expr ${ssr_speed_limit_per_user} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -592,7 +586,7 @@ Set_config_transfer(){
 	do
 	echo
 	echo -e "Please enter the total amount of traffic available for the user to set(in GB, 1-838868 GB)"
-	read -e -p "(LANGSUNG ENTER SAJA):" ssr_transfer
+	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_transfer
 	[[ -z "$ssr_transfer" ]] && ssr_transfer="838868" && echo && break
 	expr ${ssr_transfer} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
@@ -610,7 +604,7 @@ Set_config_transfer(){
 Set_config_forbid(){
 	echo "Forbidden port"
 	echo -e "${Tip} Forbidden Ports: For example, if you do not allow access to port 25, users will not be able to access mail port 25 via the SSR proxy. If 80,443 is disabled then users will not be able to access http / https sites normally."
-	read -e -p "(LANGSUNG ENTER SAJA):" ssr_forbid
+	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_forbid
 	[[ -z "${ssr_forbid}" ]] && ssr_forbid=""
 	echo && echo ${Separator_1} && echo -e "	Forbidden Port : ${Green_font_prefix}${ssr_forbid}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
@@ -635,7 +629,7 @@ Set_config_enable(){
 	done
 	if [[ "${enable}" == "1" ]]; then
 		echo -e "Port [${ssr_port}] The account status is：${Green_font_prefix}Enabled ${Font_color_suffix} , switch to ${Red_font_prefix}Disabled${Font_color_suffix} ?[Y/n]"
-		read -e -p "(Default: Y):" ssr_enable_yn
+		echo -e -p "(Default: Y):" ssr_enable_yn
 		[[ -z "${ssr_enable_yn}" ]] && ssr_enable_yn="y"
 		if [[ "${ssr_enable_yn}" == [Yy] ]]; then
 			ssr_enable="0"
@@ -644,7 +638,7 @@ Set_config_enable(){
 		fi
 	elif [[ "${enable}" == "0" ]]; then
 		echo -e "Port [${ssr_port}] The account status is：${Green_font_prefix}Disabled ${Font_color_suffix} , switch to ${Red_font_prefix}Disabled${Font_color_suffix} ?[Y/n]"
-		read -e -p "(Default: Y):" ssr_enable_yn
+		echo -e -p "(Default: Y):" ssr_enable_yn
 		[[ -z "${ssr_enable_yn}" ]] && ssr_enable_yn = "y"
 		if [[ "${ssr_enable_yn}" == [Yy] ]]; then
 			ssr_enable="1"
@@ -666,7 +660,7 @@ Set_user_api_server_pub_addr(){
 		fi
 	fi
 	echo "Please enter the server IP or domain name to be displayed in the user's configuration (when the server has multiple IPs, you can specify the IP or domain name displayed in the user's configuration)"
-	read -e -p "(LANGSUNG ENTER SAJA):" ssr_server_pub_addr
+	echo -e -p "(LANGSUNG ENTER SAJA):" ssr_server_pub_addr
 	if [[ -z "${ssr_server_pub_addr}" ]]; then
 		Get_IP
 		if [[ ${ip} == "VPS_IP" ]]; then
@@ -1229,7 +1223,7 @@ Add_port_user(){
 				Save_iptables
 				echo -e "${Info} User added successfully ${Green_font_prefix}[username: ${ssr_user} , port: ${ssr_port}]${Font_color_suffix} "
 				echo
-				read -e -p "KLIK ENTER[n]:" addyn
+				echo -e -p "KLIK ENTER[n]:" addyn
 				[[ -z ${addyn} ]] && addyn="n"
 				if [[ ${addyn} == [Nn] ]]; then
 					Get_User_info "${ssr_port}"

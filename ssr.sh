@@ -346,6 +346,12 @@ View_User_info(){
  	echo && echo "=========================By Kemaddd=========================="
 }
 # 设置 配置信息
+Set_config_user(){
+	echo "Please enter the username you want to set (do not repeat, does not support Chinese, will be reported incorrect!)"
+	echo -e -p "(Default: doubi):" ssr_user
+	[[ -z "${ssr_user}" ]] && ssr_user=""
+	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
+}
 Set_config_password(){
 	echo "Please enter the user password you want to set"
 	read -e -p "" ssr_password
@@ -357,7 +363,7 @@ Set_config_port(){
 	do
 	echo -e "Please enter the user port to be set"
 	echo -e -p "(tambah port (bebas):" ssr_port
-	[[ -z "$ssr_port" ]] && ssr_port="1"
+	[[ -z "$ssr_port" ]] && ssr_port="1-65535"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then
 		if [[ ${ssr_port} -ge 1 ]] && [[ ${ssr_port} -le 65535 ]]; then

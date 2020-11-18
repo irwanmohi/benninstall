@@ -377,7 +377,7 @@ Set_config_port(){
 	done
 }
 Set_config_method(){
-	echo -e "Please select the user encryption method you want to set
+	echo -e "Please select the user encryption method you want to set"
 	
  ${Green_font_prefix}16.${Font_color_suffix} chacha20-ietf
  
@@ -426,7 +426,7 @@ Set_config_method(){
 	echo && echo ${Separator_1} && echo -e "	Encryption: ${Green_font_prefix}${ssr_method}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_protocol(){
-	echo -e "Please, select the protocol
+	echo -e "Please, select the protocol"
  ${Green_font_prefix}1.${Font_color_suffix} origin
 
  ${Tip} If you select auth_chain_* series protocol, it is recommended to set encryption method to none" && echo
@@ -1125,10 +1125,7 @@ Set_config_all(){
 	fi
 }
 Add_user(){
-	=$1
-	if [[ "$lall" == "install" ]]; then
-		match_add=$(python mujson_mgr.py -a -u "${ssr_user}" -p "${ssr_port}" -k "${ssr_password}" -m "${ssr_method}" -O "${ssr_protocol}" -G "${ssr_protocol_param}" -o "${ssr_obfs}" -s "${ssr_speed_limit_per_con}" -S "${ssr_speed_limit_per_user}" -t "${ssr_transfer}" -f "${ssr_forbid}"|grep -w "add user info")
-	else
+
 		while true
 		do
 			Set_config_all

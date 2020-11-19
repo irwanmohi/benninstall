@@ -365,7 +365,7 @@ Set_config_port(){
 	while true
 	do
 	echo -e "Please enter the user port to be set"
-	echo -e -p "(Default: 2333):" ssr_port
+	read -e -p "(Default: 2333):" ssr_port
 	[[ -z "$ssr_port" ]] && ssr_port="2333"
 	expr ${ssr_port} + 0 &>/dev/null
 	if [[ $? == 0 ]]; then

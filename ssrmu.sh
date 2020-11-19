@@ -1204,8 +1204,23 @@ Add_acc(){
 	echo && echo ${Separator_1} && echo -e "	username : ${Green_font_prefix}${ssr_user}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_port(){
-lastport=$(cat /usr/local/shadowsocksr/mudb.json | grep '"port": ' | tail -n1 | awk '{print $2}' | cut -d "," -f 1 | cut -d ":" -f 1 )
-ssr_port=$((lastport+1))
+        while true
+	do
+	echo -e "Please enter the user port to be set"
+	read -e -p "(Default: 2333):" ssr_port
+	[[ -z "$ssr_port" ]] && ssr_port="2333"
+	expr ${ssr_port} + 0 &>/dev/null
+	if [[ $? == 0 ]]; then
+		if [[ ${ssr_port} -ge 1 ]] && [[ ${ssr_port} -le 65535 ]]; then
+			echo && echo ${Separator_1} && echo -e "	Port : ${Green_font_prefix}${ssr_port}${Font_color_suffix}" && echo ${Separator_1} && echo
+			break
+		else
+			echo -e "${Error} Please enter the correct number(1-65535)"
+		fi
+	else
+		echo -e "${Error} Please enter the correct number(1-65535)"
+	fi
+	done
 }
 Set_config_password(){
 ssr_password="$ssr_user"

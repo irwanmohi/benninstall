@@ -850,7 +850,7 @@ wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 wget -O ssr "https://raw.githubusercontent.com/benkemad/benninstall/master/ssrmu.sh"
-wget -O wgmenu "https://raw.githubusercontent.com/benkemad/benninstall/master/wginstall.sh"
+wget -O wgmenu "https://raw.githubusercontent.com/benkemad/benninstall/master/wgmenu.sh"
 wget -O ban "https://raw.githubusercontent.com/benkemad/benninstall/master/ban.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot

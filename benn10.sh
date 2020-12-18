@@ -11,15 +11,6 @@ OS=`uname -m`;
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 
-# ubah hostname
-echo "Hostname Anda saat ini $HOSTNAME"
-read -p "Masukkan hostname atau nama untuk server ini: " hnbaru
-echo "HOSTNAME=$hnbaru" >> /etc/sysconfig/network
-hostname "$hnbaru"
-echo "Hostname telah diganti menjadi $hnbaru"
-read -p "Maks login user (contoh 1 atau 2): " llimit
-echo "Proses instalasi script dimulai....."
-
 #detail nama perusahaan
 country=ID
 state=MALANG
@@ -838,8 +829,6 @@ wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 wget -O ssr "https://raw.githubusercontent.com/benkemad/benninstall/master/ssrmu.sh"
-wget -O wgmenu "https://raw.githubusercontent.com/benkemad/benninstall/master/wgmenu.sh"
-wget -O ban "https://raw.githubusercontent.com/benkemad/benninstall/master/ban.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 
@@ -860,8 +849,6 @@ chmod +x info
 chmod +x contact
 chmod +x about
 chmod +x ssr
-chmod +x wgmenu
-chmod +x ban
 
 # finishing
 cd

@@ -129,18 +129,6 @@ wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/benkemad/b
 # install badvpn
 cd
 wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/benkemad/benninstall/master/badvpn-udpgw64"
-sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7000 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
-chmod +x /usr/bin/badvpn-udpgw
-screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7000 --max-clients 1000 --max-connections-for-client 10
-
-cd
-wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/benkemad/benninstall/master/badvpn-udpgw64"
-sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
-chmod +x /usr/bin/badvpn-udpgw
-screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7100 --max-clients 1000 --max-connections-for-client 10
-
-cd
-wget -O /usr/bin/badvpn-udpgw "https://raw.githubusercontent.com/benkemad/benninstall/master/badvpn-udpgw64"
 sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 10' /etc/rc.local
 chmod +x /usr/bin/badvpn-udpgw
 screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7200 --max-clients 1000 --max-connections-for-client 10 

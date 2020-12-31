@@ -11,12 +11,6 @@ OS=`uname -m`;
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 
-# ubah hostname
-echo "Hostname Anda saat ini $HOSTNAME"
-read -p "Masukkan hostname atau nama untuk server ini: " domain
-echo "IP=domain" > /root/ipvps.conf
-echo "Proses instalasi script dimulai....."
-
 #detail nama perusahaan
 country=ID
 state=MALANG

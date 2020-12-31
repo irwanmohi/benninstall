@@ -11,6 +11,12 @@ OS=`uname -m`;
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 
+# ubah hostname
+echo "Hostname Anda saat ini $HOSTNAME"
+read -p "Masukkan hostname atau nama untuk server ini: " domain
+echo "IP=domain" > /root/ipvps.conf
+echo "Proses instalasi script dimulai....."
+
 #detail nama perusahaan
 country=ID
 state=MALANG
@@ -810,6 +816,21 @@ wget -O /etc/issue.net "https://raw.githubusercontent.com/benkemad/benninstall/m
 sed -i 's@#Banner@Banner@g' /etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
+# install v2ray
+wget https://script.vpnstores.net/go.sh && chmod +x go.sh && ./go.sh
+rm -f /root/go.sh
+echo -e "\n " >> /etc/v2ray/akun.conf
+wget http://script.vpnstores.net/v2ray.sh && chmod +x v2ray.sh && ./v2ray.sh
+
+# install wireguard
+wget http://script.vpnstores.net/wg.sh && chmod +x wg.sh && ./wg.sh
+
+#install shadowsocks
+wget http://script.vpnstores.net/sodosok.sh && chmod +x sodosok.sh && ./sodosok.sh
+
+#install shadowsocksR
+wget http://script.vpnstores.net/ssr.sh && chmod +x ssr.sh && ./ssr.sh
+
 # download script
 cd /usr/bin
 wget -O perpanjang "https://raw.githubusercontent.com/benkemad/benninstall/master/perpanjang.sh"
@@ -828,7 +849,6 @@ wget -O portstat "https://raw.githubusercontent.com/benkemad/benninstall/master/
 wget -O info "https://raw.githubusercontent.com/benkemad/benninstall/master/info.sh"
 wget -O contact "https://raw.githubusercontent.com/benkemad/benninstall/master/contact.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
-wget -O ssr "https://raw.githubusercontent.com/benkemad/benninstall/master/ssrmu.sh"
 
 echo "0 0 * * * root /sbin/reboot" > /etc/cron.d/reboot
 

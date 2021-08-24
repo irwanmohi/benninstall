@@ -23,7 +23,7 @@ if [[ -e /etc/wireguard/params ]]; then
 	exit 1
 fi
 
-echo -e "${Info} Wireguard VPS AutoScript by LostServer"
+echo -e "${Info} Wireguard VPS AutoScript by Madvipserver"
 # Detect public IPv4 address and pre-fill for the user
 
 # Detect public interface and pre-fill for the user
@@ -89,11 +89,11 @@ WG_RUNNING=$?
 
 # Tambahan
 cd /usr/bin
-wget -O addwg "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/addwg.sh"
-wget -O delwg "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/delwg.sh"
-wget -O cekwg "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/cekwg.sh"
-wget -O xp-wg "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/xp-wg.sh"
-wget -O renewwg "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/renewwg.sh"
+wget -O addwg "https://raw.githubusercontent.com/benkemad/benninstall/master/addwg.sh"
+wget -O delwg "https://raw.githubusercontent.com/benkemad/benninstall/master/delwg.sh"
+wget -O cekwg "https://raw.githubusercontent.com/benkemad/benninstall/master/cekwg.sh"
+wget -O xp-wg "https://raw.githubusercontent.com/benkemad/benninstall/master/xp-wg.sh"
+wget -O renewwg "https://raw.githubusercontent.com/benkemad/benninstall/master/renewwg.sh"
 chmod +x addwg
 chmod +x delwg
 chmod +x cekwg

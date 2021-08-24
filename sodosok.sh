@@ -90,11 +90,11 @@ ip6tables -I INPUT -m state --state NEW -m udp -p udp --dport 2443:3543 -j ACCEP
 iptables-save > /etc/iptables.up.rules
 ip6tables-save > /etc/ip6tables.up.rules
 cd /usr/bin
-wget -O addss "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/addss.sh"
-wget -O delss "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/delss.sh"
-wget -O cekss "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/cekss.sh"
-wget -O xp-ss "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/xp-ss.sh"
-wget -O renewss "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/renewss.sh"
+wget -O addss "https://raw.githubusercontent.com/benkemad/benninstall/master/addss.sh"
+wget -O delss "https://raw.githubusercontent.com/benkemad/benninstall/master/delss.sh"
+wget -O cekss "https://raw.githubusercontent.com/benkemad/benninstall/master/cekss.sh"
+wget -O xp-ss "https://raw.githubusercontent.com/benkemad/benninstall/master/xp-ss.sh"
+wget -O renewss "https://raw.githubusercontent.com/benkemad/benninstall/master/renewss.sh"
 chmod +x addss
 chmod +x delss
 chmod +x cekss

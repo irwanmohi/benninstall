@@ -126,7 +126,7 @@ if [[ ${OS} == "centos" ]]; then
 }
 Start_SSR(){
 	check_pid
-	wget -O /etc/init.d/ssrmu "https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/ssrmu.sh"
+	wget -O /etc/init.d/ssrmu "https://raw.githubusercontent.com/benkemad/benninstall/master/ssrmu.sh"
 	/etc/init.d/ssrmu start
 }
 Install_SSR(){
@@ -142,11 +142,11 @@ Save_iptables
 Start_SSR
 }
 Install_SSR
-wget -O /usr/bin/ssr https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/ssrmu.sh && chmod +x /usr/bin/ssr
-wget -O /usr/bin/addssr https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/addssr.sh && chmod +x /usr/bin/addssr
-wget -O /usr/bin/delssr https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/delssr.sh && chmod +x /usr/bin/delssr
-wget -O /usr/bin/xp-ssr https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/xp-ssr.sh && chmod +x /usr/bin/xp-ssr
-wget -O /usr/bin/renewssr https://raw.githubusercontent.com/syntax-er0r/AutoScriptSSH/main/renewssr.sh && chmod +x /usr/bin/renewssr
+wget -O /usr/bin/ssr https://raw.githubusercontent.com/benkemad/benninstall/master/ssrmu.sh && chmod +x /usr/bin/ssr
+wget -O /usr/bin/addssr https://raw.githubusercontent.com/benkemad/benninstall/master/addssr.sh && chmod +x /usr/bin/addssr
+wget -O /usr/bin/delssr https://raw.githubusercontent.com/benkemad/benninstall/master/delssr.sh && chmod +x /usr/bin/delssr
+wget -O /usr/bin/xp-ssr https://raw.githubusercontent.com/benkemad/benninstall/master/xp-ssr.sh && chmod +x /usr/bin/xp-ssr
+wget -O /usr/bin/renewssr https://raw.githubusercontent.com/benkemad/benninstall/master/renewssr.sh && chmod +x /usr/bin/renewssr
 touch /usr/local/shadowsocksr/akun.conf
 rm -f /root/ssr.sh
 echo "0 0 * * * root xp-ssr" >> /etc/crontab

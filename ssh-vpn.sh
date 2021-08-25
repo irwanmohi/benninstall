@@ -244,7 +244,7 @@ netfilter-persistent reload
 
 # download script
 cd /usr/bin
-wget -O add-host "https://raw.githubusercontent.com/benkemad/benninstall/master/addhost.sh"
+wget -O addhost "https://raw.githubusercontent.com/benkemad/benninstall/master/addhost.sh"
 wget -O about "https://raw.githubusercontent.com/benkemad/benninstall/master/about.sh"
 wget -O menu "https://raw.githubusercontent.com/benkemad/benninstall/master/menu.sh"
 wget -O usernew "https://raw.githubusercontent.com/benkemad/benninstall/master/usernew.sh"
@@ -320,5 +320,3 @@ rm -f /root/ssh-vpn.sh
 
 # finihsing
 clear
-neofetch
-netstat -nutlp

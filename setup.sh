@@ -77,6 +77,3 @@ echo "   - Installation Log --> /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "------------------------------------------Lost Server------------------------------------------" | tee -a log-install.txt
 echo ""
-echo " Reboot 10 Sec"
-sleep 10
-reboot

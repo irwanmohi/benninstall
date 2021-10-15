@@ -15,11 +15,6 @@ IZIN=$( curl https://raw.githubusercontent.com/benkemad/benninstall/master/ipvps
 if [ $MYIP = $IZIN ]; then
 echo -e "${green}Permission Accepted...${NC}"
 else
-echo -e "${green}Permission Accepted...${NC}"
-fi
-else if [ $MYIP != $IZIN ]; then
-echo -e "${Error}Permission Denied...${NC}"
-else
 echo -e "${Error}Permission Denied...${NC}"
 fi
 mkdir /var/lib/premium-script;

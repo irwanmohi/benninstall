@@ -47,24 +47,24 @@ if [ -f "/etc/openvpn/openvpn-tcp.log" ]; then
         line=`cat /etc/openvpn/openvpn-tcp.log | wc -l`
         a=$((3+((line-8)/2)))
         b=$(((line-8)/2))
-        echo " "
-        echo "-----=[ OpenVPN TCP User Login ]=-----";
-        echo "Username  |  IP Address  |  Connected Since";
-        echo "-------------------------------------";
-        cat /etc/openvpn/openvpn-tcp.log | head -n $a | tail -n $b | cut -d "," -f 1,2,5 | sed -e 's/,/   /g' > /tmp/vpn-tcp-db.txt
-        cat /tmp/vpn-tcp-db.txt
+echo " "
+echo "-----=[ OpenVPN TCP User Login ]=-----";
+echo "Username  |  IP Address  |  Connected Since";
+echo "-------------------------------------";
+cat /etc/openvpn/openvpn-tcp.log | head -n $a | tail -n $b | cut -d "," -f 1,2,5 | sed -e 's/,/   /g' > /tmp/vpn-tcp-db.txt
+cat /tmp/vpn-tcp-db.txt
 fi
 echo "-------------------------------------"
 if [ -f "/etc/openvpn/openvpn-udp.log" ]; then
         line=`cat /etc/openvpn/openvpn-udp.log | wc -l`
         a=$((3+((line-8)/2)))
         b=$(((line-8)/2))
-        echo " "
-        echo "-----=[ OpenVPN UDP User Login ]=-----";
-        echo "Username  |  IP Address  |  Connected Since";
-        echo "-------------------------------------";
-        cat /etc/openvpn/openvpn-udp.log | head -n $a | tail -n $b | cut -d "," -f 1,2,5 | sed -e 's/,/   /g' > /tmp/vpn-udp-db.txt
-        cat /tmp/vpn-udp-db.txt
+echo " "
+echo "-----=[ OpenVPN UDP User Login ]=-----";
+echo "Username  |  IP Address  |  Connected Since";
+echo "-------------------------------------";
+cat /etc/openvpn/openvpn-udp.log | head -n $a | tail -n $b | cut -d "," -f 1,2,5 | sed -e 's/,/   /g' > /tmp/vpn-udp-db.txt
+cat /tmp/vpn-udp-db.txt
 fi
 
 echo "-------------------------------------"

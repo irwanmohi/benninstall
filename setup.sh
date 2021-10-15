@@ -16,7 +16,9 @@ if [ $MYIP = $IZIN ]; then
 echo -e "${green}Permission Accepted...${NC}"
 else
 echo -e "${Error}Permission Denied...${NC}"
-read -p "Please Conract the Author to rent this script"
+echo "Please Conract the Author to rent this script"
+clear
+exit 1
 fi
 mkdir /var/lib/premium-script;
 echo "Enter the VPS Subdomain Hostname, if not available, please click Enter"
@@ -39,7 +41,6 @@ rm -f /root/go.sh
 rm -f /root/ipsec.sh
 history -c
 echo "1.1" > /home/ver
-reboot
 echo " "
 echo "Installation has been completed!!"
 echo " "
@@ -76,5 +77,6 @@ echo "   - IPv6                    : [OFF]"  | tee -a log-install.txt
 echo "   - Autoreboot On 00.00 GMT +7" | tee -a log-install.txt
 echo "   - Installation Log --> /root/log-install.txt"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
-echo "------------------------------------------Lost Server------------------------------------------" | tee -a log-install.txt
+echo "------------------------------------------MadVipServer------------------------------------------" | tee -a log-install.txt
+echo "Reboot Your VPS" | tee -a log-install.txt
 echo ""

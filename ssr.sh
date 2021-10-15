@@ -125,8 +125,9 @@ if [[ ${OS} == "centos" ]]; then
 	fi
 }
 Start_SSR(){
+	SSR_installation_status
 	check_pid
-	wget -O /etc/init.d/ssrmu "https://raw.githubusercontent.com/benkemad/benninstall/master/ssrmu.sh"
+	[[ ! -z ${PID} ]] && echo -e "${Error} ShadowsocksR Running! " && exit 1
 	/etc/init.d/ssrmu start
 }
 Install_SSR(){

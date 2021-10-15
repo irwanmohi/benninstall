@@ -18,9 +18,9 @@ else
 echo -e "${green}Permission Accepted...${NC}"
 fi
 else if [ $MYIP != $IZIN ]; then
-echo -e "${error}Permission Denied...${NC}"
+echo -e "${Error}Permission Denied...${NC}"
 else
-echo -e "${error}Permission Denied...${NC}"
+echo -e "${Error}Permission Denied...${NC}"
 fi
 mkdir /var/lib/premium-script;
 echo "Enter the VPS Subdomain Hostname, if not available, please click Enter"

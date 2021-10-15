@@ -16,6 +16,7 @@ if [ $MYIP = $IZIN ]; then
 echo -e "${green}Permission Accepted...${NC}"
 else
 echo -e "${Error}Permission Denied...${NC}"
+read -p "Please Conract the Author to rent this script"
 fi
 mkdir /var/lib/premium-script;
 echo "Enter the VPS Subdomain Hostname, if not available, please click Enter"

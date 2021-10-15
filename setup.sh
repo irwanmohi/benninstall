@@ -38,7 +38,7 @@ rm -f /root/go.sh
 rm -f /root/ipsec.sh
 history -c
 echo "1.1" > /home/ver
-clear
+reboot
 echo " "
 echo "Installation has been completed!!"
 echo " "

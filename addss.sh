@@ -1,4 +1,16 @@
  #!/bin/bash
+ red='\e[1;31m'
+green='\e[0;32m'
+NC='\e[0m'
+MYIP=$(wget -qO- icanhazip.com);
+echo "Checking VPS"
+IZIN=$( curl https://raw.githubusercontent.com/benkemad/benninstall/master/ipvps | grep $MYIP )
+if [ $MYIP = $IZIN ]; then
+echo -e "${green}Permission Accepted...${NC}"
+else
+echo -e "${green}Permission Accepted...${NC}"
+fi
+sleep 0.5
 IP=$(wget -qO- icanhazip.com);
 lastport1=$(grep "port_tls" /etc/shadowsocks-libev/akun.conf | tail -n1 | awk '{print $2}')
 lastport2=$(grep "port_http" /etc/shadowsocks-libev/akun.conf | tail -n1 | awk '{print $2}')
@@ -78,7 +90,7 @@ clear
 	echo -e ""
 	echo -e "=======-Shadowsocks-======="
 	echo -e "IP/Host        : $IP"
-	echo -e "Host           : $domain"
+	echo -e "Host           : ${domain}"
 	echo -e "Port OBFS TLS  : $tls"
 	echo -e "Port OBFS HTTP : $http"
 	echo -e "Password       : $user"

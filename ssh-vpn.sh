@@ -1,5 +1,5 @@
 #!/bin/bash
-# By LostServer
+#
 # 
 # ==================================================
 
@@ -263,7 +263,6 @@ wget -O autokill "https://raw.githubusercontent.com/benkemad/benninstall/master/
 wget -O ceklim "https://raw.githubusercontent.com/benkemad/benninstall/master/ceklim.sh"
 wget -O tendang "https://raw.githubusercontent.com/benkemad/benninstall/master/tendang.sh"
 wget -O clear-log "https://raw.githubusercontent.com/benkemad/benninstall/master/clear-log.sh"
-wget -O tendang "https://raw.githubusercontent.com/benkemad/benninstall/master/changeport.sh"
 
 echo "0 5 * * * root clear-log && reboot" >> /etc/crontab
 
@@ -286,7 +285,6 @@ chmod +x ceklim
 chmod +x ram
 chmod +x renew
 chmod +x clear-log
-chmod +x changeport
 
 # remove unnecessary files
 apt -y autoclean

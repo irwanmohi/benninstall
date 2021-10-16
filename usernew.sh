@@ -5,7 +5,7 @@ read -p "Password : " Pass
 read -p "Expired (hari): " masaaktif
 
 IP=$(wget -qO- icanhazip.com);
-echo Script AutoCreate Akun SSH dan OpenVPN by Lost Server
+echo Script AutoCreate Akun SSH dan OpenVPN by madvipserver
 sleep 1
 echo Ping Host
 echo Cek Hak Akses...

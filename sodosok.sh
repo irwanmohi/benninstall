@@ -41,7 +41,7 @@ echo "Konfigurasi Server."
 cat > /etc/shadowsocks-libev/config.json <<END
 {   
     "server":"0.0.0.0",
-    "server_port":8488,
+    "server_port":443,
     "password":"tes",
     "timeout":60,
     "method":"aes-256-cfb",
@@ -65,7 +65,7 @@ echo "buat config obfs"
 cat > /etc/shadowsocks-libev.json <<END
 {
     "server":"127.0.0.1",
-    "server_port":8388,
+    "server_port":443,
     "local_port":1080,
     "password":"",
     "timeout":60,
@@ -73,7 +73,7 @@ cat > /etc/shadowsocks-libev.json <<END
     "mode":"tcp_and_udp",
     "fast_open":true,
     "plugin":"/usr/bin/obfs-local",
-    "plugin_opts":"obfs=tls;failover=127.0.0.1:1443;fast-open"
+    "plugin_opts":"obfs=tls;failover=127.0.0.1:443;fast-open"
 }
 END
 chmod +x /etc/shadowsocks-libev.json
@@ -83,10 +83,10 @@ touch /etc/shadowsocks-libev/akun.conf
 
 echo "#############################################"
 echo "Menambahkan Perintah Shadowsocks-libev"
-iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 2443:3543 -j ACCEPT
-iptables -I INPUT -m state --state NEW -m udp -p udp --dport 2443:3543 -j ACCEPT
-ip6tables -I INPUT -m state --state NEW -m tcp -p tcp --dport 2443:3543 -j ACCEPT
-ip6tables -I INPUT -m state --state NEW -m udp -p udp --dport 2443:3543 -j ACCEPT
+iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443:3543 -j ACCEPT
+iptables -I INPUT -m state --state NEW -m udp -p udp --dport 443:3543 -j ACCEPT
+ip6tables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443:3543 -j ACCEPT
+ip6tables -I INPUT -m state --state NEW -m udp -p udp --dport 443:3543 -j ACCEPT
 iptables-save > /etc/iptables.up.rules
 ip6tables-save > /etc/ip6tables.up.rules
 cd /usr/bin

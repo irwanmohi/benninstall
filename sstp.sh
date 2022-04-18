@@ -22,13 +22,13 @@ mkdir /home/sstp
 touch /home/sstp/sstp_account
 touch /var/lib/premium-script/data-user-sstp
 #detail nama perusahaan
-country=ID
-state=Indonesia
-locality=Indonesia
-organization=lostserver.xyz
-organizationalunit=lostserver.xyz
-commonname=lostserver.xyz
-email=yovan83@gmail.com
+country=MY
+state=Selangor
+locality=Gombak
+organization=Aidan Technology
+organizationalunit=Platform Team
+commonname=vpn.aidan.my
+email=irwan@aidan.my
 
 #install sstp
 apt install openssl iptables iptables-persistent -y
@@ -41,7 +41,7 @@ make
 cpack -G DEB
 dpkg -i accel-ppp.deb
 mv /etc/accel-ppp.conf.dist /etc/accel-ppp.conf
-wget -O /etc/accel-ppp.conf "https://raw.githubusercontent.com/benkemad/benninstall/master/accel.conf"
+wget -O /etc/accel-ppp.conf "https://raw.githubusercontent.com/irwanmohi/benninstall/master/accel.conf"
 sed -i $MYIP2 /etc/accel-ppp.conf
 chmod +x /etc/accel-ppp.conf
 systemctl start accel-ppp
